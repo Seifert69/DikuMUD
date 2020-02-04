@@ -1,0 +1,2 @@
+# DikuMUD
+Original Alfa release
