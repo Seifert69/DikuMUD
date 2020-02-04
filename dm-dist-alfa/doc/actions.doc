@@ -1,0 +1,66 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+
+           --- On the handling facilities for 'social actions'---
+
+
+A general system exists to handle the 'social' commands, ie. commands that
+have no game-related purpose save to convey emotions between players. These
+are handled by the procedure
+
+	void do_action(struct char_data *ch, char *argument, int cmd);
+
+This procedure reacts in accordance with the contents of lib/actions, which
+is a text file with information arranged after the following format:
+
+--------------------------------------------
+<command number> <hide-flag> <minimum position of victim>
+<messg to character if no argument>
+<messg to others if no arg>                
+<messg to char if victim found>           <---If this field is empty,
+<messg to others if victim found>          <- 
+<messg to victim>                            | then these fields must be
+<messg to char if victim not found>          | skipped, and the action will
+<messg to char if vict is char>              | ignore arguments.
+<messg to others if vict is char>          <-
+
+<command number> <hide-flag> <minimum position of victim>
+.
+.
+.
+.
+.
+
+
+-1
+-------------------------------------------------
+
+A message must be contained in one line.
+
+The hide-flag, if nonzero, makes the procedure hide the action from OTHERS,
+if they cannot see the character. The action won't be hidden from the VICTIM,
+even if he/she cannot see the character (the character's name will, of course,
+be replaced with "someone").
+
+Where it makes sense to do so, text fields may be left empty. This is done by
+putting a '#' in the first column on the line. 
+   This is permissible for the following fields:
+
+a: messg to others if no arg
+b: messg to others if victim found
+c: messg to others if vict is char
+
+NOTE again that if the field _messg to char if victim found_ is empty, then
+the following fields must be omitted entirely (not even the '~'), and the
+action will ignore any arguments supplied.
+
+The procedure sends the text strings through act(), and they may contain
+control codes (see the documentation for act() in comm.doc. Note that not all
+of act()'s control codes may be used.
+
+In order to improve execution speed, no tests are made on the consistency of
+the usage of these codes. Hence, grave disorder may be the result if, say,
+the code '$N' occurs in a text field that doesn't naturally refer to a victim;
+like _messg to others if no arg_. 

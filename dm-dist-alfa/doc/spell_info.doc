@@ -1,0 +1,144 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+                 OFFENSIVE SPELL AVERAGE DAMAGE CHARTS
+
+
+Upon learning a new spell, the manauser will always be able to cast
+two of these spells. For each level, the manauser will be abel to cast
+one additional spell of the type learned. The maximum abel to learn is
+different between each spell, but for most offensive spells it is 7.
+The number of spells that can be cast assume that everybody has got
+100 mana points.
+
+
+General Idea:
+  A M.U. Should be abel to kill a victim 3 levels below himself, by
+  using all his MANA points for offensive spells. This include
+  saving_throw calculations.
+
+
+Saving throw has effect (level of victim = L, damage of spell = D)
+
+   Actual_Average_Damage = (L/20*(D/2))+(((20-L)/20)*D)
+     where L in [1..18] (Means saving never better than 2)
+
+   If you want to know how much dam, say E, a L level victim,
+   get from D dam, then:
+
+   Effective_Dam (E) = D/(1-(L/40))
+
+
+---------------------------------------------------------------------------
+TABLE:
+     LVL is level of victim.
+     HP  is hit_points.
+     ERM is spell damage to effectively remove HPR
+     SAV is assumed saving throw
+     A.DIF. is Aprroximate adjusted difference.
+
+
+LVL       1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
+SAV      20   19   18   17   16   15   14   13   12   11   10    9    8    7    6    5    4    3    2    2
+HP       22   35   47   60   72   85   97  110  122  135  147  160  172  185  197  210  222  235  247  260
+ERM      22   37   51   67   82  100  118  138  157  180  203  229  255  285  315  350  386  427  470  495
+A.DIF       15   15   16   16  18   18   20   20   23   23   26   26   30   30   35   35   41   43    -
+
+---------------------------------------------------------------------------
+Table of WHEN a MU can kill a Level X opponent by using 100 MANA points only.
+
+MU Level  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+Opponent  0  0  0  1  2  3  5  6  7  8  9 10 12 13 14 15 16 17 18 20
+
+---------------------------------------------------------------------------
+
+Magic Users New Damage Table. The damage listed by each spell shows how
+much damage can be given by using 100 mana points at the apropriate level.
+To make it worth-while to learn new damaging spells, a spell which is 
+"overlapped" by a new spell will give less damage than the exact calculated
+average.
+
+Spell     1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
+
+Mag Mis   6   10    16  18   32   45    "    "    "    "    "    "    "    "    "    "    "    "    "    "
+Chill*              16  22   34   47   76   93    "    "    "    "    "    "    "    "    "    "    "    "
+Burn Han                     37   51   79   96  112  132    "    "    "    "    "    "    "    "    "    "
+Shock                                  82  100  115  135  151  174    "    "    "    "    "    "    "    "
+Lightb                                          118  138  154  177  225  251    "    "    "    "    "    "
+Spray                                                     157  180  229  255  280  310    "    "    "    "
+Energy                                                               11   17   22   28   33   39   39   39(11)
+Fireb                                                                         285  315  350  386  427  495
+
+  *Chill Touch may reduce STR by -1 when failing saving throw.
+
+
+Clerics
+
+
+Spell     1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
+
+Earthq                                  *
+Dispel Evil                                            *
+Call Lightn                                                      X
+Harm                                                                            X
+
+Dispel Evil is special (0..100) (7 Max)
+Earthquake is special           (7 Max)
+Call Lightning is special       (7 Max)
+Harm is fairly special          (3 Max)
+
+
+
+
+*** NEW *** Spell listing By Level and Class
+
+
+LEVEL     Magic User               Cleric
+
+
+           (1) Magic Missile        (1) Armor
+           (1) Ventriloquate        (1) Cure Light
+
+           (2) Detect Magic         (2) Create Water
+           (2) Detect Invisible     (2) Detect Poison
+
+           (3) Chill Touch          (3) Create Food
+           (3) -                    (3) Detect Magic
+
+           (4) Invisibility         (4) Cure Blind
+           (4) -                    (4) Detect Evil
+
+           (5) Burning Hands        (5) Bless
+           (5) Armor                (5) Detect Invisible
+
+           (6) Locate Object        (6) Blindness
+           (6) -                    (6) Protection from Evil
+
+           (7) Shocking Grasp       (7) Earthquake
+           (7) Strength             (7) Sense Life
+
+           (8) Blindness            (8) Summon
+           (8) Teleport with Error  (8) Poison
+
+           (9) Lightning Bolt       (9) Cure Critic
+           (9) -                    (9) Remove Poison
+
+          (10) Control Weather     (10) Locate Object
+          (10) -                   (10) Dispel Evil
+
+          (11) Color Spray         (11) Word of Recall
+          (11) -                   (11) -
+
+          (12) Enchant Weapon      (12) Call Lightning
+          (12) Curse               (12) Remove Curse
+
+          (13) Energy Drain        (13) Control Weather
+          (13) -                   (13) Sanctuary
+
+          (14) Sleep               (14) Heal
+          (14) Charm Person        (14) -
+
+          (15) Clone               (15) Harm
+          (15) Fireball            (15) -
+

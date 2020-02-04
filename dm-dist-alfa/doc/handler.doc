@@ -1,0 +1,79 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+Description of module 'handler.c'.
+
+*** Note: All the routines that takes something away from something assumes
+that something is actually in/carried by something!
+
+void char_from_room(struct char_data *ch)
+Removes ch from whatever room he's in.
+
+void char_to_room(struct char_data *ch, int room)
+Places ch in room.
+
+void object_to_char(struct obj_data *object, struct char_data *ch)
+Gives object to ch.
+
+void object_from_char(struct obj_data *object)
+Takes object away from The character who is carrying it.
+
+struct obj_data *find_object_in_list(char *name, struct obj_data *list)
+This procedure assumes that list points to the head of a content-list of
+objects. It then tries to locate the object with a given name within that
+list. If succesful, the function returns a pointer to that object; if not,
+it returns a null pointer.
+
+struct obj_data *find_obj(char *name)
+This function searches the 'global' list of objects (pointed to by 
+'object_list') for an object with a given name. It then returns either
+a null pointer or a pointer to that object (note that in this version,
+it will always return the first occurence of an object with a given name).
+
+struct char_data *get_char_room(char *name, int room)
+Searches room for character with 'name'. Returns null or pointer to that
+character.
+
+struct char_data *get_char(char *name)
+Searches the entire world for a character. Assumes that all characters are
+in a list pointed to by character_list (This might need changing).
+
+void object_to_room(struct obj_data *object, int room)
+Puts an object in a room.
+
+void object_from_room(struct obj_data *object)
+
+void object_to_object(struct obj_data *obj, *obj_to)
+
+void object_from_object(struct obj_data *obj, *obj_from)
+
+void extract_char(struct char_data *ch)
+Extracts a character completely from the world, and leaves his stuff in
+the room (might be useful.. might not..).
+
+
+**** Higher level versions of the 'find' routines.
+These routines work like the above versions, with the exception that they are
+supplied with a pointer to a character as well as a keyword to look for. they 
+then return nil if they fail to locate the object/character OR if the character
+'using' the routine can't see the searched-for object/character.
+
+
+
+
+struct char_data *get_char_room_vis(struct char_data *ch, char *name)
+
+
+
+struct char_data *get_char_vis(struct char_data *ch, char *name)
+
+
+
+struct obj_data *find_object_in_list_vis(struct char_data *ch, char *name,
+                                struct obj_data *list)
+
+
+
+/*search the entire world for an object, and return a pointer  */
+struct obj_data *find_obj_vis(struct char_data *ch, char *name)

@@ -1,0 +1,138 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+Descriptions of the message-to-character routines of comm.c
+
+
+
+void send_to_char(char *messg, struct char_data *ch)
+Places messg in the output queue for ch, for later sending.
+
+void send_to_all(char *messg)
+Sends a message to all players.
+
+void send_to_except(char *messg, struct char_data *ch)
+Sends to all players, except the one pointed to by ch.
+
+void send_to_room(char *messg, int room)
+Sends messg to all players in the room.
+
+void send_to_room_except(char *messg, int room, struct char_data *ch)
+Send to all in room, with the exception of ch.
+
+
+The following routine takes the place of all the old perform-routines. It is
+to gradually replace these in the old code, and is to be used exclusively in
+all additions.
+
+
+FUNCTION ACT --- Process and send string to characters in a room.
+
+SYNOPSIS
+
+#include "comm.h"
+
+act(string, hide_invisible, ch, obj, vict_obj, type)
+
+char *string;                  /* the string to send                     */
+int hide_invisible,            /* hide the action if vict can't see us?  */
+    type;                      /* who gets the string                    */ 
+struct char_data *ch;          /* the 'performing' character             */
+struct obj_data *obj;          /* an object                              */
+void *vict_obj;                /* an object OR a char OR an ascii string */
+
+
+DESCRIPTION
+
+This function is used to send a string to one or more characters in a room. The
+string may contain certain control characters which are expanded before the
+string is sent.
+
+Obj and vict_obj are ignored if no reference is made to them (via CONTROL
+CHARACTERS), and if type (see below) is set to TO_ROOM. Thus, null-pointers
+may be supplied in this case. Ch should always be defined. If String is a
+null-pointer or if string points to a null-character, nothing will be sent.
+
+When the string has been parsed, it is capitalized and a newline is added.
+
+   CONTROL CHARACTERS
+
+Each control character is preceded by a '$'.
+
+  $n - Write name, short description, or "someone", for ch, depending on
+       whether ch is a PC, a NPC, or an invisible PC/NPC.
+
+  $N - Like $n, except insert the text for vict_obj. NOTE: vict_obj must
+       point to an object of type struct char_data.
+
+  $m - "him", "her", or "it", depending on the gender of ch.
+
+  $M - Like $m, for vict_obj. NOTE: vict_obj must be a pointer of type
+       struct char_data.
+
+  $s - "his", "her", or "it", depending on the gender of ch.
+
+  $S - Like $s, for vict_obj.
+
+  $e - "he", "she", "it", depending on the gender of ch.
+
+  $E - Like $e, for vict_obj.
+
+  $o - Name or "something" for obj, depending on visibility.
+
+  $O - Like $o, for vict_obj. NOTE: vict_obj must be a pointer of type
+       struct obj_data.
+
+  $p - Short description or "something" for obj.
+
+  $P - Like $p for vict_obj.
+
+  $a - "an" or "a", depending on the first character of obj's name.
+
+  $A - Like $a, for vict_obj.
+
+  $T - Prints the string pointed to by vict_obj.
+
+  $F - Processes the string pointed to by vict_obj with fname() prior to
+       printing.
+
+  $$ - Print the character '$'.
+
+    HIDE_INVISIBLE
+
+If this parameter is nonzero, the action will be hidden to those who are
+unable to see ch.
+
+   TYPE
+
+This value determines who the string is sent to. It may take one of four
+values (the macros are defined in comm.h).
+
+TO_ROOM     - Send the string to everybody in the room, except ch.
+TO_VICT     - Send the string to the character (!) pointed to by vict_obj.
+TO_NOTVICT  - Send the string to everybody in the room except ch and vict_obj.
+TO_CHAR     - Send the string to the ch.
+
+
+EXAMPLES
+
+act("$n smiles happily.", TRUE, ch, 0, 0, TO_ROOM);
+
+(eg: Rainbird smiles happily.)
+
+act("You kiss $M.", FALSE, ch, 0, vict, TO_CHAR);
+
+(eg: You kiss her.)
+
+act("$n gives $p to $N.", TRUE, ch, obj, vict, TO_NOTVICT);
+
+(eg: Dave gives a small sword to the giant.)
+
+act("$n gives you $p.", FALSE, ch, obj, vict, TO_VICT);
+
+(eg: Dave gives you a small sword.)
+
+act("$n puts $p in $s $O.", TRUE, ch, obj1, obj2, TO_ROOM);
+
+(eg: Jones puts a small sword in his sack.)

@@ -1,0 +1,21 @@
+--------------------------------+----------------------------------------------
+Movement:                       | Communication:
+NORTH SOUTH EAST WEST UP DOWN   | SAY SHOUT TELL ASK WHISPER
+LOOK EXITS ENTER LEAVE          |
+SLEEP WAKE REST SIT STAND       |
+(LOCK UNLOCK OPEN CLOSE)        |
+--------------------------------+----------------------------------------------
+Objects:                        | Information: 
+GET DROP PUT GIVE WEAR GRAB     | SCORE HELP INFO WHO NEWS TIME WEATHER WHERE
+INVENTORY EQUIPMENT EXAMINE EAT | CONSIDER LEVELS WIZLIST CREDITS WIZHELP
+TASTE POUR WRITE DRINK SIP      |
+--------------------------------+----------------------------------------------
+Combat:                         | Utility:
+KILL WIELD FLEE                 | ! BUG IDEA TYPO QUIT SAVE BRIEF COMPACT
+(KICK BASH RESCUE BACKSTAB CAST)|
+--------------------------------+----------------------------------------------
+Further information available by HELP <keyword>, keyword being a command or 
+(for example) one of the following:
+
+SOCIAL SHOPS INNS CLERIC WARRIOR THIEF MAGIC
+-------------------------------------------------------------------------------

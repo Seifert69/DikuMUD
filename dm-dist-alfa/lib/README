@@ -1,0 +1,57 @@
+This directory contains the data files used by the game.
+
+CONTENTS:
+--------
+
+actions         - The 'social actions'. See actions.doc for the data format.
+
+board.messages  - A binary file containing the contents of the bulletin board.
+
+bugs            - The messages left by players with the 'bug' command. Contains
+                  the number of the room in which each message was written,
+                  along with the text.
+
+credits         - For the 'credits' command.
+
+help            - For 'help' with no argument.
+
+help_table      - Table of keywords and associated texts. The format is simple.
+
+ideas           - The messages left by players with the 'idea' command.
+
+info            - For the 'info' command.
+
+messages        - Combat messages.
+
+motd            - Displayed to the player at login. Should contain information
+                  about recent additons to the game, wedding announcements etc.
+
+news            - For the command 'news'.
+
+pcobjs.obj      - Binary file containing info about objects saved in the inns.
+
+players         - Binary file containing all the players.
+
+poses           - For the 'pose' command, with command number (referring to
+                  the table of constants in interpreter.c), a 'hide_invisible'
+                  flag, and the minimum position of the victim (if any).
+
+time            - Used by the game to keep track of time passed since last run.
+
+tinyworld.mob   - File containing the monsters. See database.doc & dbsup.doc
+
+tinyworld.obj   - The objects. See database.doc & dbsup.doc
+
+tinyworld.shp   - Info describing the shops, eg. what kind of stuff they deal
+                  in, opening hours, profit rate, etc. See shops.doc for the
+                  format.
+
+tinyworld.wld   - The rooms. See database.doc & dbsup.doc
+
+tinyworld.zon   - Reset tables, describing the actions that are to take place 
+                  at each reset. See database.doc & dbsup.doc
+
+typos           - Messages left by players with the 'typo' command. Same format
+                  as the 'bug' command.
+
+wizlist         - For the 'wizlist' command.

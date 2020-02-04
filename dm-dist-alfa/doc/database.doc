@@ -1,0 +1,389 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+                      DATABASE DOCUMENTATION
+                          "database.doc"
+
+
+1. The world file:
+==================
+
+This file contains all the rooms, and is loaded once and for all at
+boot-time. It follows the this format:
+
+--------------------------------------------
+#<virtual number>
+<name>~
+<description>~
+<zone nr>
+<room_flags>
+<sector_type>
+{<direction fields and extra descriptions>}
+'S'
+#<virtual number>
+
+.
+.
+.
+
+#<arbitrary number (is ignored)>
+$~
+
+Explanation of fields:
+----------------------
+
+<Direction fields> follow this format:
+
+D<exit number>
+<general description>~
+<keyword list>~
+<Door flag> <key number> <to_room>
+
+Extra descriptions
+------------------
+
+Format:
+
+'E'
+<blank separated keyword list>~
+<description>~
+
+
+-----
+NOTE:
+
+All the text fields above may be left blank, but the '~' should always be
+there.
+
+On the 'virtual' number:
+
+Since the rooms for this game are expected to be written by several people,
+we have made it possible to number the rooms freely. Thus, it is possible to,
+say, number the rooms in zone 0 from 0 to 1000, the rooms in zone 1 from 1000
+to 2000, and so on. Rooms can then be added to the room file without
+upsetting the various references to rooms. In the reset command-tables, as well
+as in the exits, references to a given room are made via the virtual number
+rather than the array index. At boot-time, these references are substituted
+with the actual array indices in order to improve the game-time execution
+speed. In such places (ie the special routines for mobs/objs/rooms) where
+this substitution cannot take place, a function 'real_room', with prototype
+
+			int real_room(int virtual_number)
+
+must be used. This functions performs a binary search on the array of rooms, 
+looking for a room with a given virtual number. If found, the function
+returns the index to this room; if not, the game is halted. 
+
+Note: Since a binary search is used, the rooms MUST be sorted (in the
+room-file) after their virtual number.
+
+-----------------------------------------------------------------------------
+
+2. Objects and monsters
+=======================
+
+The objects and mobiles are stored in two separate files. They are loaded
+once at boot-time, and then each time their zone is reset, according to the
+information stored in the ZONE-FILE.
+
+The world is split up into a number of zones that are updated independently.
+The exact nature of these updates are defined by the contents of the ZONE-FILE.
+
+
+-----------------------------------------------------------------------------
+
+2.1. The Monster file:
+======================
+
+The format of this file is as follows:
+
+
+#<virtual number>
+<namelist>~
+<short description>~
+<long description>~
+<description>~
+<action flags> <affection flags> <alignment> <Detailed/Simple flag>
+
+IF <Old/Simple flag> != 'S' {
+
+<strength> <intelligence> <wisdom> <dexterity> <constitution>
+<hit low> <hit high> <armour> <mana> <movement> <gold> <exp>
+<position> <default> <sex> <class> <level> <age> <weight> <height>
+<condition 0> <condition 1> <condition 2> 
+<savingthrow 0> <savingthrow 1> <savingthrow 2> <savingthrow 3> <savingthrow 4>
+
+} else { /* Simple monsters flag is 'S' */
+
+<Level> <Thac0> <AC> <Hit Points (format is xdy+z)> <Damage (as HP)>
+<Gold> <Exp>
+<position> <default position> <sex>
+
+}
+#<virtual number>
+
+.
+.
+.
+
+#<virtual number>
+$~
+
+
+
+-----------------------------------------------------------------------------
+
+2.3. The object file:
+=====================
+
+
+The format is as follows:
+
+#<virtual number>
+<namelist>~
+<short description>~
+<long description>~
+<action description>~
+<type flag> <extra flag> <wear flag>
+<value 0> <value 1> <value 2> <value 3>
+<weight> <value> <cost/day>
+'E'
+<keyword-list>~
+<extra description>~
+'E'
+<keyword-list>~
+<extra description>~
+.
+.
+.
+'E'
+<keyword-list>~
+<extra description>~
+'A'
+<location> <modifier>
+.
+.
+'A'
+<location> <modifier>
+#<virtual number>
+
+.
+.
+.
+
+#<virtual number>
+'$~'
+
+-----------------------------------------------------------------------------
+
+2.3. The zone-file
+==================
+
+The zone-file contains the following information for each zone:
+
+a) The top room-number of the zone. A room belongs to a zone X if:
+
+          zone[X-1].top < virtual_room_number <= zone[X]
+
+for X > 0. Rooms belong to zone 0 if their number is between 0 and the
+top of zone 0.
+
+b) The LIFESPAN of the zone. When the age of the zone (measured in minutes
+after last reset) reaches this number, the zone is queued for reset. The
+zone is then reset as soon as possible (more or less), depending on the 
+value of the RESET_MODE-variable.
+
+c) The RESET_MODE. This may take on of three values:
+
+  0: Don't reset the zone at all. In this case, the age of the zone is never
+     updated, and it will never be queued for reset. Thus, the value of the
+     lifespan-field is effectively ignored.
+
+  1: Reset the zone as soon as it is deserted, ie as soon as there are no
+     players located within the zone.
+
+  2: Reset the zone no matter who or what is in it.
+
+d) The COMMAND TABLE. This is a series of commands to execute at reset. The
+   table is terminated by the pseudo-command 'S', and thus follows the 
+   following format:
+
+   <command>
+   <command>
+
+   .
+   .
+   .
+
+   <command>
+   'S'
+
+   Each command consists of a letter, identifying the command-type, followed
+   by three or four arguments. The first argument, common to all the commands,
+   is called the 'if-flag'. If it is true (nonzero), the command is executed
+   ONLY if the preceding command was executed. If it is false (zero), the
+   command is executed anyway.
+
+   The commands:
+
+	M (load a mobile): 
+           Format: 'M' <if-flag> <mobile nr> <max existing> <room nr>
+
+	   mobile nr and room nr should be self-explanatory. The 'max
+	   existing' parameter specifies the maximum permissible number of
+	   existing units. In other words: If you only want one manifestation
+	   of a given monster, you just specify the number '1'. If the max
+	   number is about to be exceeded, the command won't be executed.
+
+	O (load an object):
+	   Format: 'O' <if-flag> <object nr> <max existing> <room nr>
+
+      Load an object and place it in a room.	(NOT -1)
+
+	G (give object to mobile):
+	   Format: 'G' <if-flag> <object nr> <max existing>
+
+      Loads an object, and gives it to the last monster referenced (ie. by the
+      M-command).
+
+	   Of course, this command doesn't make sense if a new mobile+object
+	   pair has not just been created, which is where the if-flag comes
+	   in handy.   :)
+
+	E (object to equipment list of mobile)
+		Format: 'E' <if-flag> <object nr> <max existing> <equipment position>
+
+	 Loads object and places it in the Equipment list of the last monster
+    referenced.
+
+    Note that it is NOT necessary to precede this command with a 'G' command.
+    Equipment position is one of:
+      WEAR_LIGHT      0
+      WEAR_FINGER_R   1
+      WEAR_FINGER_L   2
+      WEAR_NECK_1     3
+      WEAR_NECK_2     4
+      WEAR_BODY       5
+      WEAR_HEAD       6
+      WEAR_LEGS       7
+      WEAR_FEET       8
+      WEAR_HANDS      9
+      WEAR_ARMS      10
+      WEAR_SHIELD    11
+      WEAR_ABOUT     12
+      WEAR_WAISTE    13
+      WEAR_WRIST_R   14
+      WEAR_WRIST_L   15
+      WIELD          16
+      HOLD           17
+
+
+	P (put object in object):
+	   Format: 'P' <if-flag> <object_nr1> <max existing> <object nr2>
+
+		Loads object1 and places it in object2.
+
+	D (set state of door)
+		Format: 'D' <if-flag> <room nr> <exit nr> <state>
+
+		State being one of:
+		0: Open.
+		1: Closed.
+		2: Closed and locked.
+
+	R (remove object from room)
+     Format: 'R' <if-flag> <room_nr> <object_nr>
+
+
+   More commands will probably be needed, and will be added as required.
+
+
+Format of the zone-file:
+
+---------------------------------------
+#<arbitrary number (ignored)>
+<name>~
+<top of zone>
+<lifespan>
+<reset mode>
+<command>
+<command>
+
+.
+.
+.
+
+<command>
+'S'
+#<arbitrary number>
+
+.
+.
+.
+
+#<arbitrary number>
+$~
+
+
+
+
+
+
+
+2.2. The monster file:
+----------------------
+
+The format of this file is as follows:
+
+
+----------------------------------------------
+#<virtual number>
+<namelist>~
+<short description>~
+<long description>~
+<description>~
+<action flags> <affection flags> <Detailed/Simple flag>
+
+IF <Old/Simple flag> != 'S' {
+
+<strength> <intelligence> <wisdom> <dexterity> <constitution>
+<hit low> <hit high> <armour> <mana> <movement> <gold> <exp>
+<position> <default> <sex> <class> <level> <age> <weight> <height>
+<condition 0> <condition 1> <condition 2> 
+<savingthrow 0> <savingthrow 1> <savingthrow 2> <savingthrow 3> <savingthrow 4>
+
+} else { /* Simple monsters flag should be 'D' */
+
+<Level> <Thac0> <AC> <Hit Points (format is xdy+z)> <Damage (as HP)>
+<Gold> <Exp>
+<position> <default position> <sex>
+
+}
+#<virtual number>
+
+.
+.
+.
+
+#<virtual number>
+$~
+----------------------------------------------
+
+On the skill fields:
+
+Format:
+--------------
+S<skill number>
+<learned> <affected by> <duration> <recognize>
+--------------
+
+On the virtual numbers:
+
+This number may be considered the 'label' of the mobile, for use in eg. the
+zonefile (see also the text about the roomfile format). When the mobile is to
+be referenced from within the code itself, the function real_mobile
+(real_object for objects) can be used to find indices to the file-index tables
+(this is only of use when writing special routines). These functions are
+automatically called from read_object/read_mobile, depending on their 'type'
+parameter (see db.doc).

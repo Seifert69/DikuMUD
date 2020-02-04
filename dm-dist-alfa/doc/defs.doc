@@ -1,0 +1,377 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+                   DIKUMUD DEFINITIONS AND STANDARDS TO OBEY
+                                  "defs.doc"
+
+
+PC's  ~ Players
+NPC's ~ Non Players (Monsters)
+<name> is used for short names
+[x..y] is used to indicate min and max
+
+
+PC's level [0..20], level [21..24] is special, not useable in gameplay.
+NPC's level [0..30]
+
+All PC's and NPC's have following abilities <ABIL>:
+
+  Strength     <STR>
+    <PC>  [3..18/100]
+    <NPC> [0..25]
+
+  Dexterity    <DEX>
+    <PC>  [3..18]
+    <NPC> [0..25]
+
+  Intelligence <INT>
+    <PC>  [3..18]
+    <NPC> [0..25]
+
+  Wisdom       <WIS>
+    <PC>  [3..18]
+    <NPC> [0..25]
+
+  Constitution <CON>
+    <PC>  [3..18]
+    <NPC> [0..25]
+
+
+
+All PC's must select one of four classes :
+
+  Magic User <MU>
+  Cleric     <CL>
+  Thief      <TH>       
+  Warrior    <WA>
+
+
+Every PC class have a Primary ability (requisite) <PR> :
+
+  <MU> <INT>
+  <CL> <WIS>
+  <TH> <DEX>
+  <WA> <STR>
+
+
+When creating a new <PC>, the <PC>'s <ABIL> are calculated as:
+
+   NOTE: This is when being raised from level 0 to level 1!
+
+   The size of the <ABIL> dice, is determined by rolling 4 1d6 dice,
+   and adding the sum of the three largest dice.
+   The <ABIL> is sorted and assigned a <PC> in descending order,
+   depending on the class.
+
+   <MU> == <INT> <WIS> <DEX> <STR> <CON>
+   <CL> == <WIS> <INT> <STR> <DEX> <CON>
+   <TH> == <DEX> <STR> <CON> <INT> <WIS>
+   <WA> == <STR> <DEX> <CON> <WIS> <INT>
+
+
+   <HP>   base is set as 10
+   <MANA> is allways set to 100
+   Assign 2d6*100 gold coins to player
+   Set level as 1
+   Set exp as 1
+   Set theives abilities as basic.
+
+   Call the "Advance Level" routines!
+
+
+Hitpoints:
+  <HP> ~ Hitpoints
+
+  <PC>'s gain in the following range when advancing a level.
+    <WA> [10..15]  Average (12.5)
+    <TH> [7..13]   Average (10.0)
+    <CL> [5..10]   Average  (7.5)
+    <MA> [3..8]    Average  (5.5)
+
+
+Advancing a level (<PC>'s only):
+        <HP> is gained as above
+        "Spells to learn" is increased by
+          MIN(1, WIS_APPLY) for <WA> & <TH>
+        else
+          MIN(2, WIS_APPLY) for <MU> & <CL>
+
+<NPC> <ABIL> follow <PC>'s <ABIL> up to level 20, with the
+  exception that NPC may have 0 in abilities. Only unusual
+  <NPC>'s are assigned abilities.
+
+  <PR> may be in 18/00..100 for Warriors ONLY!
+
+      
+============================= MONSTER LOOKUP ==============================
+
+This is general guidelines for creating monsters. This is when creating
+"S"impel monsters. Detailed monsters require a great deal of care when
+designing, and it is not really worth it.
+
+The idea is that a X level fighter is equal to about a X level monster!
+This implies that the <THAC0> ought to decrease by one every level
+(starting at '20' on level 1 - minimum is '1' from level 20+). The damage
+given by a monster is also important - average weapon damage is at the
+moment 1d8.
+
+
+Level    AVERAGE          AVERAGE  SUGGESTED  SUGGESTED  SUGGESTED
+          <HP>             <EXP>    <THAC0>     <AC>       <DAM>
+
+  0    [001..010]           [25]       20        10        1d4+0 (2.5)
+
+  1    [011..022]          [100]       20         9        1d5+0 (3.0)
+
+  2    [023..035]          [200]       19         8        1d6+0 (3.5)
+
+  3    [036..047]          [350]       18         7        1d7+0 (4.0)
+
+  4    [048..060]          [600]       17         6        1d8+0 (4.5)
+
+  5    [061..072]          [900]       16         5        2d4+0 (5.0)
+
+  6    [073..085]         [1500]       15         4        1d8+1 (5.5)
+
+  7    [086..097]         [2250]       14         4        2d4+1 (6.0)
+
+  8    [098..110]         [3750]       13         3        2d5+1 (7.0)
+
+  9    [111..122]         [6000]       12         3        2d5+1 (7.0)
+
+ 10    [123..135]         [9000]       11         2        2d6+1 (8.0)
+
+ 11    [136..147]        [11000]       10         2        2d6+1 (8.0)
+
+ 12    [148..160]        [13000]        9         2        2d7+1 (9.0)
+
+ 13    [161..172]        [16000]        8         2        2d7+1 (9.0)
+
+ 14    [173..185]        [18000]        7         1        2d8+1 (10.0)
+
+ 15    [186..197]        [21000]        6         1        2d8+2 (11.0)
+
+ 16    [198..210]        [24000]        5         1        2d8+2 (11.0)
+
+ 17    [211..222]        [28000]        4         1        3d6+2 (12.5)
+
+ 18    [223..235]        [30000]        3         0        3d6+2 (12.5)
+
+ 19    [236..247]        [35000]        2         0        3d6+3 (13.5)
+
+ 20    [248..260]        [40000]        1         0        3d6+4 (14.5) /* Minor Demons */
+
+
+Above level 20 is for NPC's only
+
+
+ 21    [261..350]        [50000]        0        -1        3d7+4 (16.0)
+
+ 22    [351..400]        [60000]        0        -1        3d8+4 (17.5)
+
+ 23    [401..450]        [80000]        0        -2        3d8+4 (17.5) /* Shopkeepers, Important Guards */
+
+ 24    [451..500]       [100000]        0        -3        3d8+4 (17.5) /* Guildmasters       */
+
+ 25    [501..550]       [130000]        0        -4        4d6+4 (18.0)
+
+ 26    [551..600]       [155000]        0        -6        4d6+4 (18.0) /* Major Demons/ Devils */
+
+ 27    [601..650]       [200000]        0        -7        4d6+4 (18.0) /* Demi Gods */
+
+ 28    [651..700]       [310000]        0        -8        4d6+5 (19.0) /* Lesser Gods */
+
+ 29    [701..900]       [450000]        0        -9        4d7+5 (21.0) /* Demon Lords/Arch Devils */
+
+ 30    [901..1000]      [600000]        0       -10        4d8+5 (23.0)/* Greater Gods       */
+
+
+
+------------------------------ GUIDELINES ---------------------------------
+
+MAGICAL ITEMS:
+--------------
+
+In DikuMud it is possible to create all kinds of Magic items - but to avoid
+chaos (having 1st levels kill 20 level dragons) these rules for Magic must
+be obeyed.
+It is possible to create almost any item. Items can (example) change the
+<STR>, <DEX>, <WIS>, <INT>, <CON>, <HP>, Age, Weight, Height, XP,
+etc. None of these changes are directly permanent in effetct, but may be
+so indirectly - example:
+
+  Iggy found a helmet of Increase Wisdom/Intelligence (some + modifier).
+  When Iggy wear this helmet - these abilities improve, when he removes
+  the helmet they return to their original state. Thus no direct change
+  has happened. BUT if Iggy practices spells (upon which INT and WIS
+  determines the rate & success) he will learn them much faster than
+  normal. This was an example of an indirect change.
+
+
+Good ideas when making Magic Items:
+
+NEVER use large modifiers, exceptional items should modify at most by +3.
+  This includes, swords, armours, ability changes.
+
+Impose a penalty on the Item - for example make a helmet of wisdom may
+  at the same time reduce the constitution. Or maybe a ring of masochism -
+  when you wear it your MAX-HITPOINT increase by +200, when you remove it
+  they disappear again. The ring likes to remove itself from the finger.
+
+No more than ONE item should exist in the world at any time (this is set
+in the ZONE file) - thus players must kill each other if they want
+something really bad.
+
+
+============================================================================
+
+MONSTER CLASSIFICATIONS:
+------------------------
+
+Major Demon  == Balrog/etc.
+Demon Lords  == Orcus/etc.
+Demi Gods    == ??
+Lesser Gods  == Heimdal/Sif/etc.
+Greater Gods == Thor/Odin/etc.
+Arch Devil   == Asmodeus/etc.
+
+When creating monsters pay attention to the table above.
+
+Example of Monsters:
+--------------------
+
+============================================================================
+
+
+--------------------------------------------
+       CHARACTER & MONSTER ARMOR:
+
+<AC> range from [10..-10] this is what it means :
+
+AC  10 = Naked person
+AC   0 = Very heavily armoured person (Full plate mail at *all* body parts)
+AC -10 = Armored Tank (Hopefully impossible for players)
+
+--------------------------------------------
+     Percentwise Coverage of Armour
+        and allowed AC range
+
+Location  Protects   Range
+--------  --------   -----
+
+Body        30%      [1..10]
+Head        20%      [1..10]
+Legs        20%      [1..10]
+Feet        10%      [1..10]
+Arms        10%      [1..10]
+Hands       10%      [1..10]
+
+Shield      10%      [1..10]
+Magic       10%      [1..10]
+
+--------------------------------------------
+             PRICE GUIDELINES
+
+ AC     BODY    LEGS    HEAD    ARMS    FEET       ARMOUR
+----    ----    ----    ----    ----    ----       ------
+ +1      100      50      50      25      25       Cloth (Heavy)
+ +2      200     100     100      50      50       Soft Leather
+ +3      500     150     150      75      75       Studded Leather
+ +4    1,000     500     500     250     250       Scale Mail
+ +5    2,500   1,250   1,250     625     625       Chain Mail
+ +6    7,000   3,500   3,500   1,750   1,750       Bronze Plate Mail
+ +7   18,000   9,000   9,000   4,500   4,500       Plate Mail
+ +8   35,000  17,500  17,500   8,750   8,750       Field Plate Mail
+ +9   50,000  25,000  25,000  12,500  12,500       Full Plate
++10   75,000  37,500  37,500  18,750  18,750       Anti Bomb ShieldPlate
+
+*Hands and shields should be regarded as arms.
+--------------------------------------------
+           IMPORTANT NOTICE
+
+Rare items may only exist in minimal quantities!
+Especially you should limit the occurence of
+magical protection, since it is easy to carry.
+
+============================================================================
+
+Weapons & Carrying capacity
+---------------------------
+
+The weight of a weapon determines the strength needed to wield the weapon,
+these values should be used:
+
+STR     Max. Weapon Weight    Carrying capacity
+---     ------------------    -----------------
+  0           0                      0
+  1           1                      3
+  2           2                      3
+  3           3                     10
+  4           4                     25
+  5           5                     55
+  6           6                     80
+  7           7                     90
+  8           8                    100
+  9           9                    100
+ 10          10                    115
+ 11          11                    115
+ 12          12                    140
+ 13          13                    140
+ 14          14                    170
+ 15          15                    170
+ 16          16                    195
+ 17          18                    220
+ 18          20                    255
+ 18/01..50   22                    280
+ 18/51..75   24                    305
+ 18/76..90   26                    330
+ 18/91..99   28                    380
+ 18/100      30                    480
+
+Strength above 18/100 is only used by NPC's - not used by players.
+No weapon may ever exceed 30 pounds in weight.
+
+There are three kind of weapons :
+  (P)iercing
+  (S)lashing  (Not useable by Clerics)
+  (B)ludgeoning
+
+Backstabbing is only possible with piercing weapons.
+
+No weapon may ever exceed 4d6 damage (as total of magic bouns too)!
+   (4d6 is 14 damage as average since 4*((1+6)/2)==14)
+No weapon may ever exceed 30 pounds in weight.
+
+No shop-produced weapon may exceed 2d8 in total damage or weigh more
+   than 20 pounds.
+
+Read notes regarding Magic before making a monster-slayer +50 +70 
+  with +800 to strength
+
+
+PRIMARY BUYABLE WEAPONS <PBW>:
+
+Name               Damage    Type    Cost    Weight   Cost_pr_day     
+---------------    -----     ----    ----    ------   -----------
+Dagger              1d4       P        10       1       Cost/3 
+Small sword         1d6       P        60       3       Cost/3 
+Long sword          1d8       S       600       8       Cost/3
+Wooden Club         1d3       B        12       3       Cost/3
+War hammer          1d5       B        50       6       Cost/3
+
+
+
+===========================================================================
+Notes:
+
+<THAC0> this is the number needed to roll on a 20-sided dice to hit
+        opponent <AC> equivalent of zero. A 20 is always considered
+        a hit, a 1 is always a miss. Example:
+
+          Your <THAC0> is 14 (ei. level 7 fighter). You are fighting
+          an opponent with <AC> '3'. Thus to hit <AC> 0 you must
+          roll a 14 or greater. To hit <AC> 3 you must then roll
+          11 (14-3) or greater. If you had to hit <AC> '-3' you
+          would have to roll 17 (14-(-3)) or greater on a 20 sided
+          dice.

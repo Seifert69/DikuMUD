@@ -1,0 +1,100 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+HIT:
+
+(weapon wielded)
+
+hit_roll = tohit(weapon)D6 + (str/2) - (weight(weapon)-(str/10))
+                                                  /*make hit roll     */
+victim  |
+  AC    |  9  8  7  6  5  4  3  2  1  0 -1 -2 -3 -4 -5 -6 -7 -8 -9
+hit_roll| 
+ needed | 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+
+if hit : dam_roll = todam(weapon)D6 + (2Dstr/2)   /*damage on victim  */
+
+------------------------------------------------------------------------
+SPELL:
+
+check mana && success(spell)>0%
+  
+  success_roll = 2*levelDsuccess(spell)           /*make success roll */ 
+  
+  victim_roll = 1D20                              /*make saving roll  */
+   
+  if ((success_roll > 100) && (victim_roll<victim_saving)) then
+    
+    dam_roll = todam(spell) + (2Dint)             /*damage on victim  */ 
+
+------------------------------------------------------------------------
+WAND
+
+check charges
+
+  if (magic-u/cleric): 
+
+    success_roll = 2*levelDsuccess(spell)         /*make success roll */
+
+  else
+
+    success_roll = levelDsuccess(spell)           /*make success roll */
+
+  if ((success_roll > 100) && (victim_roll<victim_saving)) then
+
+    dam_roll=todam(spell) + (2D20) (if dam_spell) /*damage on victim  */
+
+------------------------------------------------------------------------
+STAFF
+
+check charges
+
+  if (magic-u/cleric): simple non-char effect 
+
+  else: none
+
+------------------------------------------------------------------------
+FIRE
+
+(fireweapon wielded,missiles hold)
+
+hit_roll = tohit(weapon) + tohit(missile) + 1d20 + (dex/2) - distance
+                                                  /*make hit roll    */
+victim  |
+  AC    |  9  8  7  6  5  4  3  2  1  0 -1 -2 -3 -4 -5 -6 -7 -8 -9
+hit_roll|
+ needed | 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+
+if hit : dam_roll = todam(missile) + todam(waepon) + (2Ddex)
+                                                  /*damage on victim  */ 
+
+* Distance : 1-5
+------------------------------------------------------------------------
+SCROLL
+
+(croll hold)
+
+check read magic spell
+
+  simple non violent action
+
+------------------------------------------------------------------------
+MAKE A CHAR:
+
+1) abiliti_roll = 3D6
+2) point_roll   = 2d6 * 10
+3) get char_class = [magic-user,cleric,thief,warrior]
+   set prime_reqi = [   int    , wis  , dex ,  str  ]
+4) all abilities other than dex and prime_requi 
+   counts downto 9 and prime counts up
+5) roll age (15-25)
+6) get sex
+7) inteligence check :
+   3-4  : cannot read or write, only speaks short words
+   5-6  : cannot read or write
+   7-11 : normal
+   12-16: +1 tounge
+   17-18: +2 tounge
+   (theives spek all tounges)
+8) get standard class equipment

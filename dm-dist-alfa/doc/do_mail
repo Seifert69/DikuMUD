@@ -1,0 +1,5 @@
+mail -s "ANOTHER VERSION OF DATABASE.DOC" $1 < database.doc
+mail -s "ANOTHER VERSION OF DBSUP.DOC" $1 < dbsup.doc
+mail -s "ANOTHER VERSION OF DEFS.DOC" $1 < defs.doc
+mail -s "ANOTHER VERSION OF VALUES.DOC" $1 < values.doc
+mail -s "ANOTHER VERSION OF SPELL_INFO.DOC" $1 < spell_info.doc

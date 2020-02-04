@@ -1,0 +1,46 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+Documentation for look.c
+
+char *find_ex_description(char *word, struct extra_descr_data *list)
+
+Returnerer en pointer til den extra beskrivelse, der har 
+noegleordet 'word' i listen 'list', NULL hvis den ikke findes.
+
+
+void show_obj_to_char(struct obj_data *object, struct char_data *ch,int mode)
+
+Viser et objekt 'object' til en spiller 'ch' .
+Mode 0: Description + [detect]
+Mode 1: Short_Description + [detect]
+Mode 2: Short_Description + [detect] + ["It contains" + list(1)]
+Mode 3: ("An"|"A") + Name
+Mode 4: Short_Description + [detect] + ["It contains" + list(3)]
+Mode 5: Long_Description + [detect]
+
+void list_obj_to_char(struct obj_data *list,struct char_data *ch, int mode)
+
+Udskriver en liste af objekter 'list' til en spiller 'ch' 
+i mode 'mode' skal vaere 0,1,2,3 eller 4. Mode 2 og 4 giver 
+en liste for hvert objekts indhold (men ikke indholdets indhold!). 
+Programmet tager hoejde for usynlighed etc.
+
+
+void show_char_to_char(struct char_data *i, struct char_data *ch, victim mode) {
+
+Viser en spiller/non-spiller 'victim' til en anden spiller 'ch' 
+Mode 0: Normal beskrivelse
+Mode 1: Equipment
+Mode 2: Inventory
+I mode 1,2 tages der hoejde for usynlighed
+
+
+void list_chars_to_char(struct char_data *list, struct char_data *ch, int mode) 
+
+Udskriver en liste af spillere 'list' til en spiller 'ch'
+i mode 'mode' skal vaere 0,1 eller 2. Mode 1 og 2 giver en 
+liste for hvert spillers equipment/inventory (men ikke 
+indholdets indhold!) Programmet tager hoejde for usynlighed etc.
+

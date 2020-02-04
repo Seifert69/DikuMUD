@@ -1,0 +1,41 @@
+#!/bin/csh
+
+# starter dmserver op til 10 gange, eller s}l{nge status != 0.
+
+set max=10
+set counter=0
+echo "*** Nightrun started by $user at:" >> runlog
+date >> runlog
+tail -3 syslog >> runlog
+mv syslog syslog.old
+grep killed syslog.old >> lib/dead_log
+if (! -e lib/core) then
+ touch lib/core
+ chmod ug+r lib/core
+endif
+
+
+echo "Nightrun started by $USER at `date`." > syslog
+
+while 1
+
+ @ counter = ($counter + 1)
+
+ echo "************* DIKUMUD REBOOT -- Run nr $counter *********" >> syslog
+ dmserver >>& syslog
+ set tmp=$status
+
+ if (($tmp == 0) || ($counter == $max)) then
+  echo "Nightrun terminating (after run nr $counter)." >> syslog
+  exit
+ endif
+
+ if ($tmp == 52) then
+	set counter=0
+	mv syslog syslog.old
+ endif
+
+echo "Nightrun ($user) restarting game at `date`." >> runlog
+tail -3 syslog >> runlog
+
+end

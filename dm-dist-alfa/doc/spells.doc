@@ -1,0 +1,85 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+                      OUT OF DATE I THINK (MS)
+
+
+
+Description of affected_type structure:
+
+struct affected_type
+{
+  byte type;           /* The type of spell that caused this      */
+  byte duration;       /* For how long its effects will last      */
+  byte modifier;       /* This is added to apropriate ability     */
+  byte location;       /* Tells which ability to change(APPLY_XXX)*/
+  long bitvector;      /* Tells which bits to set (AFF_XXX)       */
+
+  struct affected_type *next;
+};
+
+The type is set to the constants defined in spells.h. These are any of
+SPELL_XXX, ei. SPELL_ARMOR.
+
+Duration will be decreased at each time update.
+
+Location is determined by the APPLY_XXX, ei. APPLY_STR to change strength.
+
+Modifier will be added to the apropriate APPLY_XXX
+
+Bitvector will set bits in the char_data->char_special_data.affected_by
+
+---------------------------------
+
+Description of handler.c routines:
+
+
+void affect_location_apply ( struct char_data *ch,
+		 struct affected_type *af, int type);
+
+/* This procedure will (depending on type) Apply or Remove a characters */
+/* special bonus to abilities, which have been gained by spells         */
+
+When Type is 1, Modifier will be added to an ability, and Bitvector will
+set bits in the "char_data->char_special_data.affected_by" bitvector. When
+Type == 0, Modifier is subtracted, and bits are removed.
+
+
+
+void affect_to_char( struct char_data *ch, struct affected_type *af )
+
+This procedure allocates new memory for an affected_type structure, and 
+inserts a copy of "*af" in the char_data->affected linked list. After
+insertion, the "affect_location_apply" is called, with type == 1.
+
+
+
+
+void affect_remove( struct char_data *ch, struct affected_type *af )
+
+This procedure is the reverse of affect_to_char. Upon calling "af" MUST
+point to the structure(element) in the linked list that is to be removed.
+If not, the program will do an "exit()". Memory used is released, and
+"affect_location_apply" is called, with type == 0.
+BEWARE! Some spells may have several structures, since they must change
+more than one attribute! Calling affect_from_char does not mean that you
+have removed every occurence of a certain spell. But you can be sure that
+bits are masked out! Use affect_from_char below.
+---------------------------------
+
+
+
+void affect_from_char( struct char_data *ch, byte skill )
+
+This fixes the warning above, by calling affect_remove with every
+structure that has same spelltype set as skill.
+
+
+
+
+bool affected_by_spell( struct char_data *ch, byte skill )
+
+This procedure will check if a character is affected by a spell (the
+SPELL_XXX constants are used). Returns FALSE if not, otherwise TRUE.
+

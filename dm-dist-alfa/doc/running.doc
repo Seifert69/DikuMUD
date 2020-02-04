@@ -1,0 +1,94 @@
+                           --- Running DikuMUD ---
+
+SYNTAX:
+
+dmserver [-l] [-s] [-d <path>] [<port #>]
+
+nightrun
+
+DESCRIPTION:
+
+Automatic rebooting.
+
+Once a day, at a time specified by the REBOOT_AT macro in modify.c, the
+game checks for the existence of the file "reboot" in the selected data
+directory. If the file exists, the game is rebooted (it terminates nicely,
+with a nonzero return value). If the size of the file is nonzero, its contents
+are processed by "sh" (with a system() call). If the processing returns
+with a nonzero status, the file is renamed to "reboot.FAILED", and the
+rebooting is called off. If it returns zero, the file is moved to
+"reboot.SUCCEEDED", and the game is rebooted.
+
+
+ARGUMENTS:
+
+-l: "Lawful mode". At the University of Copenhagen, regulations demand that
+    all games abide by certain regulations. The game must shut down at 9am, on
+    workdays, and it must close the connections to all players and enter an
+    "idle mode", whenever the system load on the host machine exceeds 6. This
+    option makes the game follow these regulations. At present, the code which
+    handles these things is an awful hack, and we suggest that you use this
+    option with care, and only after examining the code to see how it matches
+    the set-up of your host. At present, the code is loosely scattered over
+    the various modules, although most of it is to be found in the file
+    modify.c.
+
+-s: Disable special routines. The game uses various compiled routines to
+    achieve nonstandard effects associated with objects, characters, and rooms.
+    Sometimes it is helpful to run the program with a small set of worldfiles,
+    to reduce the time consumed at startup, and to limit the core-size of the
+    running game. If so, the -s option should be used, to prevent the game
+    from associating special procedures to nonexistent objects/characters/
+    rooms.
+
+-d: Select data directory. This is useful if you want to keep one or more
+    sets of game-data in addition to the standard set. For example, you may
+    wish to make a copy of the entire world in a separate directory, so that
+    you can test additions to the code or worldfile without subjecting the
+    players to unnecessary hazards. The default data directory is 'lib'. Any
+    coredumps (may they never happen to you!) will take place in the
+    selected directory.
+
+port : Select the port on which the game is to wait for connections. Default
+    is 4000.
+
+
+
+EXAMPLES:
+
+To run the game in the compact test directory:
+
+dmserver -s -d tmplib
+
+To run the game as standard (on port 4000), simply type:
+
+dmserver
+
+Or:
+
+dmserver >& syslog &
+
+to start the game in the background, storing output in syslog.
+
+OUTPUT:
+
+The game writes various information on stdout as the game runs. This may
+be saved to form a log of the run. eg: "dmserver >& syslog".
+
+DATA FILES:
+
+[blah-di-blah blah]
+
+
+MAINTAINING THE GAME:
+
+The first character to log on (ie. with an empty playerfile), is given maximum
+privileges. He/she has acess to the following commands (help is available in
+the game):
+
+ADVANCE
+STRING
+SHUTDOWN
+PURGE
+
+And others.

@@ -1,0 +1,26 @@
+#!/bin/csh
+
+# Rekursivt at-job. Starter 'nightrun' og bestiller sig selv til n{ste dag
+
+
+# remove opstartfailed
+if (-e opstartfailed) then
+   rm opstartfailed
+endif
+
+
+# put new job in queue
+if `atq | awk '/opstart/ {print $1}' | head -1` == "" then
+   at -c 1705 opstart
+endif
+
+
+# get process id
+set process = `ps -gax | awk '/dmserver/ && ! /awk/ {print $1}' | head -1`
+
+if $process == "" then
+   nightrun &
+else
+   echo "process exists" > opstartfailed
+endif
+

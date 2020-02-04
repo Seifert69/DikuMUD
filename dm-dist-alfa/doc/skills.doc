@@ -1,0 +1,118 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+Fighter:                 lv.1    lv.2    lv.3    lv.4    lv.5    lv.6    lv.7    lv.8    lv.9    lv.10
+---------           
+Sneak                    
+Dodge                    
+Bargain                  
+Read magic               
+Arm wrestling            
+Uppercut                 
+Rescue                   
+Bash                     
+Kick                     
+                         
+SAVING THROW:            
+                         
+Thief:                   lv.1    lv.2    lv.3    lv.4    lv.5    lv.6    lv.7    lv.8    lv.9    lv.10
+-------                  
+Sneak                    
+Dodge                    
+Bargain                   
+Read magic               
+Arm wrestling            
+Steal                    
+Value
+Pick
+Hide
+Find traps
+Disarm
+Backstab
+Dodge
+Read magic
+
+SAVING THROW:
+
+Magic user:              lv.1    lv.2    lv.3    lv.4    lv.5    lv.6    lv.7    lv.8    lv.9    lv.10
+------------
+Sneak
+Dodge
+Bargain
+Read magic
+Arm wrestling
+Armor
+Burning hands
+Charm person
+Chill touch
+Colour spray
+Comprehend language
+Dancing lights
+Detect magic
+Detect evil
+Jump
+Magic missile
+Aura
+Protect from evil
+Chocking grasp
+Sleep
+Frighten
+Ventriloquate
+Blindness
+Detect invisibility
+Fools gold
+Make invisible
+Paralyse
+Strength
+Fireball
+Hold
+Lightning bolt
+Enchant weapon
+Remove curse
+Control weather
+Mordenkanien's sword
+Prismatic ray
+Clone
+Energy drain
+
+SAVING THROW:
+
+Cleric:                  lv.1    lv.2    lv.3    lv.4    lv.5    lv.6    lv.7    lv.8    lv.9    lv.10
+--------
+Sneak
+Dodge
+Bargain
+Read magic
+Arm wrestling
+Bless
+Detect evil
+Detect poison
+Detect magic
+Curse
+Cure light
+Cure blind
+Protect from evil
+Remove fear
+Sanctuary
+Flaming blade
+Hold
+Poison
+Call lightning
+Create food
+Create wather
+Dispel magic
+Dispel evil
+Locate object
+Prayer
+Remove curse
+Remove paralysis
+Cure critic
+Heal
+Harm
+Word of recall
+Earthquake
+Holy word
+
+SAVING THROW:
+

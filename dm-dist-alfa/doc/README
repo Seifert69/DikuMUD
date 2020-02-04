@@ -1,0 +1,30 @@
+This directory contains documentation on various aspects of the game.
+
+CONTENTS:
+--------
+
+ACTIONS.DOC       - Description of the 'social action' system.
+COMBAT.DOC        - Out of date
+COMM.DOC          - The game-to-player communications system, most important
+                    the act() procedure.
+DATABASE.DOC      - The format of the most important data files.
+DBSUP.DOC         - Detailed information on each field in database.doc
+DEFS.DOC          - Important document on what rules should be followed
+                    when creating a part of the world, to avoid complete
+                    chaos.
+HANDLER.DOC       - Descriptions of most of the basic 'database handling'
+                    procedures, found in handler.c
+INTERPRETER.DOC   - ?? Out of date
+LEVELS.DOC        - Out of date
+LICENSE.DOC       - The conditions under which this game is distributed.
+                    NOTE: THIS FILE MUST ALWAYS BE PRESENT.
+LOOK.DOC
+MACRO.DOC         - Descriptions of the macros used in the game code.
+NEWSTRUCT.DOC     - Out of date
+RUNNING.DOC       - Directions for running the game.
+SHOPS.DOC         - Brief doc on how to build shop files in lib/
+SKILLS.DOC        - Out of date
+SPELL_INFO.DOC    - Doc on spells, especially how damage is calculated
+SPELLS.DOC        - Out of date
+TIME.DOC          - How time is in DikuMud compared to real world.
+VALUES.DOC        - The 4 generic values for items, described in detail.

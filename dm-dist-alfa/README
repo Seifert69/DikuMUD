@@ -1,0 +1,23 @@
+NOTE: Copying, redistributing, or using any part of DikuMUD without reading
+      doc/licence.doc is in violation of our copyright.
+
+To compile the game, just type 'make', and cross your fingers. So far, the game
+has been successfully ported to these machines:
+
+VAX 11/785      - Unix-BSD 4.3 (it was written on one of these babies)
+Sun 4           - Unix
+Sun 3 (I think) - Unix
+
+plus lots of others... we've lost track.
+
+We are, of course, very interested in expanding this list. If you successfully
+compile and run the game on a machine not mentioned above, please send us a 
+word.
+
+See doc/running.doc for some hints on how to run the game - and try 'wizhelp'
+in the game itself.
+
+If you run into trouble whilst compiling or running the game, we'll be happy
+to try and help you out. Send email to:
+
+  quinn@freja.diku.dk or one of the other people from the 'credits' file.

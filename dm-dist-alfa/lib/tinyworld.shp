@@ -1,0 +1,511 @@
+#0~
+-1
+-1
+-1
+-1
+3010
+3011
+1.1
+1.0
+0
+0
+0
+0
+0
+%s Haven't got that on storage - try list!~
+%s I don't buy!~
+%s I don't buy!~
+%s I don't buy!~
+%s If you have no money, you'll have to go!~
+%s That'll be %d coins.~
+%s Oups - %d a minor bug - please report!~
+0
+0
+3001
+0
+3009
+0
+28
+0
+0
+#1~
+-1
+-1
+-1
+-1
+3000
+3001
+1.1
+1.0
+0
+0
+0
+0
+0
+%s It's very noisy in here, what did you say you wanted to buy?~
+%s I don't buy!~
+%s I don't buy!~
+%s I don't buy!~
+%s Are you drunk or what ?? - NO CREDIT!~
+%s That'll be - say %d coins.~
+%s Oups - %d a minor bug - please report!~
+0
+0
+3040
+0
+3007
+0
+28
+0
+0
+#2~
+-1
+3020
+3021
+3022
+3023
+3024
+1.3
+0.4
+5
+6
+7
+0
+0
+%s I haven't got that kind of a weapon~
+%s You don't carry that weapon~
+%s I only buy weapons.~
+%s I can't afford such a great weapon~
+%s sorry, but NO CREDIT~
+%s That just costs %d coins.~
+%s Here you have %d coins for that.~
+0
+0
+3003
+0
+3011
+0
+28
+0
+0
+#3~
+3030
+3031
+3032
+3033
+3034
+3035
+1.5
+0.4
+1
+15
+19
+13
+8
+%s Haven't got that on storage - try list!~
+%s You don't seem to have that.~
+%s I don't buy THAT,... Try another shop.~
+%s I can't afford such a treasure.~
+%s You can't afford it!~
+%s That'll be %d coins, please.~
+%s You'll get %d coins for it!~
+0
+0
+3002
+0
+3010
+0
+28
+0
+0
+#4~
+3078
+3079
+3080
+3081
+3082
+3083
+1.0
+0.5
+9
+0
+0
+0
+0
+%s Haven't got that on storage - try list!~
+%s You don't seem to have that.~
+%s I only buy armours.. Go away!~
+%s That is too expensive for me - Try a wizard!~
+%s You can't afford it!~
+%s That'll be %d coins, please.~
+%s You'll get %d coins for it!~
+0
+0
+3004
+0
+3020
+0
+28
+0
+0
+#5~
+-1
+-1
+-1
+-1
+3002
+3003
+1.0
+1.0
+0
+0
+0
+0
+0
+%s Haven't got that on storage - try list!~
+%s I don't buy!~
+%s I don't buy!~
+%s I don't buy!~
+%s If you have no money, you'll have to go!~
+%s That'll be %d coins.~
+%s Oups - %d a minor bug - please report!~
+0
+0
+3042
+0
+3018
+0
+28
+0
+0
+#6~
+-1
+-1
+-1
+-1
+3002
+3004
+1.1
+1.0
+0
+0
+0
+0
+0
+%s Haven't got that on storage - try list!~
+%s I don't buy!~
+%s I don't buy!~
+%s I don't buy!~
+%s If you have no money, you'll have to go!~
+%s That'll be %d coins.~
+%s Oups - %d a minor bug - please report!~
+0
+0
+3043
+0
+3003
+0
+28
+0
+0
+#7~
+-1
+-1
+-1
+3004
+3003
+3002
+1.5
+1.0
+0
+0
+0
+0
+0
+%s Haven't got that on storage - try list!~
+%s I don't buy!~
+%s I don't buy!~
+%s I don't buy!~
+%s If you have no money, you'll have to go!~
+%s That'll be %d coins.~
+%s Oups - %d a minor bug - please report!~
+0
+0
+3045
+0
+3022
+0
+28
+0
+0
+#8~
+-1
+-1
+-1
+-1
+3003
+3004
+1.7
+1.0
+0
+0
+0
+0
+0
+%s Haven't got that on storage - try list!~
+%s I don't buy!~
+%s I don't buy!~
+%s I don't buy!~
+%s If you have no money, you'll have to go!~
+%s That'll be %d coins.~
+%s Oups - %d a minor bug - please report!~
+0
+0
+3044
+0
+3028
+0
+28
+0
+0
+#9~
+-1
+3040
+3041
+3042
+3043
+3044
+1.05
+0.15
+2
+3
+4
+10
+0
+%s Sorry, I haven't got exactly that item.~
+%s You don't seem to have that.~
+%s I don't buy such items.~
+%s That is too expensive for me!~
+%s You can't afford it!~
+%s That'll be %d coins, please.~
+%s You'll get %d coins for it!~
+0
+0
+3000
+0
+3033
+0
+28
+0
+0
+#10~
+-1
+3060
+3061
+-1
+-1
+-1
+1.2
+0.9
+22
+0
+0
+0
+0
+%s Sorry pal, I have not got that kind of ship.~
+%s Ok, but let me see it first.~
+%s I only trade ships.~
+%s I can't afford such a nice ship.~
+%s This ship is too expensive for you.~
+%s Here is your ship, I'll take %d gold coins.~
+%s What a fine deal, you get %d gold coins.~
+0
+0
+3006
+0
+3049
+6
+22
+6
+22
+#11~
+-1
+3100
+3101
+3102
+-1
+-1
+1.1
+0.9
+0
+0
+0
+0
+0
+%s I got no such drink.~
+%s I see no such thing.~
+%s I do not buy, would you like a drink?~
+%s BUG, Please report~
+%s You can't afford such a fine drink, try the Grubby Inn.~
+%s Fine, that'll be %d gold pieces.~
+%s Bug, please report (%d).~
+0
+0
+3100
+0
+3106
+6
+23
+23
+24
+#12~
+-1
+-1
+-1
+-1
+3004
+3003
+1.0
+1.0
+0
+0
+0
+0
+0
+%s It's very noisy in here, what did you say you wanted to buy?~
+%s I don't buy!~
+%s I don't buy!~
+%s I don't buy!~
+%s Are you drunk or what ?? - NO CREDIT!~
+%s That'll be - say %d coins.~
+%s Oups - %d a minor bug - please report!~
+0
+0
+3046
+0
+3048
+0
+28
+0
+0
+#14~
+3066
+3067
+3068
+3069
+3070
+3071
+1.1
+0.9
+9
+0
+0
+0
+0
+%s Haven't got that on storage - try list!~
+%s You don't seem to have that.~
+%s I only buy armours..~
+%s That is too expensive for me - Try a wizard!~
+%s You can't afford it!~
+%s That'll be %d coins, please.~
+%s You'll get %d coins for it!~
+0
+0
+3010
+0
+3035
+8
+14
+15
+21
+#15~
+-1
+-1
+-1
+-1
+-1
+-1
+1.5
+0.5
+8
+0
+0
+0
+0
+%s Haven't got that on storage - try list!~
+%s You don't seem to have that.~
+%s I only buy fine jewelry..~
+%s That is such an expensive item that I dare not possess it!~
+%s You can't afford it, you slut!~
+%s That'll be %d coins, please.~
+%s You'll get %d coins for it!~
+0
+0
+3009
+0
+3034
+9
+12
+14
+17
+#16~
+-1
+5004
+5005
+5006
+3030
+6001
+1.2
+0.6
+1
+10
+11
+19
+-1
+%s I wouldn't sell YOU any such thing, stranger.~
+%s Are you sure you have such an item ?~
+%s I won't by such a thing from a stranger!~
+%s You can't fool me! that costs far too much!~
+%s You probably can't even pay for it, go home stranger.~
+%s Special price, today only: %d coins.~
+%s Well .. ok. I'll give you %d coins for that.~
+0
+0
+5006
+0
+5555
+0
+28
+0
+0
+#17~
+-1
+-1
+-1
+-1
+3000
+3001
+1.1
+1.0
+0
+0
+0
+0
+0
+%s It's very noisy in here, what did you say you wanted to buy?~
+%s I don't buy!~
+%s I don't buy!~
+%s I don't buy!~
+%s Are you drunk or what ?? - NO CREDIT!~
+%s That'll be - say %d coins.~
+%s Oups - %d a minor bug - please report!~
+0
+0
+5008
+0
+5556
+0
+28
+0
+0
+$~

@@ -1,0 +1,74 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+#<xx>~
+  Shop Number (Not used)
+
+<num1>
+<num2>
+<num3>
+<num4>
+<num5>
+  These numbers refer to the objects the shop produces.
+  The numbers are virtual numbers.
+
+<Profit when selling>
+  The object value is multiplied by this value when sold. This is a
+  floating point value. Must be >= 1.0
+
+<Profit when buying>
+  The object value is multiplied by this value when bought. This is a
+  floating point value. Must be <= 1.0
+
+<num1>
+<num2>
+<num3>
+<num4>
+<num5>
+  These five numbers are the item-types traded with by the shop.
+  See dbsup.doc.
+
+<Message When Item to buy is non existing>~
+<Message When item trying to sell is non existing>~
+<Message When wrong item-type sold>~
+<Message when shop can't afford item>~
+<Message when player can't afford item>~
+<Message when buying an item>~
+  Price is %d
+<Message when selling an item>~
+  Price is %d
+
+<Temper 1>
+	When player can't afford an item.
+  0 - The shopkeeper spits player in the face.
+  1 - The shopkeeper smokes his joint.
+  other - No action besides message above.
+
+<Temper 2>
+	When player is attempting a "kill shopkeeper"
+  0 - Shopkeeper tells player "Don't ever try that again!" and gets the
+      first hit!
+  1 - Shopkeeper tells player "I'm to powerfull for you - midget!" and 
+      killing is impossible.
+  other - No action besides message above.
+
+
+<Shop Keeper Mobile Number>
+  Virtual number of the shopkeeper.
+
+<With Who>
+  Case to be added later. For example character classes.
+
+<Shop Room Number>
+   The virtual number the mobile must be in for the shop to be effective.
+   (So trans'ed shopkeepers can't sell in the desert).
+
+<Time when open start 1>
+<Time when open end 1>
+   The hours between which the shop is open.
+
+<Time when open start 2>
+<Time when open end 2>
+   The hours between which the shop is open.
+

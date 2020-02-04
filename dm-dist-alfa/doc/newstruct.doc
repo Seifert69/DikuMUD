@@ -1,0 +1,59 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991 - see 'license.doc' for complete information. *
+************************************************************************* */
+
+FORSLAG TIL AENDRING af structure for PC's og NPC
+
+Jeg foreslaar at char_data.skills laves om, og deles ud i to:
+
+1* HVIS der bliver brug for det, skal strukturen indeholde en
+     char_data.spells
+   som indeholder noedvendige oplysninger om alle spells, saa som
+   "learned" og "recognise" (som er i den nuvaerende skills[]).
+
+2* Der skal laves en ny struktur
+
+   struct affected
+   {
+      byte duration;
+      byte modifier;
+      byte location;
+      int  bitvector;
+
+      struct affected *next; 
+   }
+
+   "duration" som i skills[]
+
+   "modifier" angiver tallet der skal +/- til en abillity (fx. strength)
+              dette er ligeledes tallet der skal +/- (omvendt) naar
+              duration bliver 0.
+
+   "location" angiver hvilken ability der er tale om, dvs om det er 
+              strengt_apply, ac_apply, thaco_apply, etc. (som i skills[])
+
+  "bitvector" Her angives hvilken bit i en status, der er sat (og som skal
+              fjernes naar duration = 0). Bit kan fx. vaere BLINDED,
+              STUNNED, HELD, CHARMED, og andre helt specielle ting.
+              Disse "bit" skal der saa tages hoejde for i look, move
+              og andre procedurer.
+
+    "*next"   peger paa naeste element.
+
+   Gr. bitvektoren skal der saa indsaettes en 
+		int char_affected;
+	 i selve char_data strukturen.
+
+Et umiddelbart problem er, at man ikke kan gemme denne "affected" paa
+disken, men Sebastian foreslog, at kopiere listen over i et array i
+strukturen char_file_u, her skal der saa fastlaegges et maksimum antal
+elementer.
+
+En anden fordel er, at ved nedtaelling af duration, undgaar vi at kigge
+paa alle 50 durations (i den gamle skill[]) da den nye struktur benytter
+haegter.
+
+
+S.U. Venligst, da jeg ikke kan implementere spells ordentligt uden en
+     aendring af et eller andet...
+
