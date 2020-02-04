@@ -1,0 +1,103 @@
+/* ************************************************************************
+*  Copyright (C) 1990, 1991                                               *
+*  All Rights Reserved                                                    *
+************************************************************************* */
+
+                             DikuMud License
+
+                      Program & Concept created by
+
+
+Sebastian Hammer
+Prss. Maries Alle 15, 1
+1908 Frb. C.
+DENMARK
+(email quinn@freja.diku.dk)
+
+Michael Seifert
+Nr. Soeg. 37C, 1, doer 3
+1370 Copenhagen K.
+DENMARK
+(email seifert@freja.diku.dk)
+
+Hans Henrik St{rfeldt
+Langs} 19
+3500 V{rl|se
+DENMARK
+(email bombman@freja.diku.dk)
+
+Tom Madsen
+R|de Mellemvej 94B, 64
+2300 Copenhagen S.
+DENMARK
+(email noop@freja.diku.dk)
+
+Katja Nyboe
+Kildeg}rdsvej 2
+2900 Hellerup
+31 62 82 84
+DENMARK
+(email katz@freja.diku.dk)
+
+
+This document contains the rules by which you can use, alter or publish
+parts of DikuMud. DikuMud has been created by the above five listed persons
+in their spare time, at DIKU (Computer Science Instutute at Copenhagen
+University). You are legally bound to follow the rules described in this
+document.
+
+Rules:
+
+   !! DikuMud is NOT Public Domain, shareware, careware or the like !!
+
+   You may under no circumstances make profit on *ANY* part of DikuMud in
+   any possible way. You may under no circumstances charge money for
+   distributing any part of dikumud - this includes the usual $5 charge
+   for "sending the disk" or "just for the disk" etc.
+   By breaking these rules you violate the agreement between us and the
+   University, and hence will be sued.
+
+   You may not remove any copyright notices from any of the documents or
+   sources given to you.
+
+   This license must *always* be included "as is" if you copy or give
+   away any part of DikuMud (which is to be done as described in this
+   document).
+
+   If you publish *any* part of dikumud, we as creators must appear in the
+   article, and the article must be clearly copyrighted subject to this
+   license. Before publishing you must first send us a message, by
+   snail-mail or e-mail, and inform us what, where and when you are
+   publishing (remember to include your address, name etc.)
+
+   If you wish to setup a version of DikuMud on any computer system, you
+   must send us a message , by snail-mail or e-mail, and inform us where
+   and when you are running the game. (remember to include 
+   your address, name etc.)
+
+
+   Any running version of DikuMud must include our names in the login
+   sequence. Furthermore the "credits" command shall always cointain
+   our name, addresses, and a notice which states we have created DikuMud.
+
+   You are allowed to alter DikuMud, source and documentation as long as
+   you do not violate any of the above stated rules.
+
+
+Regards,
+
+
+
+The DikuMud Group
+
+
+Note:
+
+We hope you will enjoy DikuMud, and encourage you to send us any reports
+on bugs (when you find 'it'). Remember that we are all using our spare
+time to write and improve DikuMud, bugs, etc. - and changes will take their
+time. We have so far put extremely many programming hours into this project.
+If you make any major improvements on DikuMud we would be happy to
+hear from you. As you will naturally honor the above rules, you will receive
+new updates and improvements made to the game.
+
