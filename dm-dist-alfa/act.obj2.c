@@ -505,7 +505,7 @@ void do_taste(struct char_data *ch, char *argument, int cmd)
 
 /* functions related to wear */
 
-perform_wear(struct char_data *ch, struct obj_data *obj_object, int keyword)
+void perform_wear(struct char_data *ch, struct obj_data *obj_object, int keyword)
 {
 	char buffer[MAX_STRING_LENGTH];
 	struct char_data *i;

@@ -44,7 +44,7 @@ void signal_setup(void)
 
 
 
-int checkpointing(void)
+void checkpointing(int ignored)
 {
 	extern int tics;
 	
@@ -60,7 +60,7 @@ int checkpointing(void)
 
 
 
-int shutdown_request(void)
+void shutdown_request(int ignored)
 {
 	extern int shutting_down;
 

@@ -402,7 +402,7 @@ void add_follower(struct char_data *ch, struct char_data *leader)
 
 
 
-say_spell( struct char_data *ch, int si )
+void say_spell( struct char_data *ch, int si )
 {
 	char buf[MAX_STRING_LENGTH], splwd[MAX_BUF_LENGTH];
 	char buf2[MAX_STRING_LENGTH+23];

@@ -323,7 +323,7 @@ void boot_pose_messages(void)
 }
 
 
-do_pose(struct char_data *ch, char *argument, int cmd)
+void do_pose(struct char_data *ch, char *argument, int cmd)
 {
 	byte to_pose;
 	byte counter;

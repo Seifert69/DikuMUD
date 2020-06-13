@@ -43,9 +43,10 @@ int mana_gain(struct char_data *ch);
 int hit_gain(struct char_data *ch);
 int move_gain(struct char_data *ch);
 
+void do_look(struct char_data *ch, char *argument, int cmd);
 
 
-do_emote(struct char_data *ch, char *argument, int cmd)
+void do_emote(struct char_data *ch, char *argument, int cmd)
 {
 	int i;
 	static char buf[MAX_STRING_LENGTH];
@@ -1495,7 +1496,7 @@ void do_restore(struct char_data *ch, char *argument, int cmd)
 
 
 
-do_noshout(struct char_data *ch, char *argument, int cmd)
+void do_noshout(struct char_data *ch, char *argument, int cmd)
 {
 	struct char_data *vict;
 	struct obj_data *dummy;
