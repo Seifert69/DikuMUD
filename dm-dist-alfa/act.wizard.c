@@ -665,7 +665,7 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
 			strcat(buf, buf2);
 			send_to_char(buf, ch);
 
-			sprintf(buf,"Birth : [%ld]secs, Logon[%ld]secs, Played[%ld]secs\n\r", 
+			sprintf(buf,"Birth : [%ld]secs, Logon[%ld]secs, Played[%d]secs\n\r", 
 			        k->player.time.birth,
 			        k->player.time.logon,
 			        k->player.time.played);
