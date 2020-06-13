@@ -1,5 +1,3 @@
-CC = /usr/local/games/dikumud/gcc/gcc -B/usr/local/games/dikumud/gcc/
-CFLAGS =
 HEADERFILES = structs.h utils.h comm.h interpreter.h db.h
 dmserver : comm.o act.comm.o act.informative.o act.movement.o act.obj1.o act.obj2.o act.offensive.o act.other.o act.social.o act.wizard.o handler.o db.o interpreter.o utility.o spec_assign.o shop.o limits.o mobact.o fight.o modify.o weather.o spell_parser.o spells1.o spells2.o reception.o constants.o spec_procs.o signals.o board.o mar_fiz_maz.o magic.o
 comm.o : comm.c structs.h utils.h comm.h interpreter.h handler.h db.h
