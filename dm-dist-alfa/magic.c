@@ -1206,7 +1206,7 @@ void spell_sense_life(byte level, struct char_data *ch,
 void spell_identify(byte level, struct char_data *ch,
   struct char_data *victim, struct obj_data *obj)
 {
-  char buf[256], buf2[256];
+  char buf[256+25], buf2[256];
 	int i;
   bool found;
 

@@ -32,7 +32,7 @@ extern void log_message(char *str);
 void get(struct char_data *ch, struct obj_data *obj_object, 
 	struct obj_data *sub_object) {
 struct char_data *tmp_char;
-char buffer[MAX_STRING_LENGTH];
+char buffer[MAX_STRING_LENGTH+33];
 
 	if (sub_object) {
 		obj_from_obj(obj_object);
@@ -69,7 +69,7 @@ void do_get(struct char_data *ch, char *argument, int cmd)
 {
 	char arg1[MAX_STRING_LENGTH];
 	char arg2[MAX_STRING_LENGTH];
-	char buffer[MAX_STRING_LENGTH];
+	char buffer[MAX_STRING_LENGTH+30];
 	struct obj_data *sub_object;
 	struct obj_data *obj_object;
 	struct obj_data *next_obj;
@@ -407,7 +407,7 @@ bool test = FALSE;
 
 void do_put(struct char_data *ch, char *argument, int cmd)
 {
-	char buffer[MAX_STRING_LENGTH];
+	char buffer[MAX_STRING_LENGTH+21];
 	char arg1[MAX_STRING_LENGTH];
 	char arg2[MAX_STRING_LENGTH];
 	struct obj_data *obj_object;

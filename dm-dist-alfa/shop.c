@@ -334,7 +334,7 @@ void shopping_value( char *arg, struct char_data *ch,
 void shopping_list( char *arg, struct char_data *ch,
 	 struct char_data *keeper, int shop_nr)
 {
-	char buf[MAX_STRING_LENGTH], buf2[100],buf3[100];
+	char buf[MAX_STRING_LENGTH], buf2[100+24],buf3[100];
 	struct obj_data *temp1;
 	extern char *drinks[];
 	int found_obj;

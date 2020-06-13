@@ -283,7 +283,7 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
 	extern char *spells[];
 	struct affected_type *aff;
 	char arg1[MAX_STRING_LENGTH];
-	char buf[MAX_STRING_LENGTH];
+	char buf[MAX_STRING_LENGTH+80];
 	char buf2[MAX_STRING_LENGTH];
 	struct char_data *victim=0;
 	struct room_data *rm=0;
@@ -1010,7 +1010,7 @@ void do_force(struct char_data *ch, char *argument, int cmd)
 {
   struct descriptor_data *i;
 	struct char_data *vict;
-	char name[100], to_force[100],buf[100]; 
+	char name[100], to_force[100],buf[100+24]; 
 
 	if (IS_NPC(ch))
 		return;

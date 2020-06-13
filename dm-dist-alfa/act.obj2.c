@@ -243,7 +243,7 @@ void do_pour(struct char_data *ch, char *argument, int cmd)
 {
 	char arg1[MAX_STRING_LENGTH];
 	char arg2[MAX_STRING_LENGTH];
-	char buf[MAX_STRING_LENGTH];
+	char buf[MAX_STRING_LENGTH+24];
 	struct obj_data *from_obj;
 	struct obj_data *to_obj;
 	int amount;
@@ -836,8 +836,8 @@ void wear(struct char_data *ch, struct obj_data *obj_object, int keyword)
 void do_wear(struct char_data *ch, char *argument, int cmd) {
 char arg1[MAX_STRING_LENGTH];
 char arg2[MAX_STRING_LENGTH];
-char buf[256];
-char buffer[MAX_STRING_LENGTH];
+char buf[256+3871];
+char buffer[MAX_STRING_LENGTH+34];
 struct obj_data *obj_object;
 int keyword;
 static char *keywords[] = {
@@ -898,7 +898,7 @@ static char *keywords[] = {
 void do_wield(struct char_data *ch, char *argument, int cmd) {
 char arg1[MAX_STRING_LENGTH];
 char arg2[MAX_STRING_LENGTH];
-char buffer[MAX_STRING_LENGTH];
+char buffer[MAX_STRING_LENGTH+33];
 struct obj_data *obj_object;
 int keyword = 12;
 
@@ -921,7 +921,7 @@ void do_grab(struct char_data *ch, char *argument, int cmd)
 {
 	char arg1[MAX_STRING_LENGTH];
 	char arg2[MAX_STRING_LENGTH];
-	char buffer[MAX_STRING_LENGTH];
+	char buffer[MAX_STRING_LENGTH+33];
 	struct obj_data *obj_object;
 	int keyword = 13;
 

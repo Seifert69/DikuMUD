@@ -144,7 +144,7 @@ void do_backstab(struct char_data *ch, char *argument, int cmd)
 void do_order(struct char_data *ch, char *argument, int cmd)
 {
   char name[100], message[256];
-	char buf[256];
+	char buf[256+24];
 	bool found = FALSE;
 	int org_room;
 	struct char_data *victim;

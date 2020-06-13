@@ -82,7 +82,7 @@ void do_tell(struct char_data *ch, char *argument, int cmd)
 {
 	struct char_data *vict;
 	char name[100], message[MAX_STRING_LENGTH],
-		buf[MAX_STRING_LENGTH];
+		buf[MAX_STRING_LENGTH+16];
 
 	if (IS_SET(ch->specials.act, PLR_NOTELL))
 	{
@@ -118,7 +118,7 @@ void do_whisper(struct char_data *ch, char *argument, int cmd)
 {
 	struct char_data *vict;
 	char name[100], message[MAX_STRING_LENGTH],
-		buf[MAX_STRING_LENGTH];
+		buf[MAX_STRING_LENGTH+22];
 
 	half_chop(argument,name,message);
 
@@ -147,7 +147,7 @@ void do_ask(struct char_data *ch, char *argument, int cmd)
 {
 	struct char_data *vict;
 	char name[100], message[MAX_STRING_LENGTH],
-		buf[MAX_STRING_LENGTH];
+		buf[MAX_STRING_LENGTH+14];
 
 	half_chop(argument,name,message);
 
