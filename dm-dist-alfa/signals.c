@@ -12,10 +12,10 @@
 
 extern void log_message(char *msg);
 
-int checkpointing(void);
-int shutdown_request(void);
-int logsig(void);
-int hupsig(void);
+void checkpointing(int);
+void shutdown_request(int);
+void logsig(int);
+void hupsig(int);
 
 void signal_setup(void)
 {
@@ -71,7 +71,7 @@ void shutdown_request(int ignored)
 
 
 /* kick out players etc */
-int hupsig(void)
+void hupsig(int ignored)
 {
 	extern int shutting_down;
 
@@ -81,7 +81,7 @@ int hupsig(void)
 
 
 
-int logsig(void)
+void logsig(int ignored)
 {
 	log_message("Signal received. Ignoring.");
 }
