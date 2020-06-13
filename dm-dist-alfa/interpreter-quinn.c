@@ -45,7 +45,7 @@ void init_char(struct char_data *ch);
 void store_to_char(struct char_file_u *st, struct char_data *ch);
 int create_entry(char *name);
 int special(struct char_data *ch, int cmd, char *arg);
-void log(char *str);
+void log_message(char *str);
 
 void do_move(struct char_data *ch, char *argument, int cmd);
 void do_look(struct char_data *ch, char *argument, int cmd);
@@ -1122,14 +1122,14 @@ void nanny(struct descriptor_data *d, char *arg)
 						act("$n has reconnected.", TRUE, tmp_ch, 0, 0, TO_ROOM);
 						sprintf(buf, "%s[%s] has reconnected.", GET_NAME(
 							d->character), d->host);
-						log(buf);
+						log_message(buf);
 						return;
 					}
 					
 					
 				sprintf(buf, "%s[%s] has connected.", GET_NAME(d->character),
 					d->host);
-				log(buf);
+				log_message(buf);
 
 				SEND_TO_Q(motd, d);
 				SEND_TO_Q("\n\r\n*** PRESS RETURN: ", d);
@@ -1276,7 +1276,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			if (STATE(d) != CON_QCLASS) {
 				sprintf(buf, "%s [%s] new player.", GET_NAME(d->character),
 					d->host);
-				log(buf);
+				log_message(buf);
 			}
 		} break;
 
@@ -1297,7 +1297,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				case '1':
 					reset_char(d->character);
 					if (d->character->in_room != NOWHERE) {
-						log("Loading chars equipment and transferring to room.");
+						log_message("Loading chars equipment and transferring to room.");
 						load_char_objs(d->character);
 						save_char(d->character, NOWHERE);
 					}
@@ -1385,7 +1385,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			STATE(d) = CON_SLCT;
 		break;
 		default:
-			log("Nanny: illegal state of con'ness");
+			log_message("Nanny: illegal state of con'ness");
 			abort();
 		break;
 	}
