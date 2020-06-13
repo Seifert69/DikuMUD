@@ -52,7 +52,7 @@ struct descriptor_data *descriptor_list, *next_to_process;
 
 int lawful = 0;		/* work like the game regulator */
 int slow_death = 0;  /* Shut her down, Martha, she's sucking mud */
-int shutdown = 0;    /* clean shutdown */
+int shutting_down = 0;    /* clean shutdown */
 int reboot = 0;      /* reboot the game after a shutdown */
 int no_specials = 0; /* Suppress ass. of special routines */
 
@@ -257,7 +257,7 @@ int game_loop(int s)
 		sigmask(SIGVTALRM);
 
 	/* Main loop */
-	while (!shutdown)
+	while (!shutting_down)
 	{
 		/* Check what's happening out there */
 		FD_ZERO(&input_set);
