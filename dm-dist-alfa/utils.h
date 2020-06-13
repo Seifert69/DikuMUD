@@ -3,6 +3,8 @@
 *  Usage: Utility macros                                                  *
 ************************************************************************* */
 
+#include <stdlib.h>
+
 #define TRUE  1
 
 #define FALSE 0
