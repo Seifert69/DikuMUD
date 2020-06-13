@@ -19,6 +19,7 @@ extern struct obj_data  *object_list;
 extern struct char_data *character_list;
 
 /* Extern procedures */
+extern void do_look(struct char_data *ch, char *argument, int cmd);
 
 void damage(struct char_data *ch, struct char_data *victim,
             int damage, int weapontype);
