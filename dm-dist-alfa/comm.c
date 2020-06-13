@@ -188,7 +188,7 @@ int run_the_game(int port)
 
 	void signal_setup(void);
 	int load(void);
-	void coma(void);
+	void coma(int);
 
 	PROFILE(monstartup((int) 2, etext);)
 
@@ -203,7 +203,7 @@ int run_the_game(int port)
 	if (lawful && load() >= 6)
 	{
 		log_message("System load too high at startup.");
-		coma();
+		coma(s);
 	}
 
 	boot_db();
