@@ -1,3 +1,4 @@
+CFLAGS=-Werror -Wno-error=deprecated-declarations -Wno-error=implicit-function-declaration
 LDLIBS=-lcrypt
 HEADERFILES = structs.h utils.h comm.h interpreter.h db.h
 all: delplay dmserver
