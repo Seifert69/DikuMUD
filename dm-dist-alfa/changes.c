@@ -238,7 +238,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 		"sessions","alignment","thirst","drunk","full","\n"
 	};
 	struct char_data *vict;
-	char name[100], buf2[100], buf[100], help[MAX_STRING_LENGTH];
+	char name[100], buf2[119], buf[100], help[MAX_STRING_LENGTH];
 	int skill, field, value, i, qend;
 
 	argument = one_argument(argument, name);
