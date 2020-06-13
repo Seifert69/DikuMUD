@@ -580,7 +580,7 @@ int init_socket(int port)
 		perror("setsockopt LINGER");
 		exit(1);
 	}
-	if (bind(s, &sa, sizeof(sa)) < 0)
+	if (bind(s, (struct sockaddr *) &sa, sizeof(sa)) < 0)
 	{
 		perror("bind");
 		close(s);
@@ -603,10 +603,10 @@ int new_connection(int s)
 	char buf[100];
 
 	i = sizeof(isa);
-	getsockname(s, &isa, &i);
+	getsockname(s, (struct sockaddr *) &isa, &i);
 
 
-	if ((t = accept(s, &isa, &i)) < 0)
+	if ((t = accept(s, (struct sockaddr *) &isa, &i)) < 0)
 	{
 		perror("Accept");
 		return(-1);
