@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <sys/time.h>
+#include <string.h>
 
 #include "structs.h"
 #include "comm.h"
