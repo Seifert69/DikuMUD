@@ -128,7 +128,7 @@ int board_remove_msg(struct char_data *ch, char *arg) {
 	if (GET_LEVEL(ch) < 10) {
 		send_to_char("Due to misuse of the REMOVE command, only 10th level\n\r", ch);
 		send_to_char("and above can remove messages.\n\r", ch);
-		return;
+		return(0);
 	}
 
 	one_argument(arg, number);
