@@ -24,6 +24,7 @@
 #define TP_OBJ	   1
 #define TP_ERROR  2
 
+extern void log_message(char *msg);
 
 void show_string(struct descriptor_data *d, char *input);
 
@@ -569,7 +570,7 @@ void night_watchman(void)
 		(t_info->tm_wday < 6))
 		if (t_info->tm_min > 50)
 		{
-			log("Leaving the scene for the serious folks.");
+			log_message("Leaving the scene for the serious folks.");
 			send_to_all("Closing down. Thank you for flying DikuMUD.\n\r");
 			shutting_down = 1;
 		}
@@ -597,11 +598,11 @@ void check_reboot(void)
 		{
 			if (t_info->tm_min > 50)
 			{
-				log("Reboot exists.");
+				log_message("Reboot exists.");
 				fread(&dummy, sizeof(dummy), 1, boot);
 				if (!feof(boot))   /* the file is nonepty */
 				{
-					log("Reboot is nonempty.");
+					log_message("Reboot is nonempty.");
 
 					/* the script can't handle the signals */
 					sigsetmask(sigmask(SIGUSR1) | sigmask(SIGUSR2) |
@@ -611,7 +612,7 @@ void check_reboot(void)
 
 					if (system("./reboot"))
 					{
-						log("Reboot script terminated abnormally");
+						log_message("Reboot script terminated abnormally");
 						send_to_all("The reboot was cancelled.\n\r");
 						system("mv ./reboot reboot.FAILED");
 						fclose(boot);
@@ -728,7 +729,7 @@ char *nogames(void)
 
 	if (fl = fopen("lib/nogames", "r"))
 	{
-		log("/usr/games/nogames exists");
+		log_message("/usr/games/nogames exists");
 		fgets(text, fl);
 		return(text);
 		fclose(fl);
@@ -747,7 +748,7 @@ void coma(void)
 
 	void close_socket(struct descriptor_data *d);
 
-	log("Entering comatose state");
+	log_message("Entering comatose state");
 
 	while (descriptor_list)
 		close_socket(descriptor_list);
@@ -758,13 +759,13 @@ void coma(void)
 		tics = 1;
 		if (workhours())
 		{
-			log("Working hours collision during coma. Exit.");
+			log_message("Working hours collision during coma. Exit.");
 			exit(0);
 		}
 	}
 	while (load() >= 6);
 
-	log("Leaving coma");
+	log_message("Leaving coma");
 }
 
 #endif

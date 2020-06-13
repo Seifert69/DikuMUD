@@ -23,6 +23,7 @@ extern struct index_data *mob_index;
 extern struct index_data *obj_index;
 
 /* Extern functions */
+extern void log_message(char *msg);
 
 void store_to_char(struct char_file_u *st, struct char_data *ch);
 void do_tell(struct char_data *ch, char *argument, int cmd);
@@ -222,12 +223,12 @@ void load_char_objs(struct char_data *ch)
 		}
 		strcpy(st.owner, OBJ_FILE_FREE);
 		if (fwrite(&st, sizeof(struct obj_file_u), 1, fl) < 1) {
-			log("Error updating name to be set as unused.");
+			log_message("Error updating name to be set as unused.");
 			exit(1);
 		}
 
 	} else {
-		log("Char has no data in file!");
+		log_message("Char has no data in file!");
 	}
 
 	fclose(fl);
@@ -266,7 +267,7 @@ void put_obj_in_store(struct obj_data *obj, struct obj_file_u *st)
 		}
 
 	if (!found) {
-		log("No empty space to store object. (put_obj_in_store, reception.c)");
+		log_message("No empty space to store object. (put_obj_in_store, reception.c)");
 		exit(1);
 	}
 }
@@ -414,7 +415,7 @@ void update_obj_file(void)
 
 		if ((!feof(fl)) && (no_read > 0) && st.owner[0]) {
 			sprintf(buf, "   Processing %s[%d].", st.owner, pos);
-			log(buf);
+			log_message(buf);
 			days_passed = ((time(0) - st.last_update) / SECS_PER_REAL_DAY);
 			secs_lost = ((time(0) - st.last_update) % SECS_PER_REAL_DAY);
 
@@ -432,7 +433,7 @@ void update_obj_file(void)
 					fread(&ch_st, sizeof(struct char_file_u), 1, char_file);
 
 					sprintf(buf, "   Dumping %s from object file.", ch_st.name);
-					log(buf);
+					log_message(buf);
 
 					ch_st.points.gold = 0;
 					ch_st.load_room = NOWHERE;
@@ -446,7 +447,7 @@ void update_obj_file(void)
 				} else {
 
 					sprintf(buf, "   Updating %s", st.owner);
-					log(buf);
+					log_message(buf);
 					st.gold_left  -= (st.total_cost*days_passed);
 					st.last_update = time(0)-secs_lost;
 					update_file(fl, pos-1, &st);
@@ -488,7 +489,7 @@ int receptionist(struct char_data *ch, int cmd, char *arg)
 				recep = temp_char;
 
 	if (!recep) {
-		log("Ingen receptionist.\n\r");
+		log_message("Ingen receptionist.\n\r");
 		exit(1);
 	}
 

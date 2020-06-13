@@ -30,7 +30,7 @@ extern void log_message(char *str);
 
 struct obj_data *get_object_in_equip_vis(struct char_data *ch,
                          char *arg, struct obj_data **equipment, int *j);
-char *strdup(char *source);
+char *str_duplicate(char *source);
 
 
 
