@@ -69,7 +69,7 @@ void del(char *filename, int name)
 }
 
 	
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	if (argc != 3)
 		puts("Usage: delplay <DikuMUD player filename> <Player Number>");
@@ -79,4 +79,5 @@ main(int argc, char **argv)
 		else
 			del(argv[1], atoi(argv[2]));
 	}
+	return 0;
 }
