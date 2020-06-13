@@ -966,9 +966,9 @@ void nonblock(int s)
 #define COMA_SIGN \
 "\n\r\
 DikuMUD is currently inactive due to excessive load on the host machine.\n\r\
-Please try again later.\n\r\n
+Please try again later.\n\r\n\
 \n\r\
-   Sadly,\n\r\
+   Sadly,\n\r\n\
 \n\r\
     the DikuMUD system operators\n\r\n\r"
 
