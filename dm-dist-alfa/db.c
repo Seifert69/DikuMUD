@@ -368,42 +368,40 @@ void build_player_index(void)
 	struct char_file_u dummy;
 	FILE *fl;
 
-	if (!(fl = fopen(PLAYER_FILE, "rb+")))
+	if ((fl = fopen(PLAYER_FILE, "rb+")))
 	{
-		perror("build player index");
-		exit(0);
-	}
 
-	for (; !feof(fl);)
-	{
-		fread(&dummy, sizeof(struct char_file_u), 1, fl);
-		if (!feof(fl))   /* new record */
+		for (; !feof(fl);)
 		{
-			/* Create new entry in the list */
-			if (nr == -1) {
-				CREATE(player_table, 
-			           struct player_index_element, 1);
-				nr = 0;
-			}	else {
-				if (!(player_table = (struct player_index_element *)
-				    realloc(player_table, (++nr + 1) *
-				    sizeof(struct player_index_element))))
-				{
-					perror("generate index");
-					exit(0);
+			fread(&dummy, sizeof(struct char_file_u), 1, fl);
+			if (!feof(fl))   /* new record */
+			{
+				/* Create new entry in the list */
+				if (nr == -1) {
+					CREATE(player_table, 
+					   struct player_index_element, 1);
+					nr = 0;
+				}	else {
+					if (!(player_table = (struct player_index_element *)
+					    realloc(player_table, (++nr + 1) *
+					    sizeof(struct player_index_element))))
+					{
+						perror("generate index");
+						exit(0);
+					}
 				}
+			
+				player_table[nr].nr = nr;
+
+				CREATE(player_table[nr].name, char,
+				   strlen(dummy.name) + 1);
+				for (i = 0; *(player_table[nr].name + i) = 
+				   LOWER(*(dummy.name + i)); i++);
 			}
-		
-			player_table[nr].nr = nr;
-
-			CREATE(player_table[nr].name, char,
-			   strlen(dummy.name) + 1);
-			for (i = 0; *(player_table[nr].name + i) = 
-			   LOWER(*(dummy.name + i)); i++);
 		}
-	}
 
-	fclose(fl);
+		fclose(fl);
+	}
 
 	top_of_p_table = nr;
 

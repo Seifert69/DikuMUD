@@ -395,70 +395,61 @@ void update_obj_file(void)
 	int find_name(char *name);
 	extern struct player_index_element *player_table;
 
-	if (!(char_file = fopen(PLAYER_FILE, "r+"))) {
-		perror("   Opening player file for reading. (reception.c, update_obj_file)");
-		exit(1);
-	}
-
-	/* r+b is for Binary Reading/Writing */
-	if (!(fl = fopen(OBJ_SAVE_FILE, "r+b")))
-	{
-		perror("   Opening object file for updating");
-		exit(1);
-	}
-
-
 	pos = 0;
 
-	while (!feof(fl)) {
-		no_read = fread(&st, sizeof(struct obj_file_u), 1, fl);
-		pos += no_read;
+	if (((char_file = fopen(PLAYER_FILE, "r+")) != NULL) && ((fl = fopen(OBJ_SAVE_FILE, "r+b")) != NULL))
+	{
 
-		if ((!feof(fl)) && (no_read > 0) && st.owner[0]) {
-			sprintf(buf, "   Processing %s[%d].", st.owner, pos);
-			log_message(buf);
-			days_passed = ((time(0) - st.last_update) / SECS_PER_REAL_DAY);
-			secs_lost = ((time(0) - st.last_update) % SECS_PER_REAL_DAY);
+		while (!feof(fl)) {
+			no_read = fread(&st, sizeof(struct obj_file_u), 1, fl);
+			pos += no_read;
 
-			if (days_passed > 0) {
-				if ((st.total_cost*days_passed) > st.gold_left) {
+			if ((!feof(fl)) && (no_read > 0) && st.owner[0]) {
+				sprintf(buf, "   Processing %s[%d].", st.owner, pos);
+				log_message(buf);
+				days_passed = ((time(0) - st.last_update) / SECS_PER_REAL_DAY);
+				secs_lost = ((time(0) - st.last_update) % SECS_PER_REAL_DAY);
 
-					if ((player_i = find_name(st.owner)) < 0) {
-						perror("   Character not in list. (update_obj_file)");
-						exit(1);
+				if (days_passed > 0) {
+					if ((st.total_cost*days_passed) > st.gold_left) {
+
+						if ((player_i = find_name(st.owner)) < 0) {
+							perror("   Character not in list. (update_obj_file)");
+							exit(1);
+						}
+
+						fseek(char_file, (long) (player_table[player_i].nr *
+							sizeof(struct char_file_u)), 0);
+
+						fread(&ch_st, sizeof(struct char_file_u), 1, char_file);
+
+						sprintf(buf, "   Dumping %s from object file.", ch_st.name);
+						log_message(buf);
+
+						ch_st.points.gold = 0;
+						ch_st.load_room = NOWHERE;
+						fseek(char_file, (long) (player_table[player_i].nr *
+							sizeof(struct char_file_u)), 0);
+						fwrite(&ch_st, sizeof(struct char_file_u), 1, char_file);
+
+						strcpy(st.owner, OBJ_FILE_FREE);
+						update_file(fl, pos-1, &st);
+
+					} else {
+
+						sprintf(buf, "   Updating %s", st.owner);
+						log_message(buf);
+						st.gold_left  -= (st.total_cost*days_passed);
+						st.last_update = time(0)-secs_lost;
+						update_file(fl, pos-1, &st);
 					}
-
-					fseek(char_file, (long) (player_table[player_i].nr *
-						sizeof(struct char_file_u)), 0);
-
-					fread(&ch_st, sizeof(struct char_file_u), 1, char_file);
-
-					sprintf(buf, "   Dumping %s from object file.", ch_st.name);
-					log_message(buf);
-
-					ch_st.points.gold = 0;
-					ch_st.load_room = NOWHERE;
-					fseek(char_file, (long) (player_table[player_i].nr *
-						sizeof(struct char_file_u)), 0);
-					fwrite(&ch_st, sizeof(struct char_file_u), 1, char_file);
-
-					strcpy(st.owner, OBJ_FILE_FREE);
-					update_file(fl, pos-1, &st);
-
-				} else {
-
-					sprintf(buf, "   Updating %s", st.owner);
-					log_message(buf);
-					st.gold_left  -= (st.total_cost*days_passed);
-					st.last_update = time(0)-secs_lost;
-					update_file(fl, pos-1, &st);
 				}
 			}
 		}
-	}
 
-	fclose(fl);
-	fclose(char_file);
+		fclose(fl);
+		fclose(char_file);
+	}
 }
 
 
