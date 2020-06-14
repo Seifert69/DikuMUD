@@ -562,6 +562,8 @@ void boot_the_shops()
 		else 
 			if(*buf == '$')	/* EOF */
 				break;
+
+		free(buf);
 	}
 
 	fclose(shop_f);
