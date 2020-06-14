@@ -1941,20 +1941,23 @@ char *fread_string(FILE *fl)
 		else
 			strncat(buf, tmp, MAX_STRING_LENGTH-1);
 
-		for (point = buf + strlen(buf) - 2; point >= buf && isspace(*point);
-			point--);		
-		if (flag = (*point == '~'))
-			if (*(buf + strlen(buf) - 3) == '\n')
+		size_t strlenbuf = strlen(buf);
+
+		/* Set point to be the first non-whitespace character */
+		for (point = buf + strlenbuf - 2; point >= buf && isspace(*point); point--) ;;
+
+		if ((flag = (*point == '~')) && (strlenbuf >= 3))
+			if (*(buf + strlenbuf - 3) == '\n')
 			{
-				*(buf + strlen(buf) - 2) = '\r';
-				*(buf + strlen(buf) - 1) = '\0';
+				*(buf + strlenbuf - 2) = '\r';
+				*(buf + strlenbuf - 1) = '\0';
 			}
 			else
-				*(buf + strlen(buf) -2) = '\0';
+				*(buf + strlenbuf -2) = '\0';
 		else
 		{
-			*(buf + strlen(buf) + 1) = '\0';
-			*(buf + strlen(buf)) = '\r';
+			*(buf + strlenbuf + 1) = '\0';
+			*(buf + strlenbuf) = '\r';
 		}
 	}
 	while (!flag);
