@@ -1019,7 +1019,7 @@ void nanny(struct descriptor_data *d, char *arg)
 	void do_look(struct char_data *ch, char *argument, int cmd);
 	void load_char_objs(struct char_data *ch);
 	int load_char(char *name, struct char_file_u *char_element);
-
+	struct crypt_data crypted;
 
 	switch (STATE(d))
 	{
@@ -1132,7 +1132,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			   close_socket(d);
 			else
 			{
-				if (strncmp(crypt(arg, d->pwd), d->pwd, 10))
+				if (strcmp(crypt_r(arg, d->pwd, &crypted), d->pwd))
 				{
 					SEND_TO_Q("Wrong password.\n\r", d);
 					SEND_TO_Q("Password: ", d);
@@ -1179,8 +1179,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				return;
 			}
 
-			strncpy(d->pwd, crypt(arg, d->character->player.name), 10);
-			*(d->pwd + 10) = '\0';
+			strcpy(d->pwd, crypt_r(arg, d->character->player.name, &crypted));
 			
 			SEND_TO_Q("Please retype password: ", d);
 
@@ -1191,7 +1190,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			/* skip whitespaces */
 			for (; isspace(*arg); arg++);
 
-			if (strncmp(crypt(arg, d->pwd), d->pwd, 10))
+			if (strcmp(crypt_r(arg, d->pwd, &crypted), d->pwd))
 			{
 				SEND_TO_Q("Passwords don't match.\n\r", d);
 				SEND_TO_Q("Retype password: ", d);
@@ -1377,7 +1376,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				return;
 			}
 
-			strncpy(d->pwd, crypt(arg, d->character->player.name), 10);
+			strcpy(d->pwd, crypt_r(arg, d->character->player.name, &crypted));
 			*(d->pwd + 10) = '\0';
 
 			SEND_TO_Q("Please retype password: ", d);
@@ -1388,7 +1387,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			/* skip whitespaces */
 			for (; isspace(*arg); arg++);
 
-			if (strncmp(crypt(arg, d->pwd), d->pwd, 10))
+			if (strcmp(crypt_r(arg, d->pwd, &crypted), d->pwd))
 			{
 				SEND_TO_Q("Passwords don't match.\n\r", d);
 				SEND_TO_Q("Retype password: ", d);
