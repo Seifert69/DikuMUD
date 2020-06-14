@@ -82,7 +82,7 @@ void assume(int faktisk, int antal, int place, char *errmsg)
 		printf("Error has occured at #%d.\n\r", place);
 		printf("Message is : %s\n\r", errmsg);
 		printf("Actual number read is %d\n\r", faktisk);
-		exit();
+		exit(1);
 	}
 }
 
@@ -113,7 +113,7 @@ struct index_data *generate_indices(FILE *fl, int *top)
 						(i + 1) * sizeof(struct index_data))))
 					{
 						printf("load indices");
-						exit();
+						exit(1);
 			 		}
 				antal = sscanf(buf, "#%d", &index[i].virtual);
 				assume(antal, 1, index[i].virtual, "Next string with E/A/$");
@@ -132,7 +132,7 @@ struct index_data *generate_indices(FILE *fl, int *top)
 			printf("Error when generating index, based upon #xxxx numbers.\n\r");
 			printf("   Probably error at end of file.\n\r");
 
-			exit();
+			exit(1);
 		}
 	}
 	index[i-1].number = -1;
@@ -347,7 +347,7 @@ void check_zones(FILE *fl)
 					break;
 				deafult  :
 					printf("Illegal command type");
-					exit();
+					exit(1);
 					break;
 			}
 					
@@ -457,7 +457,7 @@ void check_mobile(FILE *fl)
 			printf("Detailed monsters can't be syntax-checked (yet).\n\r");
 			assume(0,1,virtual_nr, "DETAIL ERROR");
 
-			exit();
+			exit(1);
 			/*   ***************************
 			fscanf(fl, " %ld ", &tmp);
 			mob->abilities.str = tmp;
@@ -671,13 +671,13 @@ char *fread_string(FILE *fl)
 		if (!fgets(tmp, MAX_STRING_LENGTH, fl))
 		{
 			printf("fread_str");
-			exit();
+			exit(1);
 		}
 
 		if (strlen(tmp) + strlen(buf) > MAX_STRING_LENGTH)
 		{
 			printf("fread_string: string too large (db.c, fread_string)");
-			exit();
+			exit(1);
 		}
 		else
 			strcat(buf, tmp);
@@ -720,28 +720,28 @@ int main(int argc, char *argv[])
 	if (!(wld_f = fopen(name, "r")))
 	{
 		printf("Could not open world file.\n\r");
-		exit();
+		exit(1);
 	}
 	strcpy(name, argv[1]);
 	strcat(name, ".mob");
 	if (!(mob_f = fopen(name, "r")))
 	{
 		printf("Could not open mobile file.\n\r");
-		exit();
+		exit(1);
 	}
 	strcpy(name, argv[1]);
 	strcat(name, ".obj");
 	if (!(obj_f = fopen(name, "r")))
 	{
 		printf("Could not open object file.\n\r");
-		exit();
+		exit(1);
 	}
 	strcpy(name, argv[1]);
 	strcat(name, ".zon");
 	if (!(zon_f = fopen(name, "r")))
 	{
 		printf("Could not open zone file.\n\r");
-		exit();
+		exit(1);
 	}
 
 	
