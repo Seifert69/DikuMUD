@@ -329,7 +329,7 @@ int game_loop(int s)
 			next_point = point->next;
 			if (FD_ISSET(point->descriptor, &input_set))
 	 			if (process_input(point) < 0) 
-			close_socket(point);
+					close_socket(point);
  		}
 
 		/* process_commands; */
