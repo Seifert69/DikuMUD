@@ -331,11 +331,12 @@ int dump(struct char_data *ch, int cmd, char *arg)
 	for(k = world[ch->in_room].contents; k ; k = world[ch->in_room].contents)
 	{
 		sprintf(buf, "The %s vanish in a puff of smoke.\n\r",fname(k->name));
-		for(tmp_char = world[ch->in_room].people; tmp_char;
-			tmp_char = tmp_char->next_in_room)
+		for(tmp_char = world[ch->in_room].people; tmp_char; 
+				tmp_char = tmp_char->next_in_room) {
 			if (CAN_SEE_OBJ(tmp_char, k))
-				send_to_char(buf,tmp_char);
+				send_to_char(buf, tmp_char);
 			value += MAX(1, MIN(50, k->obj_flags.cost/10));
+		}
 
 		extract_obj(k);
 	}

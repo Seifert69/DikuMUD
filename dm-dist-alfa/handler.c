@@ -1290,9 +1290,9 @@ int generic_find(char *arg, int bitvector, struct char_data *ch,
 				*tar_obj = ch->equipment[i];
 				found = TRUE;
 			}
-			if (found) {
-				return(FIND_OBJ_EQUIP);
-			}
+		if (found) {
+			return(FIND_OBJ_EQUIP);
+		}
 	}
 
 	if (IS_SET(bitvector, FIND_OBJ_INV)) {

@@ -1035,7 +1035,7 @@ void do_force(struct char_data *ch, char *argument, int cmd)
 			}
 		}
 	} else { /* force all */
-    for (i = descriptor_list; i; i = i->next)
+		for (i = descriptor_list; i; i = i->next)
 			if (i->character != ch && !i->connected) {
 				vict = i->character;
 				if (GET_LEVEL(ch) < GET_LEVEL(vict))
@@ -1046,7 +1046,7 @@ void do_force(struct char_data *ch, char *argument, int cmd)
 					command_interpreter(vict, to_force);
 				}
 			}
-			send_to_char("Ok.\n\r", ch);
+		send_to_char("Ok.\n\r", ch);
 	}
 }
 
