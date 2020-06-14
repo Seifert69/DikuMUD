@@ -1918,7 +1918,7 @@ int compare(struct player_index_element *arg1, struct player_index_element
 /* read and allocate space for a '~'-terminated string from a given file */
 char *fread_string(FILE *fl)
 {
-	char buf[MAX_STRING_LENGTH], tmp[500];
+	char buf[MAX_STRING_LENGTH], tmp[MAX_STRING_LENGTH];
 	char *rslt;
 	register char *point;
 	int flag;
