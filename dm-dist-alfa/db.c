@@ -1939,7 +1939,7 @@ char *fread_string(FILE *fl)
 			exit(0);
 		}
 		else
-			strcat(buf, tmp);
+			strncat(buf, tmp, MAX_STRING_LENGTH-1);
 
 		for (point = buf + strlen(buf) - 2; point >= buf && isspace(*point);
 			point--);		
