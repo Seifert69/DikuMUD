@@ -182,7 +182,7 @@ int init_socket(int port)
 		perror("setsockopt LINGER");
 		exit();
 	}
-	if (bind(s, &sa, sizeof(sa), 0) < 0)
+	if (bind(s, &sa, sizeof(sa)) < 0)
 	{
 		perror("bind");
 		close(s);
