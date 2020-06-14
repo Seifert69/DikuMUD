@@ -196,7 +196,7 @@ void board_load_board() {
 	board_reset_board();
 	the_file = fopen(SAVE_FILE, "rb");
 	if (!the_file) {
-		error_log("Can't open message file. Board will be empty.\n\r",0);
+		error_log("Can't open message file. Board will be empty.\n\r");
 		return;
 	}
 	fread(&msg_num, sizeof(int), 1, the_file);
