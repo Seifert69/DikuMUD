@@ -544,7 +544,6 @@ void flush_queues(struct descriptor_data *d)
 int init_socket(int port)
 {
 	int s;
-	char *opt;
 	char hostname[MAX_HOSTNAME+1];
 	struct sockaddr_in sa;
 	struct hostent *hp;
@@ -566,8 +565,8 @@ int init_socket(int port)
 		perror("Init-socket");
 		exit(1);
  	}
-	if (setsockopt (s, SOL_SOCKET, SO_REUSEADDR,
-		(char *) &opt, sizeof (opt)) < 0) 
+	int enable = 1;
+	if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
 	{
 		perror ("setsockopt REUSEADDR");
 		exit (1);
