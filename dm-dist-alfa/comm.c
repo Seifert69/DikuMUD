@@ -1134,7 +1134,7 @@ void send_to_room_except_two
 void act(char *str, int hide_invisible, struct char_data *ch,
 	struct obj_data *obj, void *vict_obj, int type)
 {
-	register char *strp, *point, *i;
+	register char *strp, *point, *i = NULL;
 	struct char_data *to;
 	char buf[MAX_STRING_LENGTH];
 

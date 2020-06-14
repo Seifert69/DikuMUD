@@ -419,7 +419,7 @@ void build_player_index(void)
 struct index_data *generate_indices(FILE *fl, int *top)
 {
 	int i = 0;
-	struct index_data *index;
+	struct index_data *index = NULL;
 	long pos;
 	char buf[82];
 
@@ -1332,7 +1332,7 @@ void reset_zone(int zone)
 {
 	int cmd_no, last_cmd = 1;
 	char buf[256];
-	struct char_data *mob;
+	struct char_data *mob = NULL;
 	struct obj_data *obj, *obj_to;
 
 	for (cmd_no = 0;;cmd_no++)
