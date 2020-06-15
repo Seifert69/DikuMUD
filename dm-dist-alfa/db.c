@@ -1904,7 +1904,7 @@ void save_char(struct char_data *ch, sh_int load_room)
 int compare(struct player_index_element *arg1, struct player_index_element 
 	*arg2)
 {
-	return (str_cmp(arg1->name, arg2->name));
+	return (strcasecmp(arg1->name, arg2->name));
 }
 
 

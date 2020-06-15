@@ -176,7 +176,7 @@ void do_steal(struct char_data *ch, char *argument, int cmd)
 	if (GET_LEVEL(victim)>20) /* NO NO With Imp's and Shopkeepers! */
 		percent = 101; /* Failure */
 
-	if (str_cmp(obj_name, "coins") && str_cmp(obj_name,"gold")) {
+	if (strcasecmp(obj_name, "coins") && strcasecmp(obj_name,"gold")) {
 
 		if (!(obj = get_obj_in_list_vis(victim, obj_name, victim->carrying))) {
 

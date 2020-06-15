@@ -634,14 +634,14 @@ void do_cast(struct char_data *ch, char *argument, int cmd)
 
 					if (!target_ok && IS_SET(spell_info[spl].targets, TAR_OBJ_EQUIP)) {
 						for(i=0; i<MAX_WEAR && !target_ok; i++)
-							if (ch->equipment[i] && str_cmp(name, ch->equipment[i]->name) == 0) {
+							if (ch->equipment[i] && strcasecmp(name, ch->equipment[i]->name) == 0) {
 								tar_obj = ch->equipment[i];
 								target_ok = TRUE;
 							}
 					}
 
 					if (!target_ok && IS_SET(spell_info[spl].targets, TAR_SELF_ONLY))
-						if (str_cmp(GET_NAME(ch), name) == 0) {
+						if (strcasecmp(GET_NAME(ch), name) == 0) {
 							tar_char = ch;
 							target_ok = TRUE;
 						}

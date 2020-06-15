@@ -34,7 +34,6 @@ extern bool wizlock;
 extern void slog(char *msg);
 
 void set_title(struct char_data *ch);
-int str_cmp(char *arg1, char *arg2);
 char *skip_spaces(char *string);
 struct time_info_data age(struct char_data *ch);
 void sprinttype(int type, char *names[], char *result);
@@ -288,12 +287,12 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 		send_to_char("'skill' or 'value' expected.\n\r", ch);
 		return;
 	}
-	if (str_cmp(buf,"skill") && str_cmp(buf,"s") && str_cmp(buf,"value") && str_cmp(buf,"v"))
+	if (strcasecmp(buf, "skill") && strcasecmp(buf, "s") && strcasecmp(buf, "value") && strcasecmp(buf, "v"))
 	{
 		send_to_char("'skill' or 'value' expected.\n\r", ch);
 		return;
 	}
-	if (!str_cmp(buf,"skill") || !str_cmp(buf,"s"))
+	if (!strcasecmp(buf, "skill") || !strcasecmp(buf, "s"))
 	/* This is a skill */
 	{
 
@@ -350,7 +349,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 			send_to_char("Learned value expected.\n\r", ch);
 			return;
 		}
-		if (str_cmp(buf,"y") && str_cmp(buf,"n"))
+		if (strcasecmp(buf, "y") && strcasecmp(buf, "n"))
 		{
 			send_to_char("Recognice value must be 'y' or 'n'", ch);
 			return;
@@ -358,7 +357,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 		sprintf(buf2,"%s changes %s's %s to %d,%s.",GET_NAME(ch),GET_NAME(vict),
 		        spells[skill],value,buf);
 		vict->skills[skill].learned = value;
-		vict->skills[skill].recognise = (!str_cmp(buf,"y"));
+		vict->skills[skill].recognise = (!strcasecmp(buf, "y"));
 	} else {
 		/* it is another value */
 		argument = one_argument(argument,buf);
@@ -398,7 +397,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 			break;
 			case 1: /* sex */
 			{
-				if (str_cmp(buf,"m") && str_cmp(buf,"f") && str_cmp(buf,"n"))
+				if (strcasecmp(buf, "m") && strcasecmp(buf, "f") && strcasecmp(buf, "n"))
 				{
 					send_to_char("Sex must be 'm','f' or 'n'.\n\r", ch);
 					return;
@@ -414,8 +413,8 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 			break;
 			case 2: /* class */
 			{
-				if (str_cmp(buf,"m") && str_cmp(buf,"c") && 
-				    str_cmp(buf,"w") && str_cmp(buf,"t"))
+				if (strcasecmp(buf, "m") && strcasecmp(buf, "c") &&
+				    strcasecmp(buf, "w") && strcasecmp(buf, "t"))
 				{
 					send_to_char("Class must be 'm','c','w' or 't'.\n\r", ch);
 					return;

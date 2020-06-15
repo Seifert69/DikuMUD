@@ -289,7 +289,7 @@ void do_string(struct char_data *ch, char *arg, int cmd)
 						send_to_char("New field.\n\r", ch);
 						break;
 					}
-					else if (!str_cmp(ed->keyword, string)) /* the field exists */
+					else if (!strcasecmp(ed->keyword, string)) /* the field exists */
 					{
 						free(ed->description);
 						ed->description = 0;
@@ -314,7 +314,7 @@ void do_string(struct char_data *ch, char *arg, int cmd)
 						send_to_char("No field with that keyword.\n\r", ch);
 						return;
 					}
-					else if (!str_cmp(ed->keyword, string))
+					else if (!strcasecmp(ed->keyword, string))
 					{
 						free(ed->keyword);
 						if (ed->description)
@@ -470,7 +470,7 @@ struct help_index_element *build_help_index(FILE *fl, int *num)
 	{
 		issorted = 1;
 		for (i = 0; i < nr; i++)
-			if (str_cmp(list[i].keyword, list[i + 1].keyword) > 0)
+			if (strcasecmp(list[i].keyword, list[i + 1].keyword) > 0)
 			{
 				mem = list[i];
 				list[i] = list[i + 1];

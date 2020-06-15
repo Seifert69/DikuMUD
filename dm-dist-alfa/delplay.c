@@ -8,15 +8,6 @@
 #define TOLOWER(c)  (((c)>='A'  && (c) <= 'Z') ? ((c)+('a'-'A')) : (c))
 
 
-int str_cmp(char *str1, char *str2)
-{
-	for (; *str1 || *str2; str1++, str2++)
-		if (TOLOWER(*str1) != TOLOWER(*str2))
-			return(1);
-
-	return(0);
-}
-
 void del(char *filename, int name)
 {
 	char confirm[80];
@@ -45,7 +36,7 @@ void del(char *filename, int name)
 		if (num == name) {
 			printf("Confirm deletion of [%s] by typeing Yes: ", player.name);
 			scanf("%s", confirm);
-			if (str_cmp("Yes", confirm)) {
+			if (strcasecmp("Yes", confirm)) {
 				printf("Aborted delete.\n");
 				exit(1);
 			} else {

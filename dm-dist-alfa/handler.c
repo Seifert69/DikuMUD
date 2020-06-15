@@ -25,7 +25,6 @@ extern struct descriptor_data *descriptor_list;
 /* External procedures */
 extern void slog(char *str);
 
-int str_cmp(char *arg1, char *arg2);
 void free_char(struct char_data *ch);
 void stop_fighting(struct char_data *ch);
 void remove_follower(struct char_data *ch);
@@ -1286,7 +1285,7 @@ int generic_find(char *arg, int bitvector, struct char_data *ch,
 
 	if (IS_SET(bitvector, FIND_OBJ_EQUIP)) {
 		for(found=FALSE, i=0; i<MAX_WEAR && !found; i++)
-			if (ch->equipment[i] && str_cmp(name, ch->equipment[i]->name) == 0) {
+			if (ch->equipment[i] && strcasecmp(name, ch->equipment[i]->name) == 0) {
 				*tar_obj = ch->equipment[i];
 				found = TRUE;
 			}

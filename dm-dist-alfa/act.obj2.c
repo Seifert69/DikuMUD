@@ -280,7 +280,7 @@ void do_pour(struct char_data *ch, char *argument, int cmd)
 		return;
 	}
 
-	if(!str_cmp(arg2,"out"))
+	if(!strcasecmp(arg2,"out"))
 	{
 		act("$n empties $p", TRUE, ch,from_obj,0,TO_ROOM);
 		act("You empty the $p.", FALSE, ch,from_obj,0,TO_CHAR);

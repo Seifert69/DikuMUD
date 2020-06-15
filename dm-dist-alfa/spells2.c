@@ -273,13 +273,13 @@ void cast_control_weather( byte level, struct char_data *ch, char *arg, int type
 
 			one_argument(arg,buffer);
 
-			if (str_cmp("better",buffer) && str_cmp("worse",buffer))
+			if (strcasecmp("better",buffer) && strcasecmp("worse",buffer))
 			{
 				send_to_char("Do you want it to get better or worse?\n\r",ch);
 				return;
 			}
 
-			if(!str_cmp("better",buffer))
+			if(!strcasecmp("better",buffer))
 				weather_info.change+=(dice(((level)/3),4));
 			else
 				weather_info.change-=(dice(((level)/3),4)); 

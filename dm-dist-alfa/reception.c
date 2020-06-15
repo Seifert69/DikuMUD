@@ -28,7 +28,6 @@ extern void slog(char *msg);
 
 void store_to_char(struct char_file_u *st, struct char_data *ch);
 void do_tell(struct char_data *ch, char *argument, int cmd);
-int str_cmp(char *arg1, char *arg2);
 void clear_char(struct char_data *ch);
 
 
@@ -199,7 +198,7 @@ void load_char_objs(struct char_data *ch)
 
 	while (!feof(fl) && !found) {
 		pos += fread(&st, sizeof(struct obj_file_u), 1, fl);
-		found = !str_cmp(st.owner, GET_NAME(ch));
+		found = !strcasecmp(st.owner, GET_NAME(ch));
 	}
 
 	if (found) {

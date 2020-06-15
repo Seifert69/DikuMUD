@@ -32,7 +32,6 @@ extern struct wis_app_type wis_app[26];
 extern void slog(char *str);
 
 void set_title(struct char_data *ch);
-int str_cmp(char *arg1, char *arg2);
 struct time_info_data age(struct char_data *ch);
 void sprinttype(int type, char *names[], char *result);
 void sprintbit(long vektor, char *names[], char *result);
@@ -109,7 +108,7 @@ void do_trans(struct char_data *ch, char *argument, int cmd)
 	one_argument(argument,buf);
 	if (!*buf)
 		send_to_char("Who do you wich to transfer?\n\r",ch);
-	else if (str_cmp("all", buf)) {
+	else if (strcasecmp("all", buf)) {
 		if (!(victim = get_char_vis(ch,buf)))
 			send_to_char("No-one by that name around.\n\r",ch);
 		else {
@@ -331,7 +330,7 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
 		return;
 	} else {
 		/* stats on room */
-		if (!str_cmp("room", arg1)) {
+		if (!strcasecmp("room", arg1)) {
 			rm = &world[ch->in_room];
 			sprintf(buf, "Room name: %s, Of zone : %d. V-Number : %d, R-number : %d\n\r",
 			        rm->name, rm->zone, rm->number, ch->in_room);
@@ -846,7 +845,7 @@ void do_shutdown(struct char_data *ch, char *argument, int cmd)
 		slog(buf);
 		shutting_down = 1;
 	}
-	else if (!str_cmp(arg, "reboot"))
+	else if (!strcasecmp(arg, "reboot"))
 	{
 		sprintf(buf, "Reboot by %s.", GET_NAME(ch));
 		send_to_all(buf);
@@ -1020,7 +1019,7 @@ void do_force(struct char_data *ch, char *argument, int cmd)
 
 	if (!*name || !*to_force)
 		 send_to_char("Who do you wish to force to do what?\n\r", ch);
-	else if (str_cmp("all", name)) {
+	else if (strcasecmp("all", name)) {
 		if (!(vict = get_char_vis(ch, name)))
 			send_to_char("No-one by that name here..\n\r", ch);
 		else

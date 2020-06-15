@@ -598,7 +598,7 @@ void do_enter(struct char_data *ch, char *argument, int cmd)
 		for (door = 0; door <= 5; door++)
 			if (EXIT(ch, door))
 				if (EXIT(ch, door)->keyword)
-					if (!str_cmp(EXIT(ch, door)->keyword, buf))
+					if (!strcasecmp(EXIT(ch, door)->keyword, buf))
 					{
 						do_move(ch, "", ++door);
 						return;
