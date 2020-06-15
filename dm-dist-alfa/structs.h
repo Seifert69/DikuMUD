@@ -694,7 +694,7 @@ struct descriptor_data
 {
 	int descriptor;	            /* file descriptor for socket */
 	char host[50];                /* hostname                   */
-	char pwd[12];                 /* password                   */
+	char pwd[CRYPT_OUTPUT_SIZE+1];/* password                   */
 	int pos;                      /* position in player-file    */
 	int connected;                /* mode of 'connectedness'    */
 	int wait;                     /* wait for how many loops    */
