@@ -23,7 +23,7 @@ extern struct index_data *obj_index;
 extern struct descriptor_data *descriptor_list;
 
 /* External procedures */
-extern void log_message(char *str);
+extern void slog(char *str);
 
 int str_cmp(char *arg1, char *arg2);
 void free_char(struct char_data *ch);
@@ -191,7 +191,7 @@ void affect_modify(struct char_data *ch, byte loc, byte mod, long bitv, bool add
 			break;
 
 		default:
-			log_message("Unknown apply adjust attempt (handler.c, affect_modify).");
+			slog("Unknown apply adjust attempt (handler.c, affect_modify).");
 			break;
 
 	} /* switch */
@@ -297,7 +297,7 @@ void affect_remove( struct char_data *ch, struct affected_type *af )
 		for(hjp = ch->affected; (hjp->next) && (hjp->next != af); hjp = hjp->next);
 
 		if (hjp->next != af) {
-			log_message("FATAL : Could not locate affected_type in ch->affected. (handler.c, affect_remove)");
+			slog("FATAL : Could not locate affected_type in ch->affected. (handler.c, affect_remove)");
 			exit(1);
 		}
 		hjp->next = af->next; /* skip the af element */
@@ -370,7 +370,7 @@ void char_from_room(struct char_data *ch)
 	struct char_data *i;
 
 	if (ch->in_room == NOWHERE) {
-		log_message("NOWHERE extracting char from room (handler.c, char_from_room)");
+		slog("NOWHERE extracting char from room (handler.c, char_from_room)");
 		exit(1);
 	}
 
@@ -486,12 +486,12 @@ void equip_char(struct char_data *ch, struct obj_data *obj, int pos)
 	assert(!(ch->equipment[pos]));
 
 	if (obj->carried_by) {
-		log_message("EQUIP: Obj is carried_by when equip.");
+		slog("EQUIP: Obj is carried_by when equip.");
 		return;
 	}
 
 	if (obj->in_room!=NOWHERE) {
-		log_message("EQUIP: Obj is in_room when equip.");
+		slog("EQUIP: Obj is in_room when equip.");
 		return;
 	}
 
@@ -505,7 +505,7 @@ void equip_char(struct char_data *ch, struct obj_data *obj, int pos)
 			obj_to_room(obj, ch->in_room);
 			return;
 		} else {
-			log_message("ch->in_room = NOWHERE when equipping char.");
+			slog("ch->in_room = NOWHERE when equipping char.");
 		}
 	}
 
@@ -919,7 +919,7 @@ void extract_char(struct char_data *ch)
 	if (ch->in_room == NOWHERE) {
       /* leaves nothing ! */
 
-		log_message("NOWHERE, extracting char.");
+		slog("NOWHERE, extracting char.");
 		exit(1);
 	}
 
@@ -997,7 +997,7 @@ void extract_char(struct char_data *ch)
 		if(k)
 			k->next = ch->next;
 		else {
-			log_message("Trying to remove ?? from character_list. (handler.c, extract_char)");
+			slog("Trying to remove ?? from character_list. (handler.c, extract_char)");
 			abort();
 		}
 	}
@@ -1161,7 +1161,7 @@ struct obj_data *create_money( int amount )
 
 	if(amount<=0)
 	{
-		log_message("ERROR: Try to create negative money.");
+		slog("ERROR: Try to create negative money.");
 		exit(1);
 	}
 

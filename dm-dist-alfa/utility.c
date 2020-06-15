@@ -95,7 +95,7 @@ int strn_cmp(char *arg1, char *arg2, int n)
 
 
 /* writes a string to the log */
-void log_message(char *str)
+void slog(char *str)
 {
 	long ct;
 	char *tmstr;

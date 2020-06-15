@@ -22,7 +22,7 @@ extern struct descriptor_data *descriptor_list;
 extern struct room_data *world;
 
 /* extern functions */
-extern void log_message(char *str);
+extern void slog(char *str);
 
 void parse_string(char *input, char *output, struct char_data *ch1,
 	struct char_data *ch2, struct char_data *to);
@@ -74,7 +74,7 @@ char *fread_action(FILE *fl)
 		fgets(buf, MAX_STRING_LENGTH, fl);
 		if (feof(fl))
 		{
-			log_message("Fread_action - unexpected EOF.");
+			slog("Fread_action - unexpected EOF.");
 			exit(0);
 		}
 

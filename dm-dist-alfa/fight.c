@@ -29,7 +29,7 @@ extern struct message_list fight_messages[MAX_MESSAGES];
 extern struct obj_data  *object_list;
 
 /* External procedures */
-extern void log_message(char *msg);
+extern void slog(char *msg);
 extern char *str_duplicate(char *source);
 
 char *fread_string(FILE *f1);
@@ -97,7 +97,7 @@ void load_messages(void)
 		for (i = 0; (i < MAX_MESSAGES) && (fight_messages[i].a_type!=type) &&
 			(fight_messages[i].a_type); i++);
 		if(i>=MAX_MESSAGES){
-			log_message("Too many combat messages.");
+			slog("Too many combat messages.");
 			exit(0);
 		}
 
@@ -173,7 +173,7 @@ void stop_fighting(struct char_data *ch)
 		for (tmp = combat_list; tmp && (tmp->next_fighting != ch); 
 			tmp = tmp->next_fighting);
 		if (!tmp) {
-			log_message("Char fighting not found Error (fight.c, stop_fighting)");
+			slog("Char fighting not found Error (fight.c, stop_fighting)");
 			abort();
 		}
 		tmp->next_fighting = ch->next_fighting;
@@ -665,7 +665,7 @@ void damage(struct char_data *ch, struct char_data *victim,
 				GET_NAME(victim),
 				(IS_NPC(ch) ? ch->player.short_descr : GET_NAME(ch)),
 				world[victim->in_room].name);
-			log_message(buf);
+			slog(buf);
 		}
 		die(victim);
 	}
@@ -689,7 +689,7 @@ void hit(struct char_data *ch, struct char_data *victim, int type)
 	extern struct dex_app_type dex_app[];
 
 	if (ch->in_room != victim->in_room) {
-		log_message("NOT SAME ROOM WHEN FIGHTING!");
+		slog("NOT SAME ROOM WHEN FIGHTING!");
 		return;
 	}
 

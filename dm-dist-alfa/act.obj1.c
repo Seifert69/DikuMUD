@@ -25,7 +25,7 @@ extern struct room_data *world;
 /* extern functions */
 
 struct obj_data *create_money( int amount );
-extern void log_message(char *str);
+extern void slog(char *str);
 
 
 /* procedures related to get */
@@ -525,7 +525,7 @@ void do_give(struct char_data *ch, char *argument, int cmd)
 			GET_GOLD(ch)-=amount;
 		if ((GET_LEVEL(ch) > 20) && (!IS_NPC(ch)) && (!IS_NPC(vict))) {
 			sprintf(buf,"%s gives %s %d gold coins.",GET_NAME(ch),GET_NAME(vict),amount);
-			log_message(buf);
+			slog(buf);
 		}
 		GET_GOLD(vict)+=amount;
 		return;
