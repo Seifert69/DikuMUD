@@ -26,10 +26,11 @@ extern char *drinks[];
 extern int drink_aff[][3];
 
 /* extern functions */
+extern void log_message(char *str);
 
 struct obj_data *get_object_in_equip_vis(struct char_data *ch,
                          char *arg, struct obj_data **equipment, int *j);
-char *strdup(char *source);
+char *str_duplicate(char *source);
 
 
 
@@ -50,7 +51,7 @@ void weight_change_object(struct obj_data *obj, int weight)
 		GET_OBJ_WEIGHT(obj) += weight;
 		obj_to_obj(obj, tmp_obj);
 	} else {
-		log("Unknown attempt to subtract weight from an object.");
+		log_message("Unknown attempt to subtract weight from an object.");
 	}
 }
 
@@ -242,7 +243,7 @@ void do_pour(struct char_data *ch, char *argument, int cmd)
 {
 	char arg1[MAX_STRING_LENGTH];
 	char arg2[MAX_STRING_LENGTH];
-	char buf[MAX_STRING_LENGTH];
+	char buf[MAX_STRING_LENGTH+24];
 	struct obj_data *from_obj;
 	struct obj_data *to_obj;
 	int amount;
@@ -504,7 +505,7 @@ void do_taste(struct char_data *ch, char *argument, int cmd)
 
 /* functions related to wear */
 
-perform_wear(struct char_data *ch, struct obj_data *obj_object, int keyword)
+void perform_wear(struct char_data *ch, struct obj_data *obj_object, int keyword)
 {
 	char buffer[MAX_STRING_LENGTH];
 	struct char_data *i;
@@ -826,7 +827,7 @@ void wear(struct char_data *ch, struct obj_data *obj_object, int keyword)
 			send_to_char(buffer, ch);
 		} break;
 		default: {
-			log("Unknown type called in wear.");
+			log_message("Unknown type called in wear.");
 		} break;
 	}
 }
@@ -835,8 +836,8 @@ void wear(struct char_data *ch, struct obj_data *obj_object, int keyword)
 void do_wear(struct char_data *ch, char *argument, int cmd) {
 char arg1[MAX_STRING_LENGTH];
 char arg2[MAX_STRING_LENGTH];
-char buf[256];
-char buffer[MAX_STRING_LENGTH];
+char buf[256+3871];
+char buffer[MAX_STRING_LENGTH+34];
 struct obj_data *obj_object;
 int keyword;
 static char *keywords[] = {
@@ -897,7 +898,7 @@ static char *keywords[] = {
 void do_wield(struct char_data *ch, char *argument, int cmd) {
 char arg1[MAX_STRING_LENGTH];
 char arg2[MAX_STRING_LENGTH];
-char buffer[MAX_STRING_LENGTH];
+char buffer[MAX_STRING_LENGTH+33];
 struct obj_data *obj_object;
 int keyword = 12;
 
@@ -920,7 +921,7 @@ void do_grab(struct char_data *ch, char *argument, int cmd)
 {
 	char arg1[MAX_STRING_LENGTH];
 	char arg2[MAX_STRING_LENGTH];
-	char buffer[MAX_STRING_LENGTH];
+	char buffer[MAX_STRING_LENGTH+33];
 	struct obj_data *obj_object;
 	int keyword = 13;
 

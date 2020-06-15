@@ -21,6 +21,7 @@ extern struct room_data *world;
 extern struct char_data *character_list;
 
 /* Extern functions */
+extern void log_message(char *msg);
 
 void spell_burning_hands(byte level, struct char_data *ch, 
   struct char_data *victim, struct obj_data *obj);
@@ -55,7 +56,7 @@ void cast_burning_hands( byte level, struct char_data *ch, char *arg, int type,
 			spell_burning_hands(level, ch, victim, 0); 
 			break;
     default : 
-      log("Serious screw-up in burning hands!");
+      log_message("Serious screw-up in burning hands!");
       break;
 	}
 }
@@ -95,7 +96,7 @@ void cast_call_lightning( byte level, struct char_data *ch, char *arg, int type,
 			}
 			break;
       default : 
-         log("Serious screw-up in call lightning!");
+         log_message("Serious screw-up in call lightning!");
          break;
 	}
 }
@@ -109,7 +110,7 @@ void cast_chill_touch( byte level, struct char_data *ch, char *arg, int type,
 			spell_chill_touch(level, ch, victim, 0);
 			break;
       default : 
-         log("Serious screw-up in chill touch!");
+         log_message("Serious screw-up in chill touch!");
          break;
 	}
 }
@@ -123,7 +124,7 @@ void cast_shocking_grasp( byte level, struct char_data *ch, char *arg, int type,
 			spell_shocking_grasp(level, ch, victim, 0);
 			break;
       default : 
-         log("Serious screw-up in shocking grasp!");
+         log_message("Serious screw-up in shocking grasp!");
          break;
 	}
 }
@@ -147,7 +148,7 @@ void cast_colour_spray( byte level, struct char_data *ch, char *arg, int type,
             spell_colour_spray(level, ch, victim, 0);
          break;
     default : 
-         log("Serious screw-up in colour spray!");
+         log_message("Serious screw-up in colour spray!");
          break;
 	}
 }
@@ -163,7 +164,7 @@ void cast_earthquake( byte level, struct char_data *ch, char *arg, int type,
 			spell_earthquake(level, ch, 0, 0);
 	      break;
     default : 
-         log("Serious screw-up in earthquake!");
+         log_message("Serious screw-up in earthquake!");
          break;
 	}
 }
@@ -196,7 +197,7 @@ void cast_energy_drain( byte level, struct char_data *ch, char *arg, int type,
                spell_energy_drain(level, ch, victim, 0);
          break;
     default : 
-         log("Serious screw-up in energy drain!");
+         log_message("Serious screw-up in energy drain!");
          break;
 	}
 }
@@ -220,7 +221,7 @@ void cast_fireball( byte level, struct char_data *ch, char *arg, int type,
 				spell_fireball(level, ch, victim, 0);
          break;
     default : 
-         log("Serious screw-up in fireball!");
+         log_message("Serious screw-up in fireball!");
          break;
 
 	}
@@ -244,7 +245,7 @@ void cast_harm( byte level, struct char_data *ch, char *arg, int type,
                spell_harm(level, ch, victim, 0);
          break;
     default : 
-         log("Serious screw-up in harm!");
+         log_message("Serious screw-up in harm!");
          break;
 
   }
@@ -269,7 +270,7 @@ void cast_lightning_bolt( byte level, struct char_data *ch, char *arg, int type,
 				spell_lightning_bolt(level, ch, victim, 0);
          break;
     default : 
-         log("Serious screw-up in lightning bolt!");
+         log_message("Serious screw-up in lightning bolt!");
          break;
 
   }
@@ -294,7 +295,7 @@ void cast_magic_missile( byte level, struct char_data *ch, char *arg, int type,
 				spell_magic_missile(level, ch, victim, 0);
          break;
     default : 
-         log("Serious screw-up in magic missile!");
+         log_message("Serious screw-up in magic missile!");
          break;
 
   }

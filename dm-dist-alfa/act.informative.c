@@ -935,7 +935,7 @@ void do_help(struct char_data *ch, char *argument, int cmd)
 
 
 
-do_wizhelp(struct char_data *ch, char *argument, int cmd)
+void do_wizhelp(struct char_data *ch, char *argument, int cmd)
 {
 	char buf[MAX_STRING_LENGTH];
 	int no, i;

@@ -22,6 +22,7 @@ extern struct descriptor_data *descriptor_list;
 extern struct room_data *world;
 
 /* extern functions */
+extern void log_message(char *str);
 
 void parse_string(char *input, char *output, struct char_data *ch1,
 	struct char_data *ch2, struct char_data *to);
@@ -73,7 +74,7 @@ char *fread_action(FILE *fl)
 		fgets(buf, MAX_STRING_LENGTH, fl);
 		if (feof(fl))
 		{
-			log("Fread_action - unexpected EOF.");
+			log_message("Fread_action - unexpected EOF.");
 			exit(0);
 		}
 
@@ -322,7 +323,7 @@ void boot_pose_messages(void)
 }
 
 
-do_pose(struct char_data *ch, char *argument, int cmd)
+void do_pose(struct char_data *ch, char *argument, int cmd)
 {
 	byte to_pose;
 	byte counter;

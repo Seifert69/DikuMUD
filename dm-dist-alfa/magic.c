@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 #include "structs.h"
 #include "utils.h"
 #include "comm.h"
@@ -19,12 +20,13 @@ extern struct obj_data  *object_list;
 extern struct char_data *character_list;
 
 /* Extern procedures */
+extern void do_look(struct char_data *ch, char *argument, int cmd);
 
 void damage(struct char_data *ch, struct char_data *victim,
             int damage, int weapontype);
 bool saves_spell(struct char_data *ch, sh_int spell);
 void weight_change_object(struct obj_data *obj, int weight);
-char *strdup(char *source);
+char *str_duplicate(char *source);
 int dice(int number, int size);
 
 
@@ -490,9 +492,9 @@ void spell_create_food(byte level, struct char_data *ch,
   CREATE(tmp_obj, struct obj_data, 1);
   clear_object(tmp_obj);
 
-  tmp_obj->name = strdup("mushroom");
-  tmp_obj->short_description = strdup("A Magic Mushroom");
-  tmp_obj->description = strdup("A really delicious looking magic mushroom lies here.");
+  tmp_obj->name = str_duplicate("mushroom");
+  tmp_obj->short_description = str_duplicate("A Magic Mushroom");
+  tmp_obj->description = str_duplicate("A really delicious looking magic mushroom lies here.");
 
   tmp_obj->obj_flags.type_flag = ITEM_FOOD;
   tmp_obj->obj_flags.wear_flags = ITEM_TAKE | ITEM_HOLD;
@@ -1205,7 +1207,7 @@ void spell_sense_life(byte level, struct char_data *ch,
 void spell_identify(byte level, struct char_data *ch,
   struct char_data *victim, struct obj_data *obj)
 {
-  char buf[256], buf2[256];
+  char buf[256+25], buf2[256];
 	int i;
   bool found;
 

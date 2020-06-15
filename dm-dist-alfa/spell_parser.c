@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 #include "structs.h"
 #include "utils.h"
@@ -46,7 +47,7 @@ extern char *spell_wear_off_msg[];
 
 /* Extern procedures */
 
-char *strdup(char *str);
+char *str_duplicate(char *str);
 
 /* Extern procedures */
 void cast_armor( byte level, struct char_data *ch, char *arg, int si, struct char_data *tar_ch, struct obj_data *tar_obj);
@@ -249,16 +250,16 @@ void clone_char(struct char_data *ch)
 	clone->specials = ch->specials;
 	clone->specials.fighting = 0;
 
-	GET_NAME(clone) = strdup(GET_NAME(ch));
+	GET_NAME(clone) = str_duplicate(GET_NAME(ch));
 
-	clone->player.short_descr =	strdup(ch->player.short_descr);
+	clone->player.short_descr = str_duplicate(ch->player.short_descr);
 
-	clone->player.long_descr = strdup(ch->player.long_descr);
+	clone->player.long_descr = str_duplicate(ch->player.long_descr);
 
 	clone->player.description = 0;
 	/* REMEMBER EXTRA DESCRIPTIONS */
 
-	GET_TITLE(clone) = strdup(GET_TITLE(ch));
+	GET_TITLE(clone) = str_duplicate(GET_TITLE(ch));
 
 	clone->nr = ch->nr;
 
@@ -291,10 +292,10 @@ void clone_obj(struct obj_data *obj)
 
 	*clone = *obj;
 
-	clone->name               = strdup(obj->name);
-	clone->description        = strdup(obj->description);
-	clone->short_description  = strdup(obj->short_description);
-	clone->action_description = strdup(obj->action_description);
+	clone->name               = str_duplicate(obj->name);
+	clone->description        = str_duplicate(obj->description);
+	clone->short_description  = str_duplicate(obj->short_description);
+	clone->action_description = str_duplicate(obj->action_description);
 	clone->ex_description     = 0;
 
 	/* REMEMBER EXTRA DESCRIPTIONS */
@@ -402,10 +403,10 @@ void add_follower(struct char_data *ch, struct char_data *leader)
 
 
 
-say_spell( struct char_data *ch, int si )
+void say_spell( struct char_data *ch, int si )
 {
 	char buf[MAX_STRING_LENGTH], splwd[MAX_BUF_LENGTH];
-	char buf2[MAX_STRING_LENGTH];
+	char buf2[MAX_STRING_LENGTH+23];
 
 	int j, offs;
 	struct char_data *temp_char;

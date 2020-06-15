@@ -83,7 +83,7 @@ void load_messages(void);
 void weather_and_time ( int mode );
 void assign_command_pointers ( void );
 void assign_spell_pointers ( void );
-void log(char *str);
+void log_message(char *str);
 int dice(int number, int size);
 int number(int from, int to);
 void boot_social_messages(void);
@@ -103,12 +103,12 @@ void boot_db(void)
 	int i;
 	extern int no_specials;
 
-	log("Boot db -- BEGIN.");
+	log_message("Boot db -- BEGIN.");
 
-	log("Resetting the game time:");
+	log_message("Resetting the game time:");
 	reset_time();
 
-	log("Reading newsfile, credits, help-page, info and motd.");
+	log_message("Reading newsfile, credits, help-page, info and motd.");
 	file_to_string(NEWS_FILE, news);
 	file_to_string(CREDITS_FILE, credits);
 	file_to_string(MOTD_FILE, motd);
@@ -116,7 +116,7 @@ void boot_db(void)
 	file_to_string(INFO_FILE, info);
 	file_to_string(WIZLIST_FILE, wizlist);
 
-	log("Opening mobile, object and help files.");
+	log_message("Opening mobile, object and help files.");
 	if (!(mob_f = fopen(MOB_FILE, "r")))
 	{
 		perror("boot");
@@ -129,55 +129,55 @@ void boot_db(void)
 		exit(0);
 	}
 	if (!(help_fl = fopen(HELP_KWRD_FILE, "r")))
-      log("   Could not open help file.");
+		log_message("   Could not open help file.");
 	else 
 		help_index = build_help_index(help_fl, &top_of_helpt);
 
 
-	log("Loading zone table.");
+	log_message("Loading zone table.");
 	boot_zones();
 
-	log("Loading rooms.");
+	log_message("Loading rooms.");
 	boot_world();
-	log("Renumbering rooms.");
+	log_message("Renumbering rooms.");
 	renum_world();
 
-	log("Generating index tables for mobile and object files.");
+	log_message("Generating index tables for mobile and object files.");
 	mob_index = generate_indices(mob_f, &top_of_mobt);
 	obj_index = generate_indices(obj_f, &top_of_objt);
-			
-	log("Renumbering zone table.");
+
+	log_message("Renumbering zone table.");
 	renum_zone_table();
 
-	log("Generating player index.");
+	log_message("Generating player index.");
 	build_player_index();
 
-	log("Loading fight messages.");
+	log_message("Loading fight messages.");
 	load_messages();
 
-	log("Loading social messages.");
+	log_message("Loading social messages.");
 	boot_social_messages();
 
-  log("Loading pose messages.");
+	log_message("Loading pose messages.");
 	boot_pose_messages();
 
-	log("Assigning function pointers:");
+	log_message("Assigning function pointers:");
 	if (!no_specials)
 	{
-		log("   Mobiles.");
+		log_message("   Mobiles.");
 		assign_mobiles();
-		log("   Objects.");
+		log_message("   Objects.");
 		assign_objects();
-		log("   Room.");
+		log_message("   Room.");
 		assign_rooms();
 	}
 
-	log("   Commands.");	
+	log_message("   Commands.");
 	assign_command_pointers();
-	log("   Spells.");
+	log_message("   Spells.");
 	assign_spell_pointers();
 
-	log("Updating characters with saved items:");
+	log_message("Updating characters with saved items:");
 	update_obj_file();
 
 	for (i = 0; i <= top_of_zone_table; i++)
@@ -191,7 +191,7 @@ void boot_db(void)
 
 	reset_q.head = reset_q.tail = 0;
 
-	log("Boot db -- DONE.");
+	log_message("Boot db -- DONE.");
 }
 
 
@@ -222,7 +222,7 @@ void reset_time(void)
 
 	fscanf(f1, "#\n");
 
-	fscanf(f1, "%D\n", &last_time);
+	fscanf(f1, "%ld\n", &last_time);
 	fscanf(f1, "%d\n", &last_time_info.hours);
 	fscanf(f1, "%d\n", &last_time_info.day);
 	fscanf(f1, "%d\n", &last_time_info.month);
@@ -308,7 +308,7 @@ void reset_time(void)
 	sprintf(buf,"   Current Gametime: %dH %dD %dM %dY.",
 	        time_info.hours, time_info.day,
 	        time_info.month, time_info.year);
-	log(buf);
+	log_message(buf);
 
 	weather_info.pressure = 960;
 	if ((time_info.month>=7)&&(time_info.month<=12))
@@ -346,11 +346,11 @@ void update_time(void)
 	}
 
 	current_time = time(0);
-	log("Time update.");
+	log_message("Time update.");
 
 	fprintf(f1, "#\n");
 
-	fprintf(f1, "%d\n", current_time);
+	fprintf(f1, "%ld\n", current_time);
 	fprintf(f1, "%d\n", time_info.hours);
 	fprintf(f1, "%d\n", time_info.day);
 	fprintf(f1, "%d\n", time_info.month);
@@ -368,42 +368,40 @@ void build_player_index(void)
 	struct char_file_u dummy;
 	FILE *fl;
 
-	if (!(fl = fopen(PLAYER_FILE, "rb+")))
+	if ((fl = fopen(PLAYER_FILE, "rb+")))
 	{
-		perror("build player index");
-		exit(0);
-	}
 
-	for (; !feof(fl);)
-	{
-		fread(&dummy, sizeof(struct char_file_u), 1, fl);
-		if (!feof(fl))   /* new record */
+		for (; !feof(fl);)
 		{
-			/* Create new entry in the list */
-			if (nr == -1) {
-				CREATE(player_table, 
-			           struct player_index_element, 1);
-				nr = 0;
-			}	else {
-				if (!(player_table = (struct player_index_element *)
-				    realloc(player_table, (++nr + 1) *
-				    sizeof(struct player_index_element))))
-				{
-					perror("generate index");
-					exit(0);
+			fread(&dummy, sizeof(struct char_file_u), 1, fl);
+			if (!feof(fl))   /* new record */
+			{
+				/* Create new entry in the list */
+				if (nr == -1) {
+					CREATE(player_table, 
+					   struct player_index_element, 1);
+					nr = 0;
+				}	else {
+					if (!(player_table = (struct player_index_element *)
+					    realloc(player_table, (++nr + 1) *
+					    sizeof(struct player_index_element))))
+					{
+						perror("generate index");
+						exit(0);
+					}
 				}
+			
+				player_table[nr].nr = nr;
+
+				CREATE(player_table[nr].name, char,
+				   strlen(dummy.name) + 1);
+				for (i = 0; *(player_table[nr].name + i) = 
+				   LOWER(*(dummy.name + i)); i++);
 			}
-		
-			player_table[nr].nr = nr;
-
-			CREATE(player_table[nr].name, char,
-			   strlen(dummy.name) + 1);
-			for (i = 0; *(player_table[nr].name + i) = 
-			   LOWER(*(dummy.name + i)); i++);
 		}
-	}
 
-	fclose(fl);
+		fclose(fl);
+	}
 
 	top_of_p_table = nr;
 
@@ -419,7 +417,7 @@ void build_player_index(void)
 struct index_data *generate_indices(FILE *fl, int *top)
 {
 	int i = 0;
-	struct index_data *index;
+	struct index_data *index = NULL;
 	long pos;
 	char buf[82];
 
@@ -481,7 +479,7 @@ void boot_world(void)
 	if (!(fl = fopen(WORLD_FILE, "r")))
 	{
 		perror("fopen");
-		log("boot_world: could not open world file.");
+		log_message("boot_world: could not open world file.");
 		exit(0);
 	}
 
@@ -968,14 +966,14 @@ struct char_data *read_mobile(int nr, int type)
 
 	/* *** Numeric data *** */
 
-	fscanf(mob_f, "%d ", &tmp);
+	fscanf(mob_f, "%ld ", &tmp);
 	mob->specials.act = tmp;
 	SET_BIT(mob->specials.act, ACT_ISNPC);
 
-	fscanf(mob_f, " %d ", &tmp);
+	fscanf(mob_f, " %ld ", &tmp);
 	mob->specials.affected_by = tmp;
 
-	fscanf(mob_f, " %d ", &tmp);
+	fscanf(mob_f, " %ld ", &tmp);
 	mob->specials.alignment = tmp;
 
 	fscanf(mob_f, " %c \n", &letter);
@@ -988,20 +986,20 @@ struct char_data *read_mobile(int nr, int type)
 		mob->abilities.dex   = 11;
 		mob->abilities.con   = 11;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		GET_LEVEL(mob) = tmp;
 		
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->points.hitroll = 20-tmp;
 		
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->points.armor = 10*tmp;
 
-		fscanf(mob_f, " %Dd%D+%D ", &tmp, &tmp2, &tmp3);
+		fscanf(mob_f, " %ldd%ld+%ld ", &tmp, &tmp2, &tmp3);
 		mob->points.max_hit = dice(tmp, tmp2)+tmp3;
 		mob->points.hit = mob->points.max_hit;
 
-		fscanf(mob_f, " %Dd%D+%D \n", &tmp, &tmp2, &tmp3);
+		fscanf(mob_f, " %ldd%ld+%ld \n", &tmp, &tmp2, &tmp3);
 		mob->points.damroll = tmp3;
 		mob->specials.damnodice = tmp;
 		mob->specials.damsizedice = tmp2;
@@ -1012,19 +1010,19 @@ struct char_data *read_mobile(int nr, int type)
 		mob->points.move = 50;
 		mob->points.max_move = 50;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->points.gold = tmp;
 
-		fscanf(mob_f, " %D \n", &tmp);
+		fscanf(mob_f, " %ld \n", &tmp);
 		GET_EXP(mob) = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->specials.position = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->specials.default_pos = tmp;
 
-		fscanf(mob_f, " %D \n", &tmp);
+		fscanf(mob_f, " %ld \n", &tmp);
 		mob->player.sex = tmp;
 
 		mob->player.class = 0;
@@ -1043,80 +1041,80 @@ struct char_data *read_mobile(int nr, int type)
 
 	} else {  /* The old monsters are down below here */
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->abilities.str = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->abilities.intel = tmp; 
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->abilities.wis = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->abilities.dex = tmp;
 
-		fscanf(mob_f, " %D \n", &tmp);
+		fscanf(mob_f, " %ld \n", &tmp);
 		mob->abilities.con = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
-		fscanf(mob_f, " %D ", &tmp2);
+		fscanf(mob_f, " %ld ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp2);
 
 		mob->points.max_hit = number(tmp, tmp2);
 		mob->points.hit = mob->points.max_hit;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->points.armor = 10*tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->points.mana = tmp;
 		mob->points.max_mana = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->points.move = tmp;		
 		mob->points.max_move = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->points.gold = tmp;
 
-		fscanf(mob_f, " %D \n", &tmp);
+		fscanf(mob_f, " %ld \n", &tmp);
 		GET_EXP(mob) = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->specials.position = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->specials.default_pos = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->player.sex = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->player.class = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		GET_LEVEL(mob) = tmp;
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->player.time.birth = time(0);
 		mob->player.time.played	= 0;
 		mob->player.time.logon  = time(0);
 
-		fscanf(mob_f, " %D ", &tmp);
+		fscanf(mob_f, " %ld ", &tmp);
 		mob->player.weight = tmp;
 
-		fscanf(mob_f, " %D \n", &tmp);
+		fscanf(mob_f, " %ld \n", &tmp);
 		mob->player.height = tmp;
 
 		for (i = 0; i < 3; i++)
 		{
-			fscanf(mob_f, " %D ", &tmp);
+			fscanf(mob_f, " %ld ", &tmp);
 			GET_COND(mob, i) = tmp;
 		}
 		fscanf(mob_f, " \n ");
 
 		for (i = 0; i < 5; i++)
 		{
-			fscanf(mob_f, " %D ", &tmp);
+			fscanf(mob_f, " %ld ", &tmp);
 			mob->specials.apply_saving_throw[i] = tmp;
 		}
 
@@ -1332,7 +1330,7 @@ void reset_zone(int zone)
 {
 	int cmd_no, last_cmd = 1;
 	char buf[256];
-	struct char_data *mob;
+	struct char_data *mob = NULL;
 	struct obj_data *obj, *obj_to;
 
 	for (cmd_no = 0;;cmd_no++)
@@ -1440,7 +1438,7 @@ void reset_zone(int zone)
 			default:
 				sprintf(buf, "Undefd cmd in reset table; zone %d cmd %d.\n\r",
 					zone, cmd_no);
-				log(buf);
+				log_message(buf);
 				exit(0);
 			break;
 		}
@@ -1742,7 +1740,7 @@ void char_to_store(struct char_data *ch, struct char_file_u *st)
 	}
 
 	if ((i >= MAX_AFFECT) && af && af->next)
-		log("WARNING: OUT OF STORE ROOM FOR AFFECTED TYPES!!!");
+		log_message("WARNING: OUT OF STORE ROOM FOR AFFECTED TYPES!!!");
 
 
 
@@ -1862,6 +1860,8 @@ void save_char(struct char_data *ch, sh_int load_room)
 	char mode[4];
 	int expand;
 
+	bzero(&st, sizeof(struct char_file_u));
+
 	if (IS_NPC(ch) || !ch->desc)
 		return;
 
@@ -1884,10 +1884,10 @@ void save_char(struct char_data *ch, sh_int load_room)
 		exit(1);
 	}
 
-  	fflush(fl);
-   if (expand)
-   {
-   	fwrite(&st, sizeof(struct char_file_u), 1, fl);
+	fflush(fl);
+	if (expand)
+	{
+		fwrite(&st, sizeof(struct char_file_u), 1, fl);
 	}
 
 	fseek(fl, ch->desc->pos * sizeof(struct char_file_u), 0);
@@ -1918,7 +1918,7 @@ int compare(struct player_index_element *arg1, struct player_index_element
 /* read and allocate space for a '~'-terminated string from a given file */
 char *fread_string(FILE *fl)
 {
-	char buf[MAX_STRING_LENGTH], tmp[500];
+	char buf[MAX_STRING_LENGTH], tmp[MAX_STRING_LENGTH];
 	char *rslt;
 	register char *point;
 	int flag;
@@ -1935,26 +1935,29 @@ char *fread_string(FILE *fl)
 
 		if (strlen(tmp) + strlen(buf) > MAX_STRING_LENGTH)
 		{
-			log("fread_string: string too large (db.c)");
+			log_message("fread_string: string too large (db.c)");
 			exit(0);
 		}
 		else
-			strcat(buf, tmp);
+			strncat(buf, tmp, MAX_STRING_LENGTH-1);
 
-		for (point = buf + strlen(buf) - 2; point >= buf && isspace(*point);
-			point--);		
-		if (flag = (*point == '~'))
-			if (*(buf + strlen(buf) - 3) == '\n')
+		size_t strlenbuf = strlen(buf);
+
+		/* Set point to be the first non-whitespace character */
+		for (point = buf + strlenbuf - 2; point >= buf && isspace(*point); point--) ;;
+
+		if ((flag = (*point == '~')) && (strlenbuf >= 3))
+			if (*(buf + strlenbuf - 3) == '\n')
 			{
-				*(buf + strlen(buf) - 2) = '\r';
-				*(buf + strlen(buf) - 1) = '\0';
+				*(buf + strlenbuf - 2) = '\r';
+				*(buf + strlenbuf - 1) = '\0';
 			}
 			else
-				*(buf + strlen(buf) -2) = '\0';
+				*(buf + strlenbuf -2) = '\0';
 		else
 		{
-			*(buf + strlen(buf) + 1) = '\0';
-			*(buf + strlen(buf)) = '\r';
+			*(buf + strlenbuf + 1) = '\0';
+			*(buf + strlenbuf) = '\r';
 		}
 	}
 	while (!flag);
@@ -2058,7 +2061,7 @@ int file_to_string(char *name, char *buf)
 		{
 			if (strlen(buf) + strlen(tmp) + 2 > MAX_STRING_LENGTH)
 			{
-				log("fl->strng: string too big (db.c, file_to_string)");
+				log_message("fl->strng: string too big (db.c, file_to_string)");
 				*buf = '\0';
 				return(-1);
 			}

@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 #include "structs.h"
 #include "limits.h"
 #include "utils.h"
@@ -289,7 +290,7 @@ void set_title(struct char_data *ch)
 	if (GET_TITLE(ch))
 		RECREATE(GET_TITLE(ch),char,strlen(READ_TITLE(ch))+1);
 	else
-		CREATE(GET_TITLE(ch),char,strlen(READ_TITLE(ch)));
+		CREATE(GET_TITLE(ch),char,strlen(READ_TITLE(ch))+1);
 
 	strcpy(GET_TITLE(ch), READ_TITLE(ch));
 }

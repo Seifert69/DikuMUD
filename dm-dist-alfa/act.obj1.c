@@ -25,13 +25,14 @@ extern struct room_data *world;
 /* extern functions */
 
 struct obj_data *create_money( int amount );
+extern void log_message(char *str);
 
 
 /* procedures related to get */
 void get(struct char_data *ch, struct obj_data *obj_object, 
 	struct obj_data *sub_object) {
 struct char_data *tmp_char;
-char buffer[MAX_STRING_LENGTH];
+char buffer[MAX_STRING_LENGTH+33];
 
 	if (sub_object) {
 		obj_from_obj(obj_object);
@@ -68,7 +69,7 @@ void do_get(struct char_data *ch, char *argument, int cmd)
 {
 	char arg1[MAX_STRING_LENGTH];
 	char arg2[MAX_STRING_LENGTH];
-	char buffer[MAX_STRING_LENGTH];
+	char buffer[MAX_STRING_LENGTH+30];
 	struct obj_data *sub_object;
 	struct obj_data *obj_object;
 	struct obj_data *next_obj;
@@ -406,7 +407,7 @@ bool test = FALSE;
 
 void do_put(struct char_data *ch, char *argument, int cmd)
 {
-	char buffer[MAX_STRING_LENGTH];
+	char buffer[MAX_STRING_LENGTH+21];
 	char arg1[MAX_STRING_LENGTH];
 	char arg2[MAX_STRING_LENGTH];
 	struct obj_data *obj_object;
@@ -524,7 +525,7 @@ void do_give(struct char_data *ch, char *argument, int cmd)
 			GET_GOLD(ch)-=amount;
 		if ((GET_LEVEL(ch) > 20) && (!IS_NPC(ch)) && (!IS_NPC(vict))) {
 			sprintf(buf,"%s gives %s %d gold coins.",GET_NAME(ch),GET_NAME(vict),amount);
-			log(buf);
+			log_message(buf);
 		}
 		GET_GOLD(vict)+=amount;
 		return;

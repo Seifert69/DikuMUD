@@ -8,6 +8,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <crypt.h>
 #include "structs.h"
 #include "comm.h"
 #include "interpreter.h"
@@ -45,7 +46,7 @@ void init_char(struct char_data *ch);
 void store_to_char(struct char_file_u *st, struct char_data *ch);
 int create_entry(char *name);
 int special(struct char_data *ch, int cmd, char *arg);
-void log(char *str);
+void log_message(char *str);
 
 void do_move(struct char_data *ch, char *argument, int cmd);
 void do_look(struct char_data *ch, char *argument, int cmd);
@@ -1018,7 +1019,7 @@ void nanny(struct descriptor_data *d, char *arg)
 	void do_look(struct char_data *ch, char *argument, int cmd);
 	void load_char_objs(struct char_data *ch);
 	int load_char(char *name, struct char_file_u *char_element);
-
+	struct crypt_data crypted;
 
 	switch (STATE(d))
 	{
@@ -1131,7 +1132,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			   close_socket(d);
 			else
 			{
-				if (strncmp(crypt(arg, d->pwd), d->pwd, 10))
+				if (strcmp(crypt_r(arg, d->pwd, &crypted), d->pwd))
 				{
 					SEND_TO_Q("Wrong password.\n\r", d);
 					SEND_TO_Q("Password: ", d);
@@ -1151,14 +1152,14 @@ void nanny(struct descriptor_data *d, char *arg)
 						act("$n has reconnected.", TRUE, tmp_ch, 0, 0, TO_ROOM);
 						sprintf(buf, "%s[%s] has reconnected.", GET_NAME(
 							d->character), d->host);
-						log(buf);
+						log_message(buf);
 						return;
 					}
 					
 					
 				sprintf(buf, "%s[%s] has connected.", GET_NAME(d->character),
 					d->host);
-				log(buf);
+				log_message(buf);
 
 				SEND_TO_Q(motd, d);
 				SEND_TO_Q("\n\r\n*** PRESS RETURN: ", d);
@@ -1178,8 +1179,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				return;
 			}
 
-			strncpy(d->pwd, crypt(arg, d->character->player.name), 10);
-			*(d->pwd + 10) = '\0';
+			strcpy(d->pwd, crypt_r(arg, d->character->player.name, &crypted));
 			
 			SEND_TO_Q("Please retype password: ", d);
 
@@ -1190,7 +1190,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			/* skip whitespaces */
 			for (; isspace(*arg); arg++);
 
-			if (strncmp(crypt(arg, d->pwd), d->pwd, 10))
+			if (strcmp(crypt_r(arg, d->pwd, &crypted), d->pwd))
 			{
 				SEND_TO_Q("Passwords don't match.\n\r", d);
 				SEND_TO_Q("Retype password: ", d);
@@ -1290,7 +1290,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			if (STATE(d) != CON_QCLASS) {
 				sprintf(buf, "%s [%s] new player.", GET_NAME(d->character),
 					d->host);
-				log(buf);
+				log_message(buf);
 			}
 		} break;
 
@@ -1311,7 +1311,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				case '1':
 					reset_char(d->character);
 					if (d->character->in_room != NOWHERE) {
-						log("Loading chars equipment and transferring to room.");
+						log_message("Loading chars equipment and transferring to room.");
 						load_char_objs(d->character);
 						save_char(d->character, NOWHERE);
 					}
@@ -1376,7 +1376,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				return;
 			}
 
-			strncpy(d->pwd, crypt(arg, d->character->player.name), 10);
+			strcpy(d->pwd, crypt_r(arg, d->character->player.name, &crypted));
 			*(d->pwd + 10) = '\0';
 
 			SEND_TO_Q("Please retype password: ", d);
@@ -1387,7 +1387,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			/* skip whitespaces */
 			for (; isspace(*arg); arg++);
 
-			if (strncmp(crypt(arg, d->pwd), d->pwd, 10))
+			if (strcmp(crypt_r(arg, d->pwd, &crypted), d->pwd))
 			{
 				SEND_TO_Q("Passwords don't match.\n\r", d);
 				SEND_TO_Q("Retype password: ", d);
@@ -1401,7 +1401,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			STATE(d) = CON_SLCT;
 		break;
 		default:
-			log("Nanny: illegal state of con'ness");
+			log_message("Nanny: illegal state of con'ness");
 			abort();
 		break;
 	}

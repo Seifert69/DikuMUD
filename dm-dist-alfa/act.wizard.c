@@ -29,6 +29,7 @@ extern struct int_app_type int_app[26];
 extern struct wis_app_type wis_app[26];
 
 /* external functs */
+extern void log_message(char *str);
 
 void set_title(struct char_data *ch);
 int str_cmp(char *arg1, char *arg2);
@@ -42,9 +43,10 @@ int mana_gain(struct char_data *ch);
 int hit_gain(struct char_data *ch);
 int move_gain(struct char_data *ch);
 
+void do_look(struct char_data *ch, char *argument, int cmd);
 
 
-do_emote(struct char_data *ch, char *argument, int cmd)
+void do_emote(struct char_data *ch, char *argument, int cmd)
 {
 	int i;
 	static char buf[MAX_STRING_LENGTH];
@@ -282,7 +284,7 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
 	extern char *spells[];
 	struct affected_type *aff;
 	char arg1[MAX_STRING_LENGTH];
-	char buf[MAX_STRING_LENGTH];
+	char buf[MAX_STRING_LENGTH+80];
 	char buf2[MAX_STRING_LENGTH];
 	struct char_data *victim=0;
 	struct room_data *rm=0;
@@ -664,7 +666,7 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
 			strcat(buf, buf2);
 			send_to_char(buf, ch);
 
-			sprintf(buf,"Birth : [%ld]secs, Logon[%ld]secs, Played[%ld]secs\n\r", 
+			sprintf(buf,"Birth : [%ld]secs, Logon[%ld]secs, Played[%d]secs\n\r", 
 			        k->player.time.birth,
 			        k->player.time.logon,
 			        k->player.time.played);
@@ -829,7 +831,7 @@ void do_shutdow(struct char_data *ch, char *argument, int cmd)
 
 void do_shutdown(struct char_data *ch, char *argument, int cmd)
 {
-	extern int shutdown, reboot;
+	extern int shutting_down, reboot;
 	char buf[100], arg[MAX_INPUT_LENGTH];
 
 	if (IS_NPC(ch))
@@ -841,15 +843,15 @@ void do_shutdown(struct char_data *ch, char *argument, int cmd)
 	{
 		sprintf(buf, "Shutdown by %s.", GET_NAME(ch) );
 		send_to_all(buf);
-		log(buf);
-		shutdown = 1;
+		log_message(buf);
+		shutting_down = 1;
 	}
 	else if (!str_cmp(arg, "reboot"))
 	{
 		sprintf(buf, "Reboot by %s.", GET_NAME(ch));
 		send_to_all(buf);
-		log(buf);
-		shutdown = reboot = 1;
+		log_message(buf);
+		shutting_down = reboot = 1;
 	}
 	else
 		send_to_char("Go shut down someone your own size.\n\r", ch);
@@ -1009,7 +1011,7 @@ void do_force(struct char_data *ch, char *argument, int cmd)
 {
   struct descriptor_data *i;
 	struct char_data *vict;
-	char name[100], to_force[100],buf[100]; 
+	char name[100], to_force[100],buf[100+24]; 
 
 	if (IS_NPC(ch))
 		return;
@@ -1033,7 +1035,7 @@ void do_force(struct char_data *ch, char *argument, int cmd)
 			}
 		}
 	} else { /* force all */
-    for (i = descriptor_list; i; i = i->next)
+		for (i = descriptor_list; i; i = i->next)
 			if (i->character != ch && !i->connected) {
 				vict = i->character;
 				if (GET_LEVEL(ch) < GET_LEVEL(vict))
@@ -1044,7 +1046,7 @@ void do_force(struct char_data *ch, char *argument, int cmd)
 					command_interpreter(vict, to_force);
 				}
 			}
-			send_to_char("Ok.\n\r", ch);
+		send_to_char("Ok.\n\r", ch);
 	}
 }
 
@@ -1092,7 +1094,7 @@ void do_load(struct char_data *ch, char *argument, int cmd)
 		send_to_char("Done.\n\r", ch);
 		sprintf(buf,"%s loads %s at %s.",GET_NAME(ch),
 		        mob->player.short_descr,world[ch->in_room].name);
-		log(buf);
+		log_message(buf);
 
 	}
 	else if (is_abbrev(type, "obj"))
@@ -1109,7 +1111,7 @@ void do_load(struct char_data *ch, char *argument, int cmd)
 		send_to_char("Ok.\n\r", ch);
 		sprintf(buf,"%s loads %s at %s.",GET_NAME(ch),
 		        obj->short_description,world[ch->in_room].name);
-		log(buf);
+		log_message(buf);
 
 	}
 	else
@@ -1153,7 +1155,7 @@ void do_purge(struct char_data *ch, char *argument, int cmd)
 				{
 					sprintf(buf,"%s purges %s at %s.",GET_NAME(ch),GET_NAME(vict),
 					        world[ch->in_room].name);
-					log(buf);
+					log_message(buf);
 					close_socket(vict->desc);
 					vict->desc = 0;
 					extract_char(vict);
@@ -1401,7 +1403,7 @@ void do_advance(struct char_data *ch, char *argument, int cmd)
 		 "l slightly\n\rdifferent.",FALSE,ch,0,victim,TO_VICT);
 
 	sprintf(buf,"%s advances %s to level %d.",GET_NAME(ch),GET_NAME(victim),newlevel);
-	log(buf);
+	log_message(buf);
 
 	if (GET_LEVEL(victim) == 0) {
 		do_start(victim);
@@ -1438,7 +1440,7 @@ void do_reroll(struct char_data *ch, char *argument, int cmd)
 			send_to_char("Rerolled...\n\r", ch);
 			roll_abilities(victim);
 			sprintf(buf,"%s rerolled %s.",GET_NAME(ch),GET_NAME(victim));
-			log(buf);
+			log_message(buf);
 		}
 }
 
@@ -1466,7 +1468,7 @@ void do_restore(struct char_data *ch, char *argument, int cmd)
 			GET_MOVE(victim) = GET_MAX_MOVE(victim);
 
          sprintf(buf,"%s restored %s.",GET_NAME(ch),GET_NAME(victim));
-         log(buf);
+         log_message(buf);
 
 			if (GET_LEVEL(victim) >= 21) {
 				for (i = 0; i < MAX_SKILLS; i++) {
@@ -1494,7 +1496,7 @@ void do_restore(struct char_data *ch, char *argument, int cmd)
 
 
 
-do_noshout(struct char_data *ch, char *argument, int cmd)
+void do_noshout(struct char_data *ch, char *argument, int cmd)
 {
 	struct char_data *vict;
 	struct obj_data *dummy;

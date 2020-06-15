@@ -4,6 +4,7 @@
 ************************************************************************* */
 
 #include <sys/types.h>
+#include <crypt.h>
 
 typedef signed char sbyte;
 typedef unsigned char ubyte;
@@ -608,7 +609,7 @@ struct char_file_u
 
 	/* char data */
 	char name[20];
-	char pwd[11];
+	char pwd[CRYPT_OUTPUT_SIZE+1];
 	sh_int apply_saving_throw[5];
 	int conditions[3];
 };
@@ -693,7 +694,7 @@ struct descriptor_data
 {
 	int descriptor;	            /* file descriptor for socket */
 	char host[50];                /* hostname                   */
-	char pwd[12];                 /* password                   */
+	char pwd[CRYPT_OUTPUT_SIZE+1];/* password                   */
 	int pos;                      /* position in player-file    */
 	int connected;                /* mode of 'connectedness'    */
 	int wait;                     /* wait for how many loops    */

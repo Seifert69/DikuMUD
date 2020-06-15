@@ -128,7 +128,7 @@ int board_remove_msg(struct char_data *ch, char *arg) {
 	if (GET_LEVEL(ch) < 10) {
 		send_to_char("Due to misuse of the REMOVE command, only 10th level\n\r", ch);
 		send_to_char("and above can remove messages.\n\r", ch);
-		return;
+		return(0);
 	}
 
 	one_argument(arg, number);
@@ -196,7 +196,7 @@ void board_load_board() {
 	board_reset_board();
 	the_file = fopen(SAVE_FILE, "rb");
 	if (!the_file) {
-		error_log("Can't open message file. Board will be empty.\n\r",0);
+		error_log("Can't open message file. Board will be empty.\n\r");
 		return;
 	}
 	fread(&msg_num, sizeof(int), 1, the_file);

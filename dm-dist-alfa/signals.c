@@ -10,10 +10,12 @@
 
 #include "utils.h"
 
-int checkpointing(void);
-int shutdown_request(void);
-int logsig(void);
-int hupsig(void);
+extern void log_message(char *msg);
+
+void checkpointing(int);
+void shutdown_request(int);
+void logsig(int);
+void hupsig(int);
 
 void signal_setup(void)
 {
@@ -42,13 +44,13 @@ void signal_setup(void)
 
 
 
-int checkpointing(void)
+void checkpointing(int ignored)
 {
 	extern int tics;
 	
 	if (!tics)
 	{
-		log("CHECKPOINT shutdown: tics not updated");
+		log_message("CHECKPOINT shutdown: tics not updated");
 		abort();
 	}
 	else
@@ -58,28 +60,28 @@ int checkpointing(void)
 
 
 
-int shutdown_request(void)
+void shutdown_request(int ignored)
 {
-	extern int shutdown;
+	extern int shutting_down;
 
-	log("Received USR2 - shutdown request");
-	shutdown = 1;
+	log_message("Received USR2 - shutdown request");
+	shutting_down = 1;
 }
 
 
 
 /* kick out players etc */
-int hupsig(void)
+void hupsig(int ignored)
 {
-	extern int shutdown;
+	extern int shutting_down;
 
-	log("Received SIGHUP, SIGINT, or SIGTERM. Shutting down");
+	log_message("Received SIGHUP, SIGINT, or SIGTERM. Shutting down");
 	exit(0);   /* something more elegant should perhaps be substituted */
 }
 
 
 
-int logsig(void)
+void logsig(int ignored)
 {
-	log("Signal received. Ignoring.");
+	log_message("Signal received. Ignoring.");
 }

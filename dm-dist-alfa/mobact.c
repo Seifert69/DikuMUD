@@ -16,6 +16,8 @@ extern struct index_data *mob_index;
 extern struct room_data *world;
 extern struct str_app_type str_app[];
 
+extern void log_message(char *msg);
+
 void hit(struct char_data *ch, struct char_data *victim, int type);
 
 
@@ -39,7 +41,7 @@ void mobile_activity(void)
 			if (IS_SET(ch->specials.act, ACT_SPEC) && !no_specials) {
 				if (!mob_index[ch->nr].func) {
 					sprintf(buf, "Non-Existing MOB[%d] SPEC procedure (mobact.c)",mob_index[ch->nr].virtual);
-					log(buf);
+					log_message(buf);
 					REMOVE_BIT(ch->specials.act, ACT_SPEC);
 				} else {
 			   	if ((*mob_index[ch->nr].func)	(ch, 0, ""))
