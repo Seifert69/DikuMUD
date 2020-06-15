@@ -34,7 +34,7 @@ void clone_char(struct char_data *ch);
 void say_spell( struct char_data *ch, int si );
 bool saves_spell(struct char_data *ch, sh_int spell);
 void add_follower(struct char_data *ch, struct char_data *victim);
-char *str_duplicate(char *str);
+char *strdup(char *str);
 
 
 void cast_armor( byte level, struct char_data *ch, char *arg, int type,

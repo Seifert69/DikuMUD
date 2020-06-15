@@ -30,7 +30,6 @@ extern struct time_info_data time_info;
 
 void hit(struct char_data *ch, struct char_data *victim, int type);
 void gain_exp(struct char_data *ch, int gain);
-char *str_duplicate(char *source);
 
 void cast_burning_hands( byte level, struct char_data *ch, char *arg, int type,
 	struct char_data *victim, struct obj_data *tar_obj );

@@ -48,17 +48,6 @@ int dice(int number, int size)
 
 
 
-/* Create a duplicate of a string */
-char *str_duplicate(char *source)
-{
-	char *new;
-
-	CREATE(new, char, strlen(source)+1);
-	return(strcpy(new, source));
-}
-
-
-
 /* writes a string to the log */
 void slog(char *str)
 {

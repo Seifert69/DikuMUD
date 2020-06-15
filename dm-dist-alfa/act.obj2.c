@@ -30,7 +30,6 @@ extern void slog(char *str);
 
 struct obj_data *get_object_in_equip_vis(struct char_data *ch,
                          char *arg, struct obj_data **equipment, int *j);
-char *str_duplicate(char *source);
 
 
 
