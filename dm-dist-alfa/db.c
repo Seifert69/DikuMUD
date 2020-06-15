@@ -1860,6 +1860,8 @@ void save_char(struct char_data *ch, sh_int load_room)
 	char mode[4];
 	int expand;
 
+	bzero(&st, sizeof(struct char_file_u));
+
 	if (IS_NPC(ch) || !ch->desc)
 		return;
 
@@ -1882,10 +1884,10 @@ void save_char(struct char_data *ch, sh_int load_room)
 		exit(1);
 	}
 
-  	fflush(fl);
-   if (expand)
-   {
-   	fwrite(&st, sizeof(struct char_file_u), 1, fl);
+	fflush(fl);
+	if (expand)
+	{
+		fwrite(&st, sizeof(struct char_file_u), 1, fl);
 	}
 
 	fseek(fl, ch->desc->pos * sizeof(struct char_file_u), 0);
