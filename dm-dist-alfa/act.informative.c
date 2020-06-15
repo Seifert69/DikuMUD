@@ -898,7 +898,7 @@ void do_help(struct char_data *ch, char *argument, int cmd)
 			mid = (bot + top) / 2;
 			minlen = strlen(argument);
 
-			if (!(chk = strn_cmp(argument, help_index[mid].keyword, minlen)))
+			if (!(chk = strncmp(argument, help_index[mid].keyword, minlen)))
 			{
 				fseek(help_fl, help_index[mid].pos, 0);
 				*buffer = '\0';

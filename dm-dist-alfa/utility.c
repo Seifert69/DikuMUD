@@ -76,24 +76,6 @@ int str_cmp(char *arg1, char *arg2)
 
 
 
-/* returns: 0 if equal, 1 if arg1 > arg2, -1 if arg1 < arg2  */
-/* scan 'till found different, end of both, or n reached     */
-int strn_cmp(char *arg1, char *arg2, int n)
-{
-	int chk, i;
-
-	for (i = 0; (*(arg1 + i) || *(arg2 + i)) && (n>0); i++, n--)
-		if (chk = LOWER(*(arg1 + i)) - LOWER(*(arg2 + i)))
-			if (chk < 0)
-				return (-1);
-			else 
-				return (1);
-
-	return(0);
-}
-
-
-
 /* writes a string to the log */
 void slog(char *str)
 {
