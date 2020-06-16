@@ -155,7 +155,7 @@ void do_order(struct char_data *ch, char *argument, int cmd)
 	if (!*name || !*message)
 		send_to_char("Order who to do what?\n\r", ch);
 	else if (!(victim = get_char_room_vis(ch, name)) &&
-	         str_cmp("follower", name) && str_cmp("followers", name))
+	         strcasecmp("follower", name) && strcasecmp("followers", name))
 			send_to_char("That person isn't here.\n\r", ch);
 	else if (ch == victim)
 		send_to_char("You obviously suffer from skitzofrenia.\n\r", ch);

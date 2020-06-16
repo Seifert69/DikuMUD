@@ -27,7 +27,7 @@ extern struct spell_info_type spell_info[];
 
 
 /* extern procedures */
-extern void log_message(char *str);
+extern void slog(char *str);
 
 
 void hit(struct char_data *ch, struct char_data *victim, int type);
@@ -176,7 +176,7 @@ void do_steal(struct char_data *ch, char *argument, int cmd)
 	if (GET_LEVEL(victim)>20) /* NO NO With Imp's and Shopkeepers! */
 		percent = 101; /* Failure */
 
-	if (str_cmp(obj_name, "coins") && str_cmp(obj_name,"gold")) {
+	if (strcasecmp(obj_name, "coins") && strcasecmp(obj_name,"gold")) {
 
 		if (!(obj = get_obj_in_list_vis(victim, obj_name, victim->carrying))) {
 
@@ -246,7 +246,7 @@ void do_steal(struct char_data *ch, char *argument, int cmd)
 		if (IS_SET(victim->specials.act, ACT_NICE_THIEF)) {
 			sprintf(buf, "%s is a bloody thief.", GET_NAME(ch));
 			do_shout(victim, buf, 0);
-			log_message(buf);
+			slog(buf);
 			send_to_char("Don't you ever do that again!\n\r", ch);
 		} else {
 			hit(victim, ch, TYPE_UNDEFINED);

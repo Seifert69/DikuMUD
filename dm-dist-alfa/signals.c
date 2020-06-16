@@ -10,7 +10,7 @@
 
 #include "utils.h"
 
-extern void log_message(char *msg);
+extern void slog(char *msg);
 
 void checkpointing(int);
 void shutdown_request(int);
@@ -50,7 +50,7 @@ void checkpointing(int ignored)
 	
 	if (!tics)
 	{
-		log_message("CHECKPOINT shutdown: tics not updated");
+		slog("CHECKPOINT shutdown: tics not updated");
 		abort();
 	}
 	else
@@ -64,7 +64,7 @@ void shutdown_request(int ignored)
 {
 	extern int shutting_down;
 
-	log_message("Received USR2 - shutdown request");
+	slog("Received USR2 - shutdown request");
 	shutting_down = 1;
 }
 
@@ -75,7 +75,7 @@ void hupsig(int ignored)
 {
 	extern int shutting_down;
 
-	log_message("Received SIGHUP, SIGINT, or SIGTERM. Shutting down");
+	slog("Received SIGHUP, SIGINT, or SIGTERM. Shutting down");
 	exit(0);   /* something more elegant should perhaps be substituted */
 }
 
@@ -83,5 +83,5 @@ void hupsig(int ignored)
 
 void logsig(int ignored)
 {
-	log_message("Signal received. Ignoring.");
+	slog("Signal received. Ignoring.");
 }

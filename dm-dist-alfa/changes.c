@@ -31,10 +31,9 @@ extern struct wis_app_type wis_app[26];
 extern bool wizlock;
 
 /* external functs */
-extern void log_message(char *msg);
+extern void slog(char *msg);
 
 void set_title(struct char_data *ch);
-int str_cmp(char *arg1, char *arg2);
 char *skip_spaces(char *string);
 struct time_info_data age(struct char_data *ch);
 void sprinttype(int type, char *names[], char *result);
@@ -199,11 +198,11 @@ void do_wizlock(struct char_data *ch, char *argument, int cmd)
 
 	if (wizlock = !wizlock) {
 		sprintf(buf,"Game has been wizlocked by %s.",GET_NAME(ch));
-		log_message(buf);
+		slog(buf);
 		send_to_char("Game wizlocked.\n\r", ch);
 	} else {
 		sprintf(buf,"Game has been un-wizlocked by %s.",GET_NAME(ch));
-		log_message(buf);
+		slog(buf);
 		send_to_char("Game un-wizlocked.\n\r", ch);
 	}
 }
@@ -288,12 +287,12 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 		send_to_char("'skill' or 'value' expected.\n\r", ch);
 		return;
 	}
-	if (str_cmp(buf,"skill") && str_cmp(buf,"s") && str_cmp(buf,"value") && str_cmp(buf,"v"))
+	if (strcasecmp(buf, "skill") && strcasecmp(buf, "s") && strcasecmp(buf, "value") && strcasecmp(buf, "v"))
 	{
 		send_to_char("'skill' or 'value' expected.\n\r", ch);
 		return;
 	}
-	if (!str_cmp(buf,"skill") || !str_cmp(buf,"s"))
+	if (!strcasecmp(buf, "skill") || !strcasecmp(buf, "s"))
 	/* This is a skill */
 	{
 
@@ -350,7 +349,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 			send_to_char("Learned value expected.\n\r", ch);
 			return;
 		}
-		if (str_cmp(buf,"y") && str_cmp(buf,"n"))
+		if (strcasecmp(buf, "y") && strcasecmp(buf, "n"))
 		{
 			send_to_char("Recognice value must be 'y' or 'n'", ch);
 			return;
@@ -358,7 +357,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 		sprintf(buf2,"%s changes %s's %s to %d,%s.",GET_NAME(ch),GET_NAME(vict),
 		        spells[skill],value,buf);
 		vict->skills[skill].learned = value;
-		vict->skills[skill].recognise = (!str_cmp(buf,"y"));
+		vict->skills[skill].recognise = (!strcasecmp(buf, "y"));
 	} else {
 		/* it is another value */
 		argument = one_argument(argument,buf);
@@ -390,7 +389,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 80 years.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set age of victim */
 				vict->player.time.birth = 
 					time(0) - (long)value*(long)SECS_PER_MUD_YEAR;
@@ -398,12 +397,12 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 			break;
 			case 1: /* sex */
 			{
-				if (str_cmp(buf,"m") && str_cmp(buf,"f") && str_cmp(buf,"n"))
+				if (strcasecmp(buf, "m") && strcasecmp(buf, "f") && strcasecmp(buf, "n"))
 				{
 					send_to_char("Sex must be 'm','f' or 'n'.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set sex of victim */
 				switch(*buf) {
 					case 'm':vict->player.sex = SEX_MALE;   break;
@@ -414,13 +413,13 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 			break;
 			case 2: /* class */
 			{
-				if (str_cmp(buf,"m") && str_cmp(buf,"c") && 
-				    str_cmp(buf,"w") && str_cmp(buf,"t"))
+				if (strcasecmp(buf, "m") && strcasecmp(buf, "c") &&
+				    strcasecmp(buf, "w") && strcasecmp(buf, "t"))
 				{
 					send_to_char("Class must be 'm','c','w' or 't'.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set class of victim */
 				switch(*buf) {
 					case 'm':vict->player.class = CLASS_MAGIC_USER; break;
@@ -439,7 +438,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 25.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set level of victim */
 				vict->player.level = value;
 			}
@@ -453,7 +452,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 251 cm.\n\r", ch); 
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set hieght of victim */
 				vict->player.height = value;
 			}		
@@ -467,7 +466,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 250 pound.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set weight of victim */
 				vict->player.weight = value;
 			}
@@ -481,7 +480,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 19.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original strength of victim */
 				vict->abilities.str = value;
 			}
@@ -494,7 +493,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("Strength addition must be more\n\r", ch);
 					send_to_char("than 0 and less than 101.\n\r", ch);
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original strength addition of victim */
 				vict->abilities.str_add = value;
 			}
@@ -508,7 +507,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 19.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original INT of victim */
 				vict->abilities.intel = value;
 			}
@@ -522,7 +521,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 19.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original WIS of victim */
 				vict->abilities.wis = value;
 			}
@@ -536,7 +535,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 19.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original DEX of victim */
 				vict->abilities.dex = value;
 			}
@@ -550,7 +549,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 19.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original CON of victim */
 				vict->abilities.con = value;
 			}
@@ -558,7 +557,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 			case 12: /* gold */
 			{
 				value = atoi(buf);
-				log_message(buf2);
+				slog(buf2);
 				/* set original gold of victim */
 				vict->points.gold = value;
 			}
@@ -572,7 +571,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 7000000.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original exp of victim */
 				vict->points.exp = value;
 			}
@@ -586,7 +585,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 200.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original mana of victim */
 				vict->points.mana = value;
 			}
@@ -600,7 +599,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 30000.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original hit of victim */
 				vict->points.hit = value;
 			}
@@ -614,7 +613,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 200.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original move of victim */
 				vict->points.move = value;
 			}
@@ -628,7 +627,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 100.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original sessions of victim */
 				vict->specials.spells_to_learn = value;
 			}
@@ -642,7 +641,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 1000.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original alignment of victim */
 				vict->specials.alignment = value;
 			}
@@ -656,7 +655,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 101.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original thirst of victim */
 				vict->specials.conditions[THIRST] = value;
 			}
@@ -670,7 +669,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 101.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original drunk of victim */
 				vict->specials.conditions[DRUNK] = value;
 			}
@@ -684,7 +683,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 					send_to_char("and less than 101.\n\r", ch);
 					return;
 				}
-				log_message(buf2);
+				slog(buf2);
 				/* set original full of victim */
 				vict->specials.conditions[FULL] = value;
 			}

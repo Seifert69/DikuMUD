@@ -25,7 +25,7 @@ extern struct room_data *world;
 /* extern functions */
 
 struct obj_data *create_money( int amount );
-extern void log_message(char *str);
+extern void slog(char *str);
 
 
 /* procedures related to get */
@@ -84,21 +84,21 @@ void do_get(struct char_data *ch, char *argument, int cmd)
 		type = 0;
 	}
 	if (*arg1 && !*arg2) {
-		if (!str_cmp(arg1,"all")) {
+		if (!strcasecmp(arg1,"all")) {
 			type = 1;
 		} else {
 			type = 2;
 		}
 	}
 	if (*arg1 && *arg2) {
-		if (!str_cmp(arg1,"all")) {
-			if (!str_cmp(arg2,"all")) {
+		if (!strcasecmp(arg1,"all")) {
+			if (!strcasecmp(arg2,"all")) {
 				type = 3;
 			} else {
 				type = 4;
 			}
 		} else {
-			if (!str_cmp(arg2,"all")) {
+			if (!strcasecmp(arg2,"all")) {
 				type = 5;
 			} else {
 				type = 6;
@@ -328,7 +328,7 @@ bool test = FALSE;
 	{
 		amount = atoi(arg);
 		argument=one_argument(argument,arg);
-		if (str_cmp("coins",arg) && str_cmp("coin",arg))
+		if (strcasecmp("coins",arg) && strcasecmp("coin",arg))
 		{
 			send_to_char("Sorry, you can't do that (yet)...\n\r",ch);
 			return;
@@ -355,7 +355,7 @@ bool test = FALSE;
 	}
 
 	if (*arg) {
-		if (!str_cmp(arg,"all")) {
+		if (!strcasecmp(arg,"all")) {
 			for(tmp_object = ch->carrying;
 				tmp_object;
 				tmp_object = next_obj) {
@@ -491,7 +491,7 @@ void do_give(struct char_data *ch, char *argument, int cmd)
 	{
 		amount = atoi(obj_name);
 		argument=one_argument(argument, arg);
-		if (str_cmp("coins",arg) && str_cmp("coin",arg))
+		if (strcasecmp("coins",arg) && strcasecmp("coin",arg))
 		{
 			send_to_char("Sorry, you can't do that (yet)...\n\r",ch);
 			return;
@@ -525,7 +525,7 @@ void do_give(struct char_data *ch, char *argument, int cmd)
 			GET_GOLD(ch)-=amount;
 		if ((GET_LEVEL(ch) > 20) && (!IS_NPC(ch)) && (!IS_NPC(vict))) {
 			sprintf(buf,"%s gives %s %d gold coins.",GET_NAME(ch),GET_NAME(vict),amount);
-			log_message(buf);
+			slog(buf);
 		}
 		GET_GOLD(vict)+=amount;
 		return;

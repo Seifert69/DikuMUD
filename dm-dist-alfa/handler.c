@@ -23,9 +23,8 @@ extern struct index_data *obj_index;
 extern struct descriptor_data *descriptor_list;
 
 /* External procedures */
-extern void log_message(char *str);
+extern void slog(char *str);
 
-int str_cmp(char *arg1, char *arg2);
 void free_char(struct char_data *ch);
 void stop_fighting(struct char_data *ch);
 void remove_follower(struct char_data *ch);
@@ -191,7 +190,7 @@ void affect_modify(struct char_data *ch, byte loc, byte mod, long bitv, bool add
 			break;
 
 		default:
-			log_message("Unknown apply adjust attempt (handler.c, affect_modify).");
+			slog("Unknown apply adjust attempt (handler.c, affect_modify).");
 			break;
 
 	} /* switch */
@@ -297,7 +296,7 @@ void affect_remove( struct char_data *ch, struct affected_type *af )
 		for(hjp = ch->affected; (hjp->next) && (hjp->next != af); hjp = hjp->next);
 
 		if (hjp->next != af) {
-			log_message("FATAL : Could not locate affected_type in ch->affected. (handler.c, affect_remove)");
+			slog("FATAL : Could not locate affected_type in ch->affected. (handler.c, affect_remove)");
 			exit(1);
 		}
 		hjp->next = af->next; /* skip the af element */
@@ -370,7 +369,7 @@ void char_from_room(struct char_data *ch)
 	struct char_data *i;
 
 	if (ch->in_room == NOWHERE) {
-		log_message("NOWHERE extracting char from room (handler.c, char_from_room)");
+		slog("NOWHERE extracting char from room (handler.c, char_from_room)");
 		exit(1);
 	}
 
@@ -486,12 +485,12 @@ void equip_char(struct char_data *ch, struct obj_data *obj, int pos)
 	assert(!(ch->equipment[pos]));
 
 	if (obj->carried_by) {
-		log_message("EQUIP: Obj is carried_by when equip.");
+		slog("EQUIP: Obj is carried_by when equip.");
 		return;
 	}
 
 	if (obj->in_room!=NOWHERE) {
-		log_message("EQUIP: Obj is in_room when equip.");
+		slog("EQUIP: Obj is in_room when equip.");
 		return;
 	}
 
@@ -505,7 +504,7 @@ void equip_char(struct char_data *ch, struct obj_data *obj, int pos)
 			obj_to_room(obj, ch->in_room);
 			return;
 		} else {
-			log_message("ch->in_room = NOWHERE when equipping char.");
+			slog("ch->in_room = NOWHERE when equipping char.");
 		}
 	}
 
@@ -919,7 +918,7 @@ void extract_char(struct char_data *ch)
 	if (ch->in_room == NOWHERE) {
       /* leaves nothing ! */
 
-		log_message("NOWHERE, extracting char.");
+		slog("NOWHERE, extracting char.");
 		exit(1);
 	}
 
@@ -997,7 +996,7 @@ void extract_char(struct char_data *ch)
 		if(k)
 			k->next = ch->next;
 		else {
-			log_message("Trying to remove ?? from character_list. (handler.c, extract_char)");
+			slog("Trying to remove ?? from character_list. (handler.c, extract_char)");
 			abort();
 		}
 	}
@@ -1157,11 +1156,9 @@ struct obj_data *create_money( int amount )
 	struct extra_descr_data *new_descr;
 	char buf[80];
 
-	char *str_duplicate(char *str);
-
 	if(amount<=0)
 	{
-		log_message("ERROR: Try to create negative money.");
+		slog("ERROR: Try to create negative money.");
 		exit(1);
 	}
 
@@ -1171,38 +1168,38 @@ struct obj_data *create_money( int amount )
 
 	if(amount==1)
 	{
-		obj->name = str_duplicate("coin gold");
-		obj->short_description = str_duplicate("a gold coin");
-		obj->description = str_duplicate("One miserable gold coin.");
+		obj->name = strdup("coin gold");
+		obj->short_description = strdup("a gold coin");
+		obj->description = strdup("One miserable gold coin.");
 
-		new_descr->keyword = str_duplicate("coin gold");
-		new_descr->description = str_duplicate("One miserable gold coin.");
+		new_descr->keyword = strdup("coin gold");
+		new_descr->description = strdup("One miserable gold coin.");
 	}
 	else
 	{
-		obj->name = str_duplicate("coins gold");
-		obj->short_description = str_duplicate("gold coins");
-		obj->description = str_duplicate("A pile of gold coins.");
+		obj->name = strdup("coins gold");
+		obj->short_description = strdup("gold coins");
+		obj->description = strdup("A pile of gold coins.");
 
-		new_descr->keyword = str_duplicate("coins gold");
+		new_descr->keyword = strdup("coins gold");
 		if(amount<10) {
 			sprintf(buf,"There is %d coins.",amount);
-			new_descr->description = str_duplicate(buf);
+			new_descr->description = strdup(buf);
 		} 
 		else if (amount<100) {
 			sprintf(buf,"There is about %d coins",10*(amount/10));
-			new_descr->description = str_duplicate(buf);
+			new_descr->description = strdup(buf);
 		}
 		else if (amount<1000) {
 			sprintf(buf,"It looks like something round %d coins",100*(amount/100));
-			new_descr->description = str_duplicate(buf);
+			new_descr->description = strdup(buf);
 		}
 		else if (amount<100000) {
 			sprintf(buf,"You guess there is %d coins",1000*((amount/1000)+ number(0,(amount/1000))));
-			new_descr->description = str_duplicate(buf);
+			new_descr->description = strdup(buf);
 		}
 		else 
-			new_descr->description = str_duplicate("There is A LOT of coins");
+			new_descr->description = strdup("There is A LOT of coins");
 	}
 
 	new_descr->next = 0;
@@ -1286,7 +1283,7 @@ int generic_find(char *arg, int bitvector, struct char_data *ch,
 
 	if (IS_SET(bitvector, FIND_OBJ_EQUIP)) {
 		for(found=FALSE, i=0; i<MAX_WEAR && !found; i++)
-			if (ch->equipment[i] && str_cmp(name, ch->equipment[i]->name) == 0) {
+			if (ch->equipment[i] && strcasecmp(name, ch->equipment[i]->name) == 0) {
 				*tar_obj = ch->equipment[i];
 				found = TRUE;
 			}

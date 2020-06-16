@@ -29,10 +29,9 @@ extern struct int_app_type int_app[26];
 extern struct wis_app_type wis_app[26];
 
 /* external functs */
-extern void log_message(char *str);
+extern void slog(char *str);
 
 void set_title(struct char_data *ch);
-int str_cmp(char *arg1, char *arg2);
 struct time_info_data age(struct char_data *ch);
 void sprinttype(int type, char *names[], char *result);
 void sprintbit(long vektor, char *names[], char *result);
@@ -109,7 +108,7 @@ void do_trans(struct char_data *ch, char *argument, int cmd)
 	one_argument(argument,buf);
 	if (!*buf)
 		send_to_char("Who do you wich to transfer?\n\r",ch);
-	else if (str_cmp("all", buf)) {
+	else if (strcasecmp("all", buf)) {
 		if (!(victim = get_char_vis(ch,buf)))
 			send_to_char("No-one by that name around.\n\r",ch);
 		else {
@@ -331,7 +330,7 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
 		return;
 	} else {
 		/* stats on room */
-		if (!str_cmp("room", arg1)) {
+		if (!strcasecmp("room", arg1)) {
 			rm = &world[ch->in_room];
 			sprintf(buf, "Room name: %s, Of zone : %d. V-Number : %d, R-number : %d\n\r",
 			        rm->name, rm->zone, rm->number, ch->in_room);
@@ -843,14 +842,14 @@ void do_shutdown(struct char_data *ch, char *argument, int cmd)
 	{
 		sprintf(buf, "Shutdown by %s.", GET_NAME(ch) );
 		send_to_all(buf);
-		log_message(buf);
+		slog(buf);
 		shutting_down = 1;
 	}
-	else if (!str_cmp(arg, "reboot"))
+	else if (!strcasecmp(arg, "reboot"))
 	{
 		sprintf(buf, "Reboot by %s.", GET_NAME(ch));
 		send_to_all(buf);
-		log_message(buf);
+		slog(buf);
 		shutting_down = reboot = 1;
 	}
 	else
@@ -1020,7 +1019,7 @@ void do_force(struct char_data *ch, char *argument, int cmd)
 
 	if (!*name || !*to_force)
 		 send_to_char("Who do you wish to force to do what?\n\r", ch);
-	else if (str_cmp("all", name)) {
+	else if (strcasecmp("all", name)) {
 		if (!(vict = get_char_vis(ch, name)))
 			send_to_char("No-one by that name here..\n\r", ch);
 		else
@@ -1094,7 +1093,7 @@ void do_load(struct char_data *ch, char *argument, int cmd)
 		send_to_char("Done.\n\r", ch);
 		sprintf(buf,"%s loads %s at %s.",GET_NAME(ch),
 		        mob->player.short_descr,world[ch->in_room].name);
-		log_message(buf);
+		slog(buf);
 
 	}
 	else if (is_abbrev(type, "obj"))
@@ -1111,7 +1110,7 @@ void do_load(struct char_data *ch, char *argument, int cmd)
 		send_to_char("Ok.\n\r", ch);
 		sprintf(buf,"%s loads %s at %s.",GET_NAME(ch),
 		        obj->short_description,world[ch->in_room].name);
-		log_message(buf);
+		slog(buf);
 
 	}
 	else
@@ -1155,7 +1154,7 @@ void do_purge(struct char_data *ch, char *argument, int cmd)
 				{
 					sprintf(buf,"%s purges %s at %s.",GET_NAME(ch),GET_NAME(vict),
 					        world[ch->in_room].name);
-					log_message(buf);
+					slog(buf);
 					close_socket(vict->desc);
 					vict->desc = 0;
 					extract_char(vict);
@@ -1403,7 +1402,7 @@ void do_advance(struct char_data *ch, char *argument, int cmd)
 		 "l slightly\n\rdifferent.",FALSE,ch,0,victim,TO_VICT);
 
 	sprintf(buf,"%s advances %s to level %d.",GET_NAME(ch),GET_NAME(victim),newlevel);
-	log_message(buf);
+	slog(buf);
 
 	if (GET_LEVEL(victim) == 0) {
 		do_start(victim);
@@ -1440,7 +1439,7 @@ void do_reroll(struct char_data *ch, char *argument, int cmd)
 			send_to_char("Rerolled...\n\r", ch);
 			roll_abilities(victim);
 			sprintf(buf,"%s rerolled %s.",GET_NAME(ch),GET_NAME(victim));
-			log_message(buf);
+			slog(buf);
 		}
 }
 
@@ -1468,7 +1467,7 @@ void do_restore(struct char_data *ch, char *argument, int cmd)
 			GET_MOVE(victim) = GET_MAX_MOVE(victim);
 
          sprintf(buf,"%s restored %s.",GET_NAME(ch),GET_NAME(victim));
-         log_message(buf);
+			slog(buf);
 
 			if (GET_LEVEL(victim) >= 21) {
 				for (i = 0; i < MAX_SKILLS; i++) {

@@ -26,11 +26,10 @@ extern char *drinks[];
 extern int drink_aff[][3];
 
 /* extern functions */
-extern void log_message(char *str);
+extern void slog(char *str);
 
 struct obj_data *get_object_in_equip_vis(struct char_data *ch,
                          char *arg, struct obj_data **equipment, int *j);
-char *str_duplicate(char *source);
 
 
 
@@ -51,7 +50,7 @@ void weight_change_object(struct obj_data *obj, int weight)
 		GET_OBJ_WEIGHT(obj) += weight;
 		obj_to_obj(obj, tmp_obj);
 	} else {
-		log_message("Unknown attempt to subtract weight from an object.");
+		slog("Unknown attempt to subtract weight from an object.");
 	}
 }
 
@@ -280,7 +279,7 @@ void do_pour(struct char_data *ch, char *argument, int cmd)
 		return;
 	}
 
-	if(!str_cmp(arg2,"out"))
+	if(!strcasecmp(arg2,"out"))
 	{
 		act("$n empties $p", TRUE, ch,from_obj,0,TO_ROOM);
 		act("You empty the $p.", FALSE, ch,from_obj,0,TO_CHAR);
@@ -827,7 +826,7 @@ void wear(struct char_data *ch, struct obj_data *obj_object, int keyword)
 			send_to_char(buffer, ch);
 		} break;
 		default: {
-			log_message("Unknown type called in wear.");
+			slog("Unknown type called in wear.");
 		} break;
 	}
 }

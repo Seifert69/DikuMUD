@@ -898,7 +898,7 @@ void do_help(struct char_data *ch, char *argument, int cmd)
 			mid = (bot + top) / 2;
 			minlen = strlen(argument);
 
-			if (!(chk = strn_cmp(argument, help_index[mid].keyword, minlen)))
+			if (!(chk = strncmp(argument, help_index[mid].keyword, minlen)))
 			{
 				fseek(help_fl, help_index[mid].pos, 0);
 				*buffer = '\0';
@@ -1191,10 +1191,10 @@ void do_levels(struct char_data *ch, char *argument, int cmd)
 	one_argument(argument,arg);
 
 	if (*arg) {
-		if (!str_cmp(arg,"magic")) class = 1;
-		else if (!str_cmp(arg,"cleric")) class =  2;
-		else if (!str_cmp(arg,"thief")) class =  3;
-		else if (!str_cmp(arg,"fighter")) class = 4;
+		if (!strcasecmp(arg,"magic")) class = 1;
+		else if (!strcasecmp(arg,"cleric")) class =  2;
+		else if (!strcasecmp(arg,"thief")) class =  3;
+		else if (!strcasecmp(arg,"fighter")) class = 4;
 	}
 
 	*buf = '\0';

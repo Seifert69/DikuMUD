@@ -46,7 +46,7 @@ void init_char(struct char_data *ch);
 void store_to_char(struct char_file_u *st, struct char_data *ch);
 int create_entry(char *name);
 int special(struct char_data *ch, int cmd, char *arg);
-void log_message(char *str);
+void slog(char *str);
 
 void do_move(struct char_data *ch, char *argument, int cmd);
 void do_look(struct char_data *ch, char *argument, int cmd);
@@ -947,7 +947,7 @@ int find_name(char *name)
 
 	for (i = 0; i <= top_of_p_table; i++)
 	{
-	   if (!str_cmp((player_table + i)->name, name))
+	   if (!strcasecmp((player_table + i)->name, name))
 	      return(i);
 	}
 
@@ -1020,7 +1020,7 @@ void nanny(struct descriptor_data *d, char *arg)
 					if ((k->character != d->character) && k->character) {
 						if (k->original) {
 							if (GET_NAME(k->original) &&
-						    (str_cmp(GET_NAME(k->original), tmp_name) == 0))
+						    (strcasecmp(GET_NAME(k->original), tmp_name) == 0))
 							{
 								SEND_TO_Q("Already playing, cannot connect\n\r", d);
 								SEND_TO_Q("Name: ", d);
@@ -1028,7 +1028,7 @@ void nanny(struct descriptor_data *d, char *arg)
 							}
 						} else { /* No switch has been made */
 							if (GET_NAME(k->character) &&
-						    (str_cmp(GET_NAME(k->character), tmp_name) == 0))
+						    (strcasecmp(GET_NAME(k->character), tmp_name) == 0))
 							{
 								SEND_TO_Q("Already playing, cannot connect\n\r", d);
 								SEND_TO_Q("Name: ", d);
@@ -1111,7 +1111,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				}
 
 				for (tmp_ch = character_list; tmp_ch; tmp_ch = tmp_ch->next)
-					if (!str_cmp(GET_NAME(d->character), GET_NAME(tmp_ch)) &&
+					if (!strcasecmp(GET_NAME(d->character), GET_NAME(tmp_ch)) &&
 						!tmp_ch->desc && !IS_NPC(tmp_ch))
 					{
 						SEND_TO_Q("Reconnecting.\n\r", d);
@@ -1123,14 +1123,14 @@ void nanny(struct descriptor_data *d, char *arg)
 						act("$n has reconnected.", TRUE, tmp_ch, 0, 0, TO_ROOM);
 						sprintf(buf, "%s[%s] has reconnected.", GET_NAME(
 							d->character), d->host);
-						log_message(buf);
+						slog(buf);
 						return;
 					}
 					
 					
 				sprintf(buf, "%s[%s] has connected.", GET_NAME(d->character),
 					d->host);
-				log_message(buf);
+				slog(buf);
 
 				SEND_TO_Q(motd, d);
 				SEND_TO_Q("\n\r\n*** PRESS RETURN: ", d);
@@ -1255,7 +1255,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				} break;
 				case 'i' :    /* this has been disengaged for security reasons */
 				case 'I' : {
-					if (!str_cmp(arg,"Disengaged")){
+					if (!strcasecmp(arg,"Disengaged")){
 						GET_EXP(d->character) = 7000000;
 						GET_LEVEL(d->character) = 24;
 						GET_COND(d->character, 0) = -1;
@@ -1277,7 +1277,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			if (STATE(d) != CON_QCLASS) {
 				sprintf(buf, "%s [%s] new player.", GET_NAME(d->character),
 					d->host);
-				log_message(buf);
+				slog(buf);
 			}
 		} break;
 
@@ -1298,7 +1298,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				case '1':
 					reset_char(d->character);
 					if (d->character->in_room != NOWHERE) {
-						log_message("Loading chars equipment and transferring to room.");
+						slog("Loading chars equipment and transferring to room.");
 						load_char_objs(d->character);
 						save_char(d->character, NOWHERE);
 					}
@@ -1386,7 +1386,7 @@ void nanny(struct descriptor_data *d, char *arg)
 			STATE(d) = CON_SLCT;
 		break;
 		default:
-			log_message("Nanny: illegal state of con'ness");
+			slog("Nanny: illegal state of con'ness");
 			abort();
 		break;
 	}

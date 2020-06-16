@@ -24,7 +24,7 @@
 #define TP_OBJ	   1
 #define TP_ERROR  2
 
-extern void log_message(char *msg);
+extern void slog(char *msg);
 
 void show_string(struct descriptor_data *d, char *input);
 
@@ -289,7 +289,7 @@ void do_string(struct char_data *ch, char *arg, int cmd)
 						send_to_char("New field.\n\r", ch);
 						break;
 					}
-					else if (!str_cmp(ed->keyword, string)) /* the field exists */
+					else if (!strcasecmp(ed->keyword, string)) /* the field exists */
 					{
 						free(ed->description);
 						ed->description = 0;
@@ -314,7 +314,7 @@ void do_string(struct char_data *ch, char *arg, int cmd)
 						send_to_char("No field with that keyword.\n\r", ch);
 						return;
 					}
-					else if (!str_cmp(ed->keyword, string))
+					else if (!strcasecmp(ed->keyword, string))
 					{
 						free(ed->keyword);
 						if (ed->description)
@@ -470,7 +470,7 @@ struct help_index_element *build_help_index(FILE *fl, int *num)
 	{
 		issorted = 1;
 		for (i = 0; i < nr; i++)
-			if (str_cmp(list[i].keyword, list[i + 1].keyword) > 0)
+			if (strcasecmp(list[i].keyword, list[i + 1].keyword) > 0)
 			{
 				mem = list[i];
 				list[i] = list[i + 1];
@@ -570,7 +570,7 @@ void night_watchman(void)
 		(t_info->tm_wday < 6))
 		if (t_info->tm_min > 50)
 		{
-			log_message("Leaving the scene for the serious folks.");
+			slog("Leaving the scene for the serious folks.");
 			send_to_all("Closing down. Thank you for flying DikuMUD.\n\r");
 			shutting_down = 1;
 		}
@@ -598,11 +598,11 @@ void check_reboot(void)
 		{
 			if (t_info->tm_min > 50)
 			{
-				log_message("Reboot exists.");
+				slog("Reboot exists.");
 				fread(&dummy, sizeof(dummy), 1, boot);
 				if (!feof(boot))   /* the file is nonepty */
 				{
-					log_message("Reboot is nonempty.");
+					slog("Reboot is nonempty.");
 
 					/* the script can't handle the signals */
 					sigsetmask(sigmask(SIGUSR1) | sigmask(SIGUSR2) |
@@ -612,7 +612,7 @@ void check_reboot(void)
 
 					if (system("./reboot"))
 					{
-						log_message("Reboot script terminated abnormally");
+						slog("Reboot script terminated abnormally");
 						send_to_all("The reboot was cancelled.\n\r");
 						system("mv ./reboot reboot.FAILED");
 						fclose(boot);
@@ -729,7 +729,7 @@ char *nogames(void)
 
 	if (fl = fopen("lib/nogames", "r"))
 	{
-		log_message("/usr/games/nogames exists");
+		slog("/usr/games/nogames exists");
 		fgets(text, 200-1, fl);
 		return(text);
 		fclose(fl);
