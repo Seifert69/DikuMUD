@@ -1016,7 +1016,7 @@ void do_users(struct char_data *ch, char *argument, int cmd)
 		}
 		else
 			strcpy(line, "UNDEFINED       : ");
-		if ((d->host) && *(d->host))
+		if (*(d->host))
 			sprintf(line + strlen(line), "[%s]\n\r", d->host);
 		else
 			strcat(line, "[Hostname unknown]\n\r");

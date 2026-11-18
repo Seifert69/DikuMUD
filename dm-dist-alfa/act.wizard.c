@@ -1401,7 +1401,8 @@ void do_advance(struct char_data *ch, char *argument, int cmd)
 		 "nly a silent explosion of light snaps\n\ryou back to reality. You fee"
 		 "l slightly\n\rdifferent.",FALSE,ch,0,victim,TO_VICT);
 
-	sprintf(buf,"%s advances %s to level %d.",GET_NAME(ch),GET_NAME(victim),newlevel);
+	sprintf(buf,"%s advances %s to level %d.",GET_NAME(ch),GET_NAME(victim),
+		GET_LEVEL(victim) + adv);
 	slog(buf);
 
 	if (GET_LEVEL(victim) == 0) {

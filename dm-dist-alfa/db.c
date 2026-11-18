@@ -49,6 +49,7 @@ FILE *mob_f,                          /* file containing mob prototypes  */
 struct index_data *mob_index;         /* index table for mobile file     */
 struct index_data *obj_index;         /* index table for object file     */
 struct help_index_element *help_index = 0;
+struct reset_q_type reset_q;          /* the zone reset queue            */
 
 int top_of_mobt = 0;                  /* top of mobile index table       */
 int top_of_objt = 0;                  /* top of object index table       */
