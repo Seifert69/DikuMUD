@@ -1146,6 +1146,7 @@ void nanny(struct descriptor_data *d, char *arg)
 				if (*arg == 'n' || *arg == 'N') {
 					SEND_TO_Q("Ok, what IS it, then? ", d);
 					free(GET_NAME(d->character));
+					GET_NAME(d->character) = 0;
 					STATE(d) = CON_NME;
 				} else { /* Please do Y or N */
 					SEND_TO_Q("Please type Yes or No? ", d);
