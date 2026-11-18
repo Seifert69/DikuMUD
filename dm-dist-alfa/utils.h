@@ -16,6 +16,10 @@
 /* Functions in utility.c                     */
 /* #define MAX(a,b) (((a) > (b)) ? (a) : (b)) */
 /* #define MIN(a,b) (((a) < (b)) ? (a) : (b)) */
+int MIN(int a, int b);
+int MAX(int a, int b);
+int number(int from, int to);
+int dice(int number, int size);
 
 #define ISNEWL(ch) ((ch) == '\n' || (ch) == '\r') 
 

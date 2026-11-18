@@ -1,8 +1,8 @@
 # 1990 K&R-era C: gcc 15 defaults to C23, where bool is a keyword and ()
 # means (void), so build as GNU C89
-CFLAGS=-std=gnu89 -O1 -g -Wall -Werror -Wno-error=deprecated-declarations -Wno-error=implicit-function-declaration -Wno-error=char-subscripts -Wno-unused-but-set-variable -Wno-unused-value -Wno-unused-variable
+CFLAGS=-std=gnu89 -O1 -g -Wall -Werror -Wno-error=deprecated-declarations -Wno-error=char-subscripts -Wno-unused-but-set-variable -Wno-unused-value
 # bad ideas
-CFLAGS+=-Wno-error=parentheses -Wno-error=return-type -Wno-error=pointer-sign -Wno-error=dangling-else -Wno-error=missing-braces -Wno-error=unused-result -Wno-implicit-function-declaration
+CFLAGS+=-Wno-error=parentheses -Wno-error=return-type -Wno-error=dangling-else -Wno-error=missing-braces -Wno-error=unused-result
 # good, optional ideas!
 CFLAG+=-fsanitize=address -fno-omit-frame-pointer
 

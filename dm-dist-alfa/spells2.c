@@ -5,6 +5,7 @@
 ************************************************************************* */
 
 #include <stdio.h>
+#include <strings.h>
 
 #include "structs.h"
 #include "utils.h"
@@ -35,6 +36,78 @@ void say_spell( struct char_data *ch, int si );
 bool saves_spell(struct char_data *ch, sh_int spell);
 void add_follower(struct char_data *ch, struct char_data *victim);
 char *strdup(char *str);
+void spell_acid_breath(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_armor(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_bless(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_blindness(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_charm_person(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_create_food(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_create_water(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_cure_blind(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_cure_critic(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_cure_light(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_curse(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_detect_evil(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_detect_invisibility(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_detect_magic(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_detect_poison(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_dispel_evil(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_enchant_weapon(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_fire_breath(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_frost_breath(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_gas_breath(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_heal(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_identify(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_invisibility(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_lightning_breath(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_locate_object(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_poison(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_protection_from_evil(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_remove_curse(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_remove_poison(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_sanctuary(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_sense_life(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_sleep(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_strength(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_summon(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_teleport(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
+void spell_word_of_recall(byte level, struct char_data *ch,
+  struct char_data *victim, struct obj_data *obj);
 
 
 void cast_armor( byte level, struct char_data *ch, char *arg, int type,
@@ -111,7 +184,6 @@ void cast_teleport( byte level, struct char_data *ch, char *arg, int type,
 void cast_bless( byte level, struct char_data *ch, char *arg, int type,
   struct char_data *tar_ch, struct obj_data *tar_obj )
 {
-	struct affected_type af;
 
   switch (type) {
     case SPELL_TYPE_SPELL:
@@ -179,7 +251,6 @@ void cast_bless( byte level, struct char_data *ch, char *arg, int type,
 void cast_blindness( byte level, struct char_data *ch, char *arg, int type,
   struct char_data *tar_ch, struct obj_data *tar_obj )
 {
-	struct affected_type af;
 
   switch (type) {
     case SPELL_TYPE_SPELL:
@@ -224,8 +295,6 @@ void cast_blindness( byte level, struct char_data *ch, char *arg, int type,
 void cast_clone( byte level, struct char_data *ch, char *arg, int type,
   struct char_data *tar_ch, struct obj_data *tar_obj )
 {
-	struct char_data *vict;
-	char buf[MAX_STRING_LENGTH];
 
 	send_to_char("Not *YET* implemented.", ch);
 	return;

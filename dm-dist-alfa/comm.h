@@ -24,5 +24,7 @@ void act(char *str, int hide_invisible, struct char_data *ch,
 #define TO_CHAR    3
 
 int write_to_descriptor(int desc, char *txt);
+void close_socket(struct descriptor_data *d);
+void send_to_outdoor(char *messg);
 void write_to_q(char *txt, struct txt_q *queue);
 #define SEND_TO_Q(messg, desc)  write_to_q((messg), &(desc)->output)

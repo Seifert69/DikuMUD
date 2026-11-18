@@ -98,6 +98,9 @@ void show_string(struct descriptor_data *d, char *input);
 void gr(int s);
 
 void check_reboot(void);
+void night_watchman(void);
+void update_time(void);
+void weather_and_time(int mode);
 
 /* *********************************************************************
 *  main game loop and related stuff				       *
@@ -140,7 +143,7 @@ int main(int argc, char **argv)
 				slog("Suppressing assignment of special routines.");
 			break;
 			default:
-				sprintf(buf, "Unknown option -% in argument string.",
+				sprintf(buf, "Unknown option -%c in argument string.",
 					*(argv[pos] + 1));
 				slog(buf);
 			break;
@@ -228,6 +231,7 @@ int run_the_game(int port)
 	}
 
 	slog("Normal termination of game.");
+	return(0);
 }
 
 
@@ -238,12 +242,11 @@ int run_the_game(int port)
 /* Accept new connects, relay commands, and call 'heartbeat-functs' */
 int game_loop(int s)
 {
-	int tmp_room, old_len;
 	fd_set input_set, output_set, exc_set;
 	struct timeval last_time, now, timespent, timeout, null_time;
 	static struct timeval opt_time;
 	char comm[MAX_INPUT_LENGTH];
-	struct descriptor_data *t, *point, *next_point;
+	struct descriptor_data *point, *next_point;
 	int pulse = 0, mask;
 
 	null_time.tv_sec = 0;
@@ -432,6 +435,7 @@ int game_loop(int s)
 
 		tics++;        /* tics since last checkpoint signal */
 	}
+	return(0);
 }
 
 
@@ -597,9 +601,8 @@ int new_connection(int s)
 {
 	struct sockaddr_in isa;
 	/* struct sockaddr peer; */
-	int i;
+	socklen_t i;
 	int t;
-	char buf[100];
 
 	i = sizeof(isa);
 	getsockname(s, (struct sockaddr *) &isa, &i);
@@ -635,10 +638,9 @@ int new_descriptor(int s)
 {
 	int desc;
 	struct descriptor_data *newd;
-	int size;
+	socklen_t size;
 	struct sockaddr_in sock;
 	struct hostent *from;
-	char buf[10];
 
 	if ((desc = new_connection(s)) < 0)
 		return (-1);
@@ -894,7 +896,6 @@ void close_sockets(int s)
 
 void close_socket(struct descriptor_data *d)
 {
-	struct affected_type *af;
 	struct descriptor_data *tmp;
 	char buf[100];
 

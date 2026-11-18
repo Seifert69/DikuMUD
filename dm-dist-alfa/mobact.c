@@ -10,6 +10,7 @@
 #include "structs.h"
 #include "db.h"
 #include "comm.h"
+#include "handler.h"
 
 extern struct char_data *character_list;
 extern struct index_data *mob_index;
@@ -26,8 +27,8 @@ void mobile_activity(void)
    char buf[256];
 	register struct char_data *ch;
 	struct char_data *tmp_ch;
-	struct obj_data *obj, *best_obj, *worst_obj;
-	int door, found, max, min;
+	struct obj_data *obj, *best_obj;
+	int door, found, max;
 
 	extern int no_specials;
 

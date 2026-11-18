@@ -15,6 +15,7 @@
 #include "db.h"
 #include "utils.h"
 #include "limits.h"
+#include "handler.h"
 
 #define COMMANDO(number,min_pos,pointer,min_level) {      \
 	cmd_info[(number)].command_pointer = (pointer);         \
@@ -42,6 +43,7 @@ struct command_info cmd_info[MAX_CMD_LIST];
 /* external fcntls */
 
 void set_title(struct char_data *ch);
+void do_start(struct char_data *ch);
 void init_char(struct char_data *ch);
 void store_to_char(struct char_file_u *st, struct char_data *ch);
 int create_entry(char *name);
@@ -1037,7 +1039,7 @@ void nanny(struct descriptor_data *d, char *arg)
 	int player_i;
 	char tmp_name[20];
 	struct char_file_u tmp_store;
-	struct char_data *ch, *tmp_ch;
+	struct char_data *tmp_ch;
 	struct descriptor_data *k;
 	extern struct descriptor_data *descriptor_list;
 

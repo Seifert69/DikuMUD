@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 
 #include "structs.h"
 #include "utils.h"
@@ -41,6 +42,8 @@ int move_limit(struct char_data *ch);
 int mana_gain(struct char_data *ch);
 int hit_gain(struct char_data *ch);
 int move_gain(struct char_data *ch);
+void gain_exp_regardless(struct char_data *ch, int gain);
+void do_start(struct char_data *ch);
 
 void do_look(struct char_data *ch, char *argument, int cmd);
 
@@ -285,7 +288,6 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
 	char arg1[MAX_STRING_LENGTH];
 	char buf[MAX_STRING_LENGTH+80];
 	char buf2[MAX_STRING_LENGTH];
-	struct char_data *victim=0;
 	struct room_data *rm=0;
 	struct char_data *k=0;
 	struct obj_data  *j=0;
@@ -929,7 +931,6 @@ void do_snoop(struct char_data *ch, char *argument, int cmd)
 void do_switch(struct char_data *ch, char *argument, int cmd)
 {
 	static char arg[MAX_STRING_LENGTH];
-	char buf[70];
 	struct char_data *victim;
 
 	if (IS_NPC(ch))
@@ -982,8 +983,6 @@ void do_switch(struct char_data *ch, char *argument, int cmd)
 
 void do_return(struct char_data *ch, char *argument, int cmd)
 {
-	static char arg[MAX_STRING_LENGTH];
-	char buf[70];
 
 	if(!ch->desc)
 		return;
@@ -1058,8 +1057,6 @@ void do_load(struct char_data *ch, char *argument, int cmd)
 	char type[100], num[100], buf[100];
 	int number, r_num;
 
-	extern int top_of_mobt;
-	extern int top_of_objt;
 
 	if (IS_NPC(ch))
 		return;
@@ -1271,11 +1268,7 @@ void roll_abilities(struct char_data *ch)
 
 void do_start(struct char_data *ch)
 {
-	int i, j;
-	byte table[5];
-	byte rools[4];
 
-	extern struct dex_skill_type dex_app_skill[];
 	void advance_level(struct char_data *ch);
 
 	send_to_char("Welcome. This is now you character in DikuMud,\n\rYou can now earn XP, and lots more...\n\r", ch);
@@ -1425,7 +1418,6 @@ void do_reroll(struct char_data *ch, char *argument, int cmd)
 {
 	struct char_data *victim;
 	char buf[100];
-	sh_int target;
 
 	if (IS_NPC(ch))
 		return;

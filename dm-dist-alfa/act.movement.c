@@ -29,6 +29,8 @@ extern int movement_loss[];
 
 int special(struct char_data *ch, int cmd, char *arg);
 void death_cry(struct char_data *ch);
+bool circle_follow(struct char_data *ch, struct char_data *victim);
+void do_look(struct char_data *ch, char *argument, int cmd);
 struct obj_data *get_obj_in_list_vis(struct char_data *ch, char *name,
 	struct obj_data *list);
 
@@ -113,7 +115,6 @@ void do_move(struct char_data *ch, char *argument, int cmd)
 {
 	char tmp[80];
 	int was_in;
-	struct char_data *tch1;
 	struct follow_type *k, *next_dude;
 
 	--cmd;
@@ -225,7 +226,7 @@ int find_door(struct char_data *ch, char *type, char *dir)
 
 void do_open(struct char_data *ch, char *argument, int cmd)
 {
-	int door, other_room, bits;
+	int door, other_room;
 	char type[MAX_INPUT_LENGTH], dir[MAX_INPUT_LENGTH], buf[MAX_STRING_LENGTH];
 	struct room_direction_data *back;
 	struct obj_data *obj;
@@ -382,7 +383,7 @@ int has_key(struct char_data *ch, int key)
 void do_lock(struct char_data *ch, char *argument, int cmd)
 {
 	int door, other_room;
-	char type[MAX_INPUT_LENGTH], dir[MAX_INPUT_LENGTH], buf[MAX_STRING_LENGTH];
+	char type[MAX_INPUT_LENGTH], dir[MAX_INPUT_LENGTH];
 	struct room_direction_data *back;
 	struct obj_data *obj;
 	struct char_data *victim;
@@ -448,7 +449,7 @@ void do_lock(struct char_data *ch, char *argument, int cmd)
 void do_unlock(struct char_data *ch, char *argument, int cmd)
 {
 	int door, other_room;
-	char type[MAX_INPUT_LENGTH], dir[MAX_INPUT_LENGTH], buf[MAX_STRING_LENGTH];
+	char type[MAX_INPUT_LENGTH], dir[MAX_INPUT_LENGTH];
 	struct room_direction_data *back;
 	struct obj_data *obj;
 	struct char_data *victim;
@@ -518,7 +519,7 @@ void do_pick(struct char_data *ch, char *argument, int cmd)
 {
    byte percent;
 	int door, other_room;
-	char type[MAX_INPUT_LENGTH], dir[MAX_INPUT_LENGTH], buf[MAX_STRING_LENGTH];
+	char type[MAX_INPUT_LENGTH], dir[MAX_INPUT_LENGTH];
 	struct room_direction_data *back;
 	struct obj_data *obj;
 	struct char_data *victim;
@@ -653,7 +654,6 @@ void do_leave(struct char_data *ch, char *argument, int cmd)
 
 void do_stand(struct char_data *ch, char *argument, int cmd)
 {
-	char buffer[MAX_STRING_LENGTH];
 
 	switch(GET_POS(ch)) {
 		case POSITION_STANDING : { 
@@ -687,7 +687,6 @@ void do_stand(struct char_data *ch, char *argument, int cmd)
 
 void do_sit(struct char_data *ch, char *argument, int cmd)
 {
-	char buffer[MAX_STRING_LENGTH];
 
 	switch(GET_POS(ch)) {
 		case POSITION_STANDING : {
@@ -719,7 +718,6 @@ void do_sit(struct char_data *ch, char *argument, int cmd)
 			
 
 void do_rest(struct char_data *ch, char *argument, int cmd) {
-char buffer[MAX_STRING_LENGTH];
 
 	switch(GET_POS(ch)) {
 		case POSITION_STANDING : {
@@ -752,7 +750,6 @@ char buffer[MAX_STRING_LENGTH];
 
 
 void do_sleep(struct char_data *ch, char *argument, int cmd) {
-char buffer[MAX_STRING_LENGTH];
 
 	switch(GET_POS(ch)) {
 		case POSITION_STANDING : 
@@ -781,7 +778,6 @@ char buffer[MAX_STRING_LENGTH];
 
 void do_wake(struct char_data *ch, char *argument, int cmd)
 {
-	char buffer[MAX_STRING_LENGTH];
 	struct char_data *tmp_char;
 	char arg[MAX_STRING_LENGTH];
 
@@ -832,8 +828,8 @@ void do_wake(struct char_data *ch, char *argument, int cmd)
 
 void do_follow(struct char_data *ch, char *argument, int cmd)
 {
-	char name[160], buf[160];
-	struct char_data *leader, *k;
+	char name[160];
+	struct char_data *leader;
 
 	void stop_follower(struct char_data *ch);
 	void add_follower(struct char_data *ch, struct char_data *leader);

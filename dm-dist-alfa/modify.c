@@ -136,7 +136,6 @@ void string_add(struct descriptor_data *d, char *str)
 void quad_arg(char *arg, int *type, char *name, int *field, char *string)
 {
 	char buf[MAX_STRING_LENGTH];
-	int i;
 
 	/* determine type */
 	arg = one_argument(arg, buf);
@@ -679,7 +678,7 @@ int load(void)
 		char	sl_load2[10];	/* "+2.3 14u\0" */
 	} info;
 	FILE *fl;
-	int ld, i, sum;
+	int i, sum;
 	static int previous[5];
 	static int p_point = -1;
 	extern int slow_death;

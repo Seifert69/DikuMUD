@@ -138,8 +138,7 @@ void do_steal(struct char_data *ch, char *argument, int cmd)
 	char victim_name[240];
 	char obj_name[240];
 	char buf[240];
-	int percent, bits;
-	bool equipment = FALSE;
+	int percent;
 	int gold, eq_pos;
 	bool ohoh = FALSE;
 

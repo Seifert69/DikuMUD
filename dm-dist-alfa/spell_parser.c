@@ -281,7 +281,6 @@ void clone_char(struct char_data *ch)
 void clone_obj(struct obj_data *obj)
 {
 	struct obj_data *clone;
-	struct extra_descr_data *ed, temp;
 
 
 	CREATE(clone, struct obj_data, 1);
