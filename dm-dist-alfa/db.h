@@ -39,6 +39,7 @@ void clear_char(struct char_data *ch);
 void clear_object(struct obj_data *obj);
 void reset_char(struct char_data *ch);
 void free_char(struct char_data *ch);
+void free_obj(struct obj_data *obj);
 int real_room(int virtual);
 char *fread_string(FILE *fl);
 int real_object(int virtual);
@@ -147,7 +148,8 @@ struct reset_q_type
 {
 	struct reset_q_element *head;
 	struct reset_q_element *tail;
-} reset_q;
+};
+extern struct reset_q_type reset_q;  /* defined in db.c */
 
 
 

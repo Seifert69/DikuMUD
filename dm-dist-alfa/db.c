@@ -49,6 +49,7 @@ FILE *mob_f,                          /* file containing mob prototypes  */
 struct index_data *mob_index;         /* index table for mobile file     */
 struct index_data *obj_index;         /* index table for object file     */
 struct help_index_element *help_index = 0;
+struct reset_q_type reset_q;          /* the zone reset queue            */
 
 int top_of_mobt = 0;                  /* top of mobile index table       */
 int top_of_objt = 0;                  /* top of object index table       */
@@ -90,6 +91,10 @@ void boot_social_messages(void);
 void boot_pose_messages(void);
 void update_obj_file(void); /* In reception.c */
 struct help_index_element *build_help_index(FILE *fl, int *num);
+void assign_mobiles(void);
+void assign_objects(void);
+void assign_rooms(void);
+void set_title(struct char_data *ch);
 
 
 /*************************************************************************
@@ -199,7 +204,6 @@ void boot_db(void)
 void reset_time(void)
 {
 	char buf[MAX_STRING_LENGTH];
-	struct time_info_data mud_time;
 
 	long beginning_of_time = 650336715;
 
@@ -418,7 +422,6 @@ struct index_data *generate_indices(FILE *fl, int *top)
 {
 	int i = 0;
 	struct index_data *index = NULL;
-	long pos;
 	char buf[82];
 
 	rewind(fl);
@@ -468,7 +471,7 @@ struct index_data *generate_indices(FILE *fl, int *top)
 void boot_world(void)
 {
 	FILE *fl;
-	int room_nr = 0, zone = 0, dir_nr, virtual_nr, flag, tmp;
+	int room_nr = 0, zone = 0, virtual_nr, flag, tmp;
 	char *temp, chk[50];
 	struct extra_descr_data *new_descr;
 
@@ -735,7 +738,7 @@ void renum_zone_table(void)
 void boot_zones(void)
 {
 	FILE *fl;
-	int zon = 0, cmd_no = 0, ch, expand, tmp;
+	int zon = 0, cmd_no = 0, expand, tmp;
 	char *check, buf[81];
 
 	if (!(fl = fopen(ZONE_FILE, "r")))
@@ -937,10 +940,10 @@ void boot_zones(void)
 /* read a mobile from MOB_FILE */
 struct char_data *read_mobile(int nr, int type)
 {
-	int i, skill_nr;
+	int i;
 	long tmp, tmp2, tmp3;
 	struct char_data *mob;
-	char chk[10], buf[100];
+	char buf[100];
 	char letter;
 
 	i = nr;
@@ -1820,8 +1823,7 @@ void char_to_store(struct char_data *ch, struct char_file_u *st)
 /* create a new entry in the in-memory index table for the player file */
 int create_entry(char *name)
 {
-	int i, pos;
-	struct player_index_element tmp;
+	int i;
 
 	if (top_of_p_table == -1)
 	{

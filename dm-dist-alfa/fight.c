@@ -35,6 +35,7 @@ char *fread_string(FILE *f1);
 void stop_follower(struct char_data *ch);
 void do_flee(struct char_data *ch, char *argument, int cmd);
 void hit(struct char_data *ch, struct char_data *victim, int type);
+void gain_exp(struct char_data *ch, int gain);
 
 
 /* Weapon attack texts */
@@ -274,7 +275,6 @@ void change_alignment(struct char_data *ch, struct char_data *victim)
 
 void death_cry(struct char_data *ch)
 {
-	struct char_data *victim;
 	int door, was_in;
 
 	act("Your blood freezes as you hear $ns death cry.", FALSE, ch,0,0,TO_ROOM);
@@ -315,7 +315,6 @@ void die(struct char_data *ch)
 
 void group_gain(struct char_data *ch, struct char_data *victim)
 {
-	char buf[256];
 	int no_members, share;
 	struct char_data *k;
 	struct follow_type *f;

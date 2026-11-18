@@ -13,6 +13,7 @@ int fill_word(char *argument);
 void half_chop(char *string, char *arg1, char *arg2);
 void nanny(struct descriptor_data *d, char *arg);
 int is_abbrev(char *arg1, char *arg2);
+int is_number(char *str);
 
 
 struct command_info

@@ -13,6 +13,7 @@
 #include "spells.h"
 #include "handler.h"
 #include "limits.h"
+#include "db.h"
 
 /* Extern structures */
 extern struct room_data *world;
@@ -27,6 +28,10 @@ void damage(struct char_data *ch, struct char_data *victim,
 bool saves_spell(struct char_data *ch, sh_int spell);
 void weight_change_object(struct obj_data *obj, int weight);
 int dice(int number, int size);
+void death_cry(struct char_data *ch);
+void sprintbit(long vektor, char *names[], char *result);
+void sprinttype(int type, char *names[], char *result);
+void update_pos( struct char_data *victim );
 
 
 /* Offensive Spells */
@@ -932,7 +937,6 @@ void spell_protection_from_evil(byte level, struct char_data *ch,
 void spell_remove_curse(byte level, struct char_data *ch,
   struct char_data *victim, struct obj_data *obj)
 {
-	struct affected_type af;
 
 	assert(ch && (victim || obj));
 

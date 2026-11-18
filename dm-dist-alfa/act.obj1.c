@@ -31,7 +31,6 @@ extern void slog(char *str);
 /* procedures related to get */
 void get(struct char_data *ch, struct obj_data *obj_object, 
 	struct obj_data *sub_object) {
-struct char_data *tmp_char;
 char buffer[MAX_STRING_LENGTH+33];
 
 	if (sub_object) {
@@ -320,7 +319,6 @@ int amount;
 char buffer[MAX_STRING_LENGTH];
 struct obj_data *tmp_object;
 struct obj_data *next_obj;
-struct char_data *tmp_char;
 bool test = FALSE;
 
 	argument=one_argument(argument, arg);
@@ -483,7 +481,7 @@ void do_give(struct char_data *ch, char *argument, int cmd)
 	char obj_name[80], vict_name[80], buf[MAX_STRING_LENGTH];
 	char arg[80];
 	int amount;
-	struct char_data *vict, *sh;
+	struct char_data *vict;
 	struct obj_data *obj;
 
 	argument=one_argument(argument,obj_name);

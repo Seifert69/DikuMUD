@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "spells.h"
 #include "comm.h"
+#include "handler.h"
 
 #define READ_TITLE(ch) \
    ( GET_SEX(ch) == SEX_MALE ? \
@@ -30,6 +31,7 @@ void update_pos( struct char_data *victim );                 /* in fight.c */
 void damage(struct char_data *ch, struct char_data *victim,  /*    do      */
             int damage, int weapontype);
 struct time_info_data age(struct char_data *ch);
+void stop_fighting(struct char_data *ch);
 
 
 

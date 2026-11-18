@@ -5,6 +5,8 @@
 #include "utils.h"
 #include "structs.h"
 #include "comm.h"
+#include "handler.h"
+#include "interpreter.h"
 
 
 #define MAX_MSGS 50	               /* Max number of messages.          */
@@ -26,6 +28,7 @@ void board_reset_board();
 void error_log();
 void board_fix_long_desc(int num, char *headers[MAX_MSGS]);
 int board_show_board(struct char_data *ch, char *arg);
+void page_string(struct descriptor_data *d, char *str, int keep_internal);
 
 /* I have used cmd number 180-182 as the cmd numbers here. */
 /* The commands would be, in order : NOTE <header>         */
@@ -249,7 +252,7 @@ void error_log(char *str) {	/* The original error-handling was MUCH */
 }
 
 int board_display_msg(struct char_data *ch, char *arg) {
-	char buf[512], number[MAX_INPUT_LENGTH], buffer[MAX_STRING_LENGTH];
+	char number[MAX_INPUT_LENGTH], buffer[MAX_STRING_LENGTH];
 	int msg;
 	one_argument(arg, number);
 	if (!*number || !isdigit(*number))
@@ -283,7 +286,6 @@ int board_display_msg(struct char_data *ch, char *arg) {
 		
 void board_fix_long_desc(int num, char *headers[MAX_MSGS]) {
 
-	struct obj_data *ob;
 
 
 

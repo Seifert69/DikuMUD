@@ -188,9 +188,9 @@ int find_action(int cmd)
 void do_action(struct char_data *ch, char *argument, int cmd)
 {
 	int act_nr;
-	char buf[MAX_INPUT_LENGTH], tmp[MAX_STRING_LENGTH];
+	char buf[MAX_INPUT_LENGTH];
 	struct social_messg *action;
-	struct char_data *i, *vict;
+	struct char_data *vict;
 
 	if ((act_nr = find_action(cmd)) < 0)
 	{
@@ -298,7 +298,6 @@ void boot_pose_messages(void)
 {
   FILE *fl;
   byte counter;
-  int tmp;
   byte class;
 
   if (!(fl = fopen(POSEMESS_FILE, "r")))

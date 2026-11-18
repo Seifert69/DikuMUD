@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <string.h>
+#include <time.h>
 
 #include "structs.h"
 #include "comm.h"
@@ -45,7 +46,6 @@ struct obj_cost {
 void add_obj_cost(struct char_data *ch, struct char_data *re,
                   struct obj_data *obj, struct obj_cost *cost)
 {
-	char buf[MAX_STRING_LENGTH];
 
 	/* Add cost for an item and it's conents, and next->contents */
 
@@ -181,7 +181,7 @@ void obj_store_to_char(struct char_data *ch, struct obj_file_u *st)
 void load_char_objs(struct char_data *ch)
 {
 	FILE *fl;
-	int pos, i, j;
+	int pos;
 	bool found = FALSE;
 	float timegold;
 	struct obj_file_u st;
@@ -386,7 +386,6 @@ void update_obj_file(void)
 	FILE *fl, *char_file;
 	struct obj_file_u st;
 	struct char_file_u ch_st;
-	struct char_data tmp_char;
 	int pos, no_read, player_i;
 	long days_passed, secs_lost;
 	char buf[MAX_STRING_LENGTH];
@@ -460,7 +459,6 @@ void update_obj_file(void)
 
 int receptionist(struct char_data *ch, int cmd, char *arg)
 {
-	char buf[240];
 	struct obj_cost cost;
 	struct char_data *recep = 0;
 	struct char_data *temp_char;

@@ -215,7 +215,6 @@ void do_wizlock(struct char_data *ch, char *argument, int cmd)
 
 void do_set(struct char_data *ch, char *argument, int cmd)
 {
-	extern char *skill_fields[]; /* in modify.c */
 	/* from spell_parser.c */
 	char *spells[]= {
 		"armor","teleport","bless","blindness","burning hands","call lightning",
@@ -238,7 +237,7 @@ void do_set(struct char_data *ch, char *argument, int cmd)
 	};
 	struct char_data *vict;
 	char name[100], buf2[120+1], buf[100], help[MAX_STRING_LENGTH];
-	int skill, field, value, i, qend;
+	int skill, value, i, qend;
 
 	argument = one_argument(argument, name);
 	if (!*name) /* no arguments. print an informative text */

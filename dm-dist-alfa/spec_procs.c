@@ -30,6 +30,12 @@ extern struct time_info_data time_info;
 
 void hit(struct char_data *ch, struct char_data *victim, int type);
 void gain_exp(struct char_data *ch, int gain);
+void add_follower(struct char_data *ch, struct char_data *leader);
+void do_action(struct char_data *ch, char *argument, int cmd);
+void do_get(struct char_data *ch, char *argument, int cmd);
+void do_look(struct char_data *ch, char *argument, int cmd);
+void cast_lightning_bolt( byte level, struct char_data *ch, char *arg, int type,
+	struct char_data *victim, struct obj_data *tar_obj );
 
 void cast_burning_hands( byte level, struct char_data *ch, char *arg, int type,
 	struct char_data *victim, struct obj_data *tar_obj );
@@ -102,7 +108,6 @@ char *how_good(int percent)
 
 int guild(struct char_data *ch, int cmd, char *arg) {
 
-	char arg1[MAX_STRING_LENGTH];
 	char buf[MAX_STRING_LENGTH];
 	int number, i, percent;
 
@@ -959,7 +964,7 @@ int fido(struct char_data *ch, int cmd, char *arg)
 
 int janitor(struct char_data *ch, int cmd, char *arg)
 {
-	struct obj_data *i, *temp, *next_obj;
+	struct obj_data *i;
 
 	if (cmd || !AWAKE(ch))
 		return(FALSE);
